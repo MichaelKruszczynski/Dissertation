@@ -4,14 +4,12 @@
 	<groupId>Dissertation</groupId>
 	<artifactId>Dissertation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
 	<properties>
-	
-	<spring.version>1.5.9 RELEASE</spring.version>
+		<spring.version>1.5.9.RELEASE</spring.version>
 	</properties>
-	
-	
-	<dependencies>
 
+	<dependencies>
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -62,9 +60,6 @@
 		</dependency>
 	</dependencies>
 
-
-
-
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -79,5 +74,3 @@
 		</plugins>
 	</build>
 </project>
-
-
