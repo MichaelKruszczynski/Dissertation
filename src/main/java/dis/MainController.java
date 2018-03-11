@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @EnableAutoConfiguration
 // This means that this class is a Controller
 // This means URL's start with /demo (after Application path)
+	@RequestMapping(path = "/")
 public class MainController {
-//	@RequestMapping(path = "/")
-	@RequestMapping("/")
-	@ResponseBody
-	String getMessage() {
-		return "<h1>HWDP</h1>";
-	}
 }
