@@ -38,7 +38,7 @@ public class DepartmentController {
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<Department> findAll = departmentRepository.findAll();
-		model.addAttribute("categories", findAll);
+		model.addAttribute("departments", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
 		return "departmentAll";
