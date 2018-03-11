@@ -1,0 +1,41 @@
+body
+{
+  background-color: grey;
+}
+
+
+#menu
+{
+background-color: :white;
+margin-top: 20px
+color:white;
+padding: 10px;
+
+
+
+}
+
+.option
+{
+
+  float: left;
+  min-width: 50px;
+  height:25px;
+  front-size:18px;
+  padding:10px;
+  color: white;
+
+}
+.option:hover
+{
+  background-color: #666;
+  cursor:pointer;
+}
+
+.logo
+{
+width:300px;
+height:280px;
+background:url("../Images/MainLogo.jpg") no-repeat;
+background-size: contain;
+}

@@ -1,10 +1,14 @@
 package dis;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class Department {
 
-	private String departmentName;
+	@Id
 	private int id;
+	private String departmentName;
 
 	public String getDepartmentName() {
 		return departmentName;
