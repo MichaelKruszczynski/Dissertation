@@ -5,7 +5,17 @@
   <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
 </head>
 <body>
-  <p>ID :)</p>
+ <table>
+	<tr>
+		<th>ID</th>
+		<th>name</th>
+		
+	</tr>
+	<tr th:each="department : ${department}">
+		<td> <a th:href="@{/department/{id}/edit(id=${department.id})}" th:text="${department.id}"/></td>
+		<td th:text="${department.departmentName}"/>
+	</tr>
+  </table>
   
 </body>
 </html>
