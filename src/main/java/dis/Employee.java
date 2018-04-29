@@ -12,7 +12,7 @@ public class Employee {
 	private long id;
 
 	private String name;
-	private String type;
+	private EmployeeType type;
 	private int employeeNo;
 	private int totalAnnualHolidayDays;
 	private int bookedFullDays;
@@ -35,11 +35,11 @@ public class Employee {
 		return employeeNo;
 	}
 
-	public void setType(String type) {
+	public void setType(EmployeeType type) {
 		this.type = type;
 	}
 
-	public String getType() {
+	public EmployeeType getType() {
 		return type;
 	}
 

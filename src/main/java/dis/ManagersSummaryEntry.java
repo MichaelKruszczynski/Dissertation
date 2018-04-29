@@ -1,17 +1,17 @@
 package dis;
 
-public class ManagersSummary {
+public class ManagersSummaryEntry {
 
-	private String departmentName;
+	private Department department;
 	private double standardHolidayHoursAvailablePerWeek;
 	private double AvailableHolidayHoursThisWeek;
 
-	public String getDepartmentName() {
-		return departmentName;
+	public Department getDepartmentName() {
+		return department;
 	}
 
-	public void setDepartmentName(String departmentName) {
-		this.departmentName = departmentName;
+	public void setDepartmentName(Department department) {
+		this.department = department;
 	}
 
 	public double getStandardHolidayHoursAvailablePerWeek() {
