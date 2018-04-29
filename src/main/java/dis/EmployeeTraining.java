@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class EmployeeTraining {
@@ -13,8 +14,9 @@ public class EmployeeTraining {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-
+	@OneToOne
 	private Employee employee;
+	@OneToOne
 	private Training training;
 	private Timestamp dateTaken;
 

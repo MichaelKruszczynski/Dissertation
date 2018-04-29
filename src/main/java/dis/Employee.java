@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Employee {
@@ -18,6 +19,8 @@ public class Employee {
 	private int bookedFullDays;
 	private int bookedHalfDays;
 	private double daysAvailableToBook;
+	@ManyToOne
+	private Department department;
 
 	public void setName(String name) {
 		this.name = name;
