@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Test</title>
+  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+</head>
+<body>
+ <table>
+	<tr>
+		<th>ID</th>
+		<th>name</th>
+		<th>edit department</th>
+		
+	</tr>
+	<tr th:each="department : ${department}">
+		<td> <a th:href="@{/department/{id}/edit(id=${department.id})}" th:text="${department.id}"/></td>
+		<td th:text="${department.departmentName}"/>
+	</tr> 
+  </table>
+  	<form action="#" th:action="@{/department{id}/edit}" th:object="${department}" method="post">
+        <p>Name: <input type="text" th:field="*{departmentName}" /></p>
+        <p><input type="save" value="Save"  /></p>
+        
+        
+    </form>  
+</body>
+</html>

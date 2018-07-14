@@ -49,5 +49,13 @@ public class DepartmentController {
 		model.addAttribute("department", departmentRepository.findOne(id));
 		// this returns JSON or XML with the department
 		return "departmentById";
+
+	}
+
+	@GetMapping(path = "{id}/edit")
+	public String createEdit(@PathVariable("id") long id, Model model) {
+		model.addAttribute("department", departmentRepository.findOne(id));
+		// this returns JSON or XML with the department
+		return "departmentEdit";
 	}
 }
