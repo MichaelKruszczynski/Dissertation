@@ -9,7 +9,7 @@
 	<tr>
 		<th>ID</th>
 		<th>name</th>
-		<th>edit employee</th>
+		<th>department</th>
 		
 	</tr>
 	<tr th:each="employee : ${employee}">
@@ -19,7 +19,14 @@
   </table>
   	<form action="#" th:action="@{/employee/{id}/edit(id=${employee.id})}" th:object="${employee}" method="post">
         <p>Name: <input type="text" th:field="*{Name}" /></p>
+        <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" 
+        
+        
+        <p>Name: <input type="text" th:field="*{Department}" /></p>
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" /></p>
+        
+        
+        
         
         
     </form>  

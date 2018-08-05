@@ -5,8 +5,13 @@
   <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
 </head>
 <body>
-	<form action="#" th:action="@{/employee/add}" th:object="${employee}" method="post">
+	<form action="#" th:action="@{/employee/add}" th:object="${employee}" method="post" id="answerForm">
         <p>Name: <input type="text" th:field="*{name}" /></p>
+        <p>Department:
+	        <select th:field="*{department}">
+				<option th:each="departmentFromLoop : ${departments}" th:value="${departmentFromLoop.id}" th:text="${departmentFromLoop.departmentName}"/>
+			</select>
+		</p>
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
     </form>  
 </body>

@@ -8,8 +8,8 @@
  <table>
 	<tr>
 		<th>ID</th>
-		<th>name</th>
-		
+		<th>Name</th>
+		<th>Department</th>
 	</tr>
 	<tr th:each="employee : ${employees}">
 		<td> <a th:href="@{/employee/{id}/edit(id=${employee.id})}" th:text="${employee.id}"/></td>
