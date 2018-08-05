@@ -78,4 +78,8 @@ public class Employee {
 		this.daysAvailableToBook = daysAvailableToBook;
 	}
 
+	public long getId() {
+		return id;
+	}
+
 }
