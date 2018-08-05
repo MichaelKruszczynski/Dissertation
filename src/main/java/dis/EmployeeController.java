@@ -1,5 +1,8 @@
 package dis;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +35,10 @@ public class EmployeeController {
 	public String createForm(Model model) {
 		model.addAttribute("employee", new Employee());
 		model.addAttribute("departments", departmentRepository.findAll());
+		List<EmployeeType> empType = new ArrayList<EmployeeType>();
+		empType.add(EmployeeType.FULL_TIME);
+		empType.add(EmployeeType.PART_TIME);
+		model.addAttribute("EmployeeType", empType);
 		return "employeeAdd";
 	}
 
@@ -63,7 +70,12 @@ public class EmployeeController {
 	public String createEdit(@PathVariable("id") long id, Model model) {
 		// with input provided
 		model.addAttribute("employee", employeeRepository.findOne(id));
+		model.addAttribute("departments", departmentRepository.findAll());
 		// this returns JSON or XML with the department
+		List<EmployeeType> empType = new ArrayList<EmployeeType>();
+		empType.add(EmployeeType.FULL_TIME);
+		empType.add(EmployeeType.PART_TIME);
+		model.addAttribute("EmployeeType", empType);
 		return "employeeEdit";
 
 	}

@@ -12,6 +12,16 @@
 				<option th:each="departmentFromLoop : ${departments}" th:value="${departmentFromLoop.id}" th:text="${departmentFromLoop.departmentName}"/>
 			</select>
 		</p>
+		
+		<p>EmployeeNo: <input type="text" th:field="*{EmployeeNo}" /></p>
+		
+		<p>EmployeeType:
+	        <select th:field="*{type}">
+				<option th:each="EmployeeTypeFromLoop : ${EmployeeType}" th:value="${EmployeeTypeFromLoop}" th:text="${EmployeeTypeFromLoop}"/>
+			</select>
+		</p>
+		
+		
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
     </form>  
 </body>

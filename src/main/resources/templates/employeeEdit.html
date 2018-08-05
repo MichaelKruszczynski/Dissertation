@@ -19,14 +19,29 @@
   </table>
   	<form action="#" th:action="@{/employee/{id}/edit(id=${employee.id})}" th:object="${employee}" method="post">
         <p>Name: <input type="text" th:field="*{Name}" /></p>
+        
+                <p>Department:
+	        <select th:field="*{department}">
+				<option th:each="departmentFromLoop : ${departments}" th:value="${departmentFromLoop.id}" th:text="${departmentFromLoop.departmentName}"/>
+			</select>
+		</p>
+		
+		<p>EmployeeNo: <input type="text" th:field="*{EmployeeNo}" /></p>
+		
+		<p>EmployeeType:
+	        <select th:field="*{type}">
+				<option th:each="EmployeeTypeFromLoop : ${EmployeeType}" th:value="${EmployeeTypeFromLoop}" th:text="${EmployeeTypeFromLoop}"/>
+			</select>
+		</p>
+		
+        
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" 
         
-        
-        <p>Name: <input type="text" th:field="*{Department}" /></p>
-        <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" /></p>
+   /></p>
         
         
         
+    
         
         
     </form>  
