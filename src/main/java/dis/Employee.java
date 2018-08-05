@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Employee {
@@ -16,9 +17,10 @@ public class Employee {
 	private EmployeeType type;
 	private int employeeNo;
 	private int totalAnnualHolidayDays;
-	private int bookedFullDays;
-	private int bookedHalfDays;
-	private double daysAvailableToBook;
+	// private int bookedFullDays;
+	// private int bookedHalfDays;
+	// private double daysAvailableToBook;
+	@NotNull
 	@ManyToOne
 	private Department department;
 
@@ -54,29 +56,29 @@ public class Employee {
 		this.totalAnnualHolidayDays = totalAnnualHolidayDays;
 	}
 
-	public int getBookedFullDays() {
-		return bookedFullDays;
-	}
-
-	public void setBookedFullDays(int bookedFullDays) {
-		this.bookedFullDays = bookedFullDays;
-	}
-
-	public int getBookedHalfDays() {
-		return bookedHalfDays;
-	}
-
-	public void setBookedHalfDays(int bookedHalfDays) {
-		this.bookedHalfDays = bookedHalfDays;
-	}
-
-	public double getDaysAvailableToBook() {
-		return daysAvailableToBook;
-	}
-
-	public void setDaysAvailableToBook(int daysAvailableToBook) {
-		this.daysAvailableToBook = daysAvailableToBook;
-	}
+	// public int getBookedFullDays() {
+	// return bookedFullDays;
+	// }
+	//
+	// public void setBookedFullDays(int bookedFullDays) {
+	// this.bookedFullDays = bookedFullDays;
+	// }
+	//
+	// public int getBookedHalfDays() {
+	// return bookedHalfDays;
+	// }
+	//
+	// public void setBookedHalfDays(int bookedHalfDays) {
+	// this.bookedHalfDays = bookedHalfDays;
+	// }
+	//
+	// public double getDaysAvailableToBook() {
+	// return daysAvailableToBook;
+	// }
+	//
+	// public void setDaysAvailableToBook(int daysAvailableToBook) {
+	// this.daysAvailableToBook = daysAvailableToBook;
+	// }
 
 	public long getId() {
 		return id;

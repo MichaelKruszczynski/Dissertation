@@ -52,7 +52,7 @@ public class EmployeeController {
 	public String readAll(Model model) {
 		Iterable<Employee> findAll = employeeRepository.findAll();
 		model.addAttribute("employees", findAll);
-		// this returns JSON or XML with the users
+		// the users
 		// return departmentRepository.findAll();
 		return "employeeAll";
 	}

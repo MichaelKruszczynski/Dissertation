@@ -10,11 +10,15 @@
 		<th>ID</th>
 		<th>Name</th>
 		<th>Department</th>
+		<th>EmployeeNo</th>
+		<th>EmployeeType</th>
 	</tr>
 	<tr th:each="employee : ${employees}">
 		<td> <a th:href="@{/employee/{id}/edit(id=${employee.id})}" th:text="${employee.id}"/></td>
-		<td th:text="${employee.Name}"/>
+		<td th:text="${employee.name}"/>
+		<td th:text="${employee.department.departmentName}"/>
 	</tr>
+	
   </table>
   
 </body>
