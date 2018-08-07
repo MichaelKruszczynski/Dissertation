@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Test</title>
+  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+</head>
+<body>
+ <table>
+	<tr>
+		<th>ID</th>
+		<th>DAY</th>
+		
+	</tr>
+	<tr th:each="holiday : ${holiday}">
+		<td> <a th:href="@{/holiday/{id}/edit(id=${holiday.id})}" th:text="${holiday.id}"/></td>
+		<td th:text="${holiday.day}"/>
+	</tr> 
+  </table>
+  	<form action="#" th:action="@{/holiday/{id}/edit(id=${holiday.id})}" th:object="${holiday}" method="post">
+        <p>Holiday: <input type="text" th:field="*{day}" /></p>
+        <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" /></p>
+        
+        
+    </form>  
+</body>
+</html>
