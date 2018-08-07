@@ -45,9 +45,10 @@ public class HolidayController {
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<Holiday> findAll = holidayRepository.findAll();
-		model.addAttribute("holiday", findAll);
+		model.addAttribute("holidays", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
+
 		return "holidayAll";
 	}
 

@@ -11,7 +11,7 @@
 		<th>DAY</th>
 		
 	</tr>
-	<tr th:each="holiday : ${holiday}">
+	<tr th:each="holiday : ${holidays}">
 		<td> <a th:href="@{/holiday/{id}/edit(id=${holiday.id})}" th:text="${holiday.id}"/></td>
 		<td th:text="${holiday.day}"/>
 	</tr>
