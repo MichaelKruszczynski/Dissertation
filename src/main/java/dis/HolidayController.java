@@ -83,7 +83,7 @@ public class HolidayController {
 		// doin't create new object here, read old one by id and update its properties
 		Holiday dbHoliday = holidayRepository.findOne(id);
 		// update the properties with values comming from model
-		// dbHoliday.setHolidayName(holiday.getHolidayName());
+		dbHoliday.setDay(holiday.getDay());
 		// then save(update) to database
 		holidayRepository.save(dbHoliday);
 		return readAll(model); // and choose template to kick in afterwards
@@ -96,8 +96,8 @@ public class HolidayController {
 
 	@RequestMapping(path = "/delete/{id}")
 	public String createEdit(@ModelAttribute Holiday holiday, Model model) {
-		// Holiday findOne = holidayRepository.findOne(holiday.getId());
-		// holidayRepository.delete(findOne);
+		Holiday findOne = holidayRepository.findOne(holiday.getId());
+		holidayRepository.delete(findOne);
 
 		return readAll(model);
 	}
