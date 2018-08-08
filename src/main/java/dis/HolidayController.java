@@ -33,6 +33,7 @@ public class HolidayController {
 	@GetMapping(path = "/add")
 	public String createForm(Model model) {
 		model.addAttribute("holiday", new Holiday());
+
 		return "holidayAdd";
 	}
 
