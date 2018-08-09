@@ -3,7 +3,9 @@ package dis;
 import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,10 @@ public class HolidayController {
 	public String createForm(Model model) {
 		model.addAttribute("holiday", new Holiday());
 		model.addAttribute("employees", employeeRepository.findAll());
+		List<HolidayType> holType = new ArrayList<HolidayType>();
+		holType.add(HolidayType.FULL_DAY);
+		holType.add(HolidayType.HALF_DAY);
+		model.addAttribute("HolidayType", holType);
 
 		return "holidayAdd";
 	}

@@ -12,6 +12,11 @@
 			</select>
 		</p>
         <p>Day: <input type="text" th:field="*{day}" /></p>
+        <p>HolidayType:
+	        <select th:field="*{type}">
+				<option th:each="HolidayTypeFromLoop : ${HolidayType}" th:value="${HolidayTypeFromLoop}" th:text="${HolidayTypeFromLoop}"/>
+			</select>
+		</p>
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
     </form>  
 </body>

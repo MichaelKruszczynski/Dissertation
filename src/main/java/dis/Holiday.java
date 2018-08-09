@@ -15,6 +15,7 @@ public class Holiday {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	private HolidayType type;
 	@Temporal(TemporalType.DATE)
 	private Date day;
 
@@ -48,6 +49,14 @@ public class Holiday {
 
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
+	}
+
+	public void setType(HolidayType type) {
+		this.type = type;
+	}
+
+	public HolidayType getType() {
+		return type;
 	}
 
 	private boolean halfDay;
