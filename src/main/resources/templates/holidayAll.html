@@ -9,7 +9,7 @@
 	<tr>
 		<th>ID</th>
 		<th>DAY</th>
-		<th>HALF OR FULL DAY</th>
+		<th>FULL OR HALF DAY</th>
 		<th>Employee Name</th>
 		
 	</tr>
@@ -17,7 +17,7 @@
 		<td> <a th:href="@{/holiday/{id}/edit(id=${holiday.id})}" th:text="${holiday.id}"/></td>
 		<td th:text="${holiday.day}"/>
 		<td th:text="${holiday.type}"/>
-		<td th:text="${holiday.employee}"/>
+		<td th:text="${holiday.employee.name}"/>
 	</tr>
   </table>
   
