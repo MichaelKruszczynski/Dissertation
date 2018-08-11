@@ -11,15 +11,15 @@
 		<th>name</th>
 		<th>version</th>
 		<th>duration</th>
-		<th>expired</th>
+		
 		
 	</tr>
 	<tr th:each="training : ${training}">
 		<td> <a th:href="@{/training/{id}/edit(id=${training.id})}" th:text="${training.id}"/></td>
 		<td th:text="${training.Name}"/>
-			<td th:text="${training.version}"/>
+		<td th:text="${training.version}"/>
 		<td th:text="${training.duration}"/>
-		<td th:text="${training.expired}"/>
+	
 		
 	</tr>
   </table>

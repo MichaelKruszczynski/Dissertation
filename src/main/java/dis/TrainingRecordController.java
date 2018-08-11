@@ -49,7 +49,7 @@ public class TrainingRecordController {
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<TrainingRecord> findAll = trainingRecordRepository.findAll();
-		model.addAttribute("trainingRecord", findAll);
+		model.addAttribute("trainingRecords", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
 		return "trainingRecordAll";

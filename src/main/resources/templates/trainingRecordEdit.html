@@ -8,21 +8,24 @@
  <table>
 	<tr>
 		<th>ID</th>
+		<th>Employee name</th>
 		<th>name</th>
 		<th>version</th>
 		<th>duration</th>
 	
 		
 	</tr>
-	<tr th:each="training : ${training}">
-		<td> <a th:href="@{/training/{id}/edit(id=${training.id})}" th:text="${training.id}"/></td>
-		<td th:text="${training.Name}"/>
-		<td th:text="${training.version}"/>
-		<td th:text="${training.duration}"/>
+	<tr th:each="trainingRecord : ${trainingRecord}">
+		<td> <a th:href="@{/trainingRecord/{id}/edit(id=${trainingRecord.id})}" th:text="${trainingRecord.id}"/></td>
+		<td th:text="${trainingRecord.employee.name}"/>
+		<td th:text="${trainingRecord.training.Name}"/>
+		<td th:text="${trainingRecord.training.version}"/>
+		<td th:text="${trainingRecord.training.duration}"/>
 		
 	</tr> 
   </table>
- 	<form action="#" th:action="@{/training/{id}/edit(id=${training.id})}" th:object="${training}" method="post">
+ 	<form action="#" th:action="@{/trainingRecord/{id}/edit(id=${trainingRecord.id})}" th:object="${trainingRecord}" method="post">
+ 		<p>Employee Name: <input type="text" th:field="*{Name}" /></p>
         <p>Name: <input type="text" th:field="*{Name}" /></p>
         <p>Version: <input type="text" th:field="*{version}" /></p>
         <p>Duration: <input type="text" th:field="*{duration}" /></p>

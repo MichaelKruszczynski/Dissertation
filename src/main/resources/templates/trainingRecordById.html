@@ -6,21 +6,17 @@
 </head>
 <body>
  <table>
-	<tr>
+ <tr>
 		<th>ID</th>
 	    <th>Employee name</th>
 		<th>Training name</th>
-		<th>version</th>
-		<th>duration</th>
 		
 	
 	</tr>
-	<tr th:each="trainingRecord : ${trainingRecords}">
+	<tr th:each="trainingRecord : ${trainingRecord}">
 		<td> <a th:href="@{/trainingRecord/{id}/edit(id=${trainingRecord.id})}" th:text="${trainingRecord.id}"/></td>
 		<td th:text="${trainingRecord.employee.name}"/>
 		<td th:text="${trainingRecord.training.name}"/>
-		<td th:text="${trainingRecord.training.version}"/>
-		<td th:text="${trainingRecord.training.duration}"/>
 
 	</tr>
 	
