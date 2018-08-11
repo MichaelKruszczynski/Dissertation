@@ -13,6 +13,7 @@
 		<th>EmployeeNo</th>
 		<th>EmployeeType</th>
 		<th>Total Annual Holiday Days</th>
+		<th>Training Records</th>
 	</tr>
 	<tr th:each="employee : ${employees}">
 		<td> <a th:href="@{/employee/{id}/edit(id=${employee.id})}" th:text="${employee.id}"/></td>

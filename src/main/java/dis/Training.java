@@ -15,7 +15,6 @@ public class Training {
 	private String name;
 	private String version;
 	private int duration;
-	private int expired;
 
 	public String getName() {
 		return name;
@@ -39,14 +38,6 @@ public class Training {
 
 	public void setDuration(int duration) {
 		this.duration = duration;
-	}
-
-	public int getExpired() {
-		return expired;
-	}
-
-	public void setExpired(int expired) {
-		this.expired = expired;
 	}
 
 	public long getId() {

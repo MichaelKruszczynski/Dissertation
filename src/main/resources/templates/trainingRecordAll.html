@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Test</title>
+  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+</head>
+<body>
+ <table>
+	<tr>
+	
+	    <th>Employee name</th>
+		<th>Training name</th>
+		<th>Version</th>
+		<th>Duration</th>
+	
+	</tr>
+	<tr th:each="treaningRecord : ${treaningRecords}">
+		<td> <a th:href="@{/treaningRecord/{id}/edit(id=${treaningRecord.id})}" th:text="${treaningRecord.id}"/></td>
+		<td th:text="${treaningRecord.employee.Name}"/>
+		<td th:text="${treaningRecord.training.name}"/>
+		<td th:text="${treaningRecord.training.version}"/>
+		<td th:text="${treaningRecord.training.duration}"/>
+		
+	</tr>
+	
+  </table>
+  
+</body>
+</html>

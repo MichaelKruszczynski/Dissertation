@@ -20,6 +20,7 @@ public class Employee {
 	// private int bookedFullDays;
 	// private int bookedHalfDays;
 	// private double daysAvailableToBook;
+
 	@NotNull
 	@ManyToOne
 	private Department department;
