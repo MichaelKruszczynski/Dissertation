@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Test</title>
+  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+</head>
+<body>
+	<form action="#" th:action="@{/training/add}" th:object="${training}" method="post">
+        <p>Training name: <input type="text" th:field="*{Name}" /></p>
+        <p>Training version: <input type="text" th:field="*{Version}" /></p>
+        <p>Training duration: <input type="text" th:field="*{Duration}" /></p>
+          <p>Training expired: <input type="text" th:field="*{Expired}" /></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>  
+</body>
+</html>

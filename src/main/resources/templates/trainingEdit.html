@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Test</title>
+  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+</head>
+<body>
+ <table>
+	<tr>
+		<th>ID</th>
+		<th>name</th>
+		<th>version</th>
+		<th>duration</th>
+		<th>expired</th>
+		
+	</tr>
+	<tr th:each="training : ${training}">
+		<td> <a th:href="@{/training/{id}/edit(id=${training.id})}" th:text="${training.id}"/></td>
+		<td th:text="${training.Name}"/>
+		<td th:text="${training.version}"/>
+		<td th:text="${training.duration}"/>
+		<td th:text="${training.expired}"/>
+	</tr> 
+  </table>
+ 	<form action="#" th:action="@{/training/{id}/edit(id=${training.id})}" th:object="${training}" method="post">
+        <p>Name: <input type="text" th:field="*{Name}" /></p>
+        <p>Version: <input type="text" th:field="*{version}" /></p>
+        <p>Duration: <input type="text" th:field="*{duration}" /></p>
+        <p>Expired: <input type="text" th:field="*{expired}" /></p>
+        <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" /></p>
+        
+        
+        
+    </form>  
+</body>
+</html>
