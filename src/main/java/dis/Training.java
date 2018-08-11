@@ -1,9 +1,13 @@
 package dis;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Training {
@@ -14,7 +18,8 @@ public class Training {
 
 	private String name;
 	private String version;
-	private int duration;
+	@Temporal(TemporalType.DATE)
+	private Date day;
 
 	public String getName() {
 		return name;
@@ -32,12 +37,13 @@ public class Training {
 		this.version = version;
 	}
 
-	public int getDuration() {
-		return duration;
+	public Date getDay() {
+		return day;
 	}
 
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public void setDay(Date day) {
+		this.day = day;
+
 	}
 
 	public long getId() {
