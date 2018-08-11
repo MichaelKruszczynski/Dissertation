@@ -68,8 +68,10 @@ public class TrainingRecordController {
 	public String createEdit(@PathVariable("id") long id, Model model) {
 		// with input provided
 		model.addAttribute("trainingRecord", trainingRecordRepository.findOne(id));
+		model.addAttribute("trainings", trainingRepository.findAll());
+		model.addAttribute("employees", employeeRepository.findAll());
 		// this returns JSON or XML with the department
-		return "dtrainingRecordEdit";
+		return "trainingRecordEdit";
 
 	}
 

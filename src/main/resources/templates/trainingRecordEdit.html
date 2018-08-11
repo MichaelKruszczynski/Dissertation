@@ -8,31 +8,32 @@
  <table>
 	<tr>
 		<th>ID</th>
-		<th>Employee name</th>
-		<th>name</th>
-		<th>version</th>
-		<th>duration</th>
+		<th>Training Name</th>
 	
 		
 	</tr>
-	<tr th:each="trainingRecord : ${trainingRecord}">
+	<tr th:each="trainingRecord : ${trainingRecord }">
 		<td> <a th:href="@{/trainingRecord/{id}/edit(id=${trainingRecord.id})}" th:text="${trainingRecord.id}"/></td>
-		<td th:text="${trainingRecord.employee.name}"/>
-		<td th:text="${trainingRecord.training.Name}"/>
-		<td th:text="${trainingRecord.training.version}"/>
-		<td th:text="${trainingRecord.training.duration}"/>
-		
+		<td th:text="${trainingRecord.employee.Name}"/>
 	</tr> 
   </table>
- 	<form action="#" th:action="@{/trainingRecord/{id}/edit(id=${trainingRecord.id})}" th:object="${trainingRecord}" method="post">
- 		<p>Employee Name: <input type="text" th:field="*{Name}" /></p>
-        <p>Name: <input type="text" th:field="*{Name}" /></p>
-        <p>Version: <input type="text" th:field="*{version}" /></p>
-        <p>Duration: <input type="text" th:field="*{duration}" /></p>
-       
-        <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" /></p>
+  	<form action="#" th:action="@{/trainingrecord/{id}/edit(id=${trainingRecord.id})}" th:object="${trainingRecord}" method="post">
+      <p>Employee name:
+	        <select th:field="*{employee}">
+				<option th:each="employeeFromLoop : ${employees}" th:value="${employeeFromLoop.id}" th:text="${employeeFromLoop.Name}"/>
+			</select>
+		</p>
+                <p>Training:
+	        <select th:field="*{training}">
+				<option th:each="trainingFromLoop : ${trainings}" th:value="${trainingFromLoop.id}" th:text="${trainingFromLoop.Name}"/>
+			</select>
+		</p>
+		
         
+        <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" 
         
+   /></p>
+          
         
     </form>  
 </body>
