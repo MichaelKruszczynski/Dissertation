@@ -28,7 +28,7 @@
 				<option th:each="trainingFromLoop : ${trainings}" th:value="${trainingFromLoop.id}" th:text="${trainingFromLoop.Name}"/>
 			</select>
 		</p>
-		
+		<p>Day: <input type="text" th:field="*{day}" /></p>
         
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" 
         
