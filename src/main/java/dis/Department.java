@@ -11,7 +11,17 @@ public class Department {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+
+	public int getTotalHoursAvailable() {
+		return totalHoursAvailable;
+	}
+
+	public void setTotalHoursAvailable(int totalHoursAvailable) {
+		this.totalHoursAvailable = totalHoursAvailable;
+	}
+
 	private String departmentName;
+	private int totalHoursAvailable;
 
 	public String getDepartmentName() {
 		return departmentName;

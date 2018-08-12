@@ -10,15 +10,18 @@
 		<th>ID</th>
 		<th>name</th>
 		<th>edit department</th>
+		<th>Total Hours Available</th>
 		
 	</tr>
 	<tr th:each="department : ${department}">
 		<td> <a th:href="@{/department/{id}/edit(id=${department.id})}" th:text="${department.id}"/></td>
 		<td th:text="${department.departmentName}"/>
+		<td th:text="${department.totalHoursAvailable}"/>
 	</tr> 
   </table>
   	<form action="#" th:action="@{/department/{id}/edit(id=${department.id})}" th:object="${department}" method="post">
         <p>Name: <input type="text" th:field="*{departmentName}" /></p>
+         <p>Total Hours Available: <input type="text" th:field="*{totalHoursAvailable}" /></p>
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" /></p>
         
         

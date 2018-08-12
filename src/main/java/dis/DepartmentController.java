@@ -75,6 +75,7 @@ public class DepartmentController {
 		// doin't create new object here, read old one by id and update its properties
 		Department dbDepartment = departmentRepository.findOne(id);
 		// update the properties with values comming from model
+		dbDepartment.setTotalHoursAvailable(department.getTotalHoursAvailable());
 		dbDepartment.setDepartmentName(department.getDepartmentName());
 		// then save(update) to database
 		departmentRepository.save(dbDepartment);
