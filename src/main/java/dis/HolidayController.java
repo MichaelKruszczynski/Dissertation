@@ -41,7 +41,7 @@ public class HolidayController {
 		List<HolidayType> holType = new ArrayList<HolidayType>();
 		holType.add(HolidayType.FULL_DAY);
 		holType.add(HolidayType.HALF_DAY);
-		model.addAttribute("HolidayType", holType);
+		model.addAttribute("holidayType", holType);
 
 		return "holidayAdd";
 	}
@@ -76,6 +76,11 @@ public class HolidayController {
 		// with input provided
 		model.addAttribute("holiday", holidayRepository.findOne(id));
 		// this returns JSON or XML with the department
+		model.addAttribute("employees", employeeRepository.findAll());
+		List<HolidayType> holType = new ArrayList<HolidayType>();
+		holType.add(HolidayType.FULL_DAY);
+		holType.add(HolidayType.HALF_DAY);
+		model.addAttribute("holidayType", holType);
 		return "holidayEdit";
 
 	}
@@ -94,7 +99,8 @@ public class HolidayController {
 		Holiday dbHoliday = holidayRepository.findOne(id);
 		// update the properties with values comming from model
 		dbHoliday.setDay(holiday.getDay());
-		dbHoliday.setHalfDay(holiday.isHalfDay());
+		dbHoliday.setType(holiday.getType());
+		// dbHoliday.setHalfDay(holiday.isHalfDay());
 		// then save(update) to database
 		holidayRepository.save(dbHoliday);
 		return readAll(model); // and choose template to kick in afterwards

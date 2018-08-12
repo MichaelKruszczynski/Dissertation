@@ -9,15 +9,25 @@
 	<tr>
 		<th>ID</th>
 		<th>Day</th>
+		<th>Full/Half Day</th>
+		<th>Employee Name</th>
 		
 	</tr>
 	<tr th:each="holiday : ${holiday}">
 		<td> <a th:href="@{/holiday/{id}/edit(id=${holiday.id})}" th:text="${holiday.id}"/></td>
 		<td th:text="${holiday.day}"/>
+		<td th:text="${holiday.type}"/>
+		<td th:text="${holiday.employee.name}"/>
 	</tr> 
   </table>
   	<form action="#" th:action="@{/holiday/{id}/edit(id=${holiday.id})}" th:object="${holiday}" method="post">
-        <p>Holiday: <input type="text" th:field="*{day}" /></p>
+        <p>Holiday day: <input type="text" th:field="*{day}" /></p>
+        
+          <p>HolidayType:
+	        <select th:field="*{type}">
+				<option th:each="holidayTypeFromLoop : ${holidayType}" th:value="${holidayTypeFromLoop}" th:text="${holidayTypeFromLoop}"/>
+			</select>
+		</p>
         
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" /></p>
         

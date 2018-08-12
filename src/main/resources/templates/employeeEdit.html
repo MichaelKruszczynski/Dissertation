@@ -8,13 +8,20 @@
  <table>
 	<tr>
 		<th>ID</th>
-		<th>Name</th>
+		<th>Employee Name</th>
+		<th>Employee No</th>
 		<th>Department</th>
+		<th>Employee Type</th>
+		<th>Total Annual Holiday Days</th>
 		
 	</tr>
 	<tr th:each="employee : ${employee}">
 		<td> <a th:href="@{/employee/{id}/edit(id=${employee.id})}" th:text="${employee.id}"/></td>
-		<td th:text="${employee.Name}"/>
+			<td th:text="${employee.name}"/>
+		<td th:text="${employee.employeeNo}"/>
+		<td th:text="${employee.department.departmentName}"/>
+		<td th:text="${employee.type}"/>
+		<td th:text="${employee.totalAnnualHolidayDays}"/>
 	</tr> 
   </table>
   	<form action="#" th:action="@{/employee/{id}/edit(id=${employee.id})}" th:object="${employee}" method="post">

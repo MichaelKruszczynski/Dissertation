@@ -19,6 +19,9 @@ public class Holiday {
 	@Temporal(TemporalType.DATE)
 	private Date day;
 
+	@ManyToOne
+	private Employee employee;
+
 	public long getId() {
 		return id;
 	}
@@ -33,14 +36,6 @@ public class Holiday {
 
 	public void setDay(Date day) {
 		this.day = day;
-	}
-
-	public boolean isHalfDay() {
-		return halfDay;
-	}
-
-	public void setHalfDay(boolean halfDay) {
-		this.halfDay = halfDay;
 	}
 
 	public Employee getEmployee() {
@@ -58,9 +53,5 @@ public class Holiday {
 	public HolidayType getType() {
 		return type;
 	}
-
-	private boolean halfDay;
-	@ManyToOne
-	private Employee employee;
 
 }
