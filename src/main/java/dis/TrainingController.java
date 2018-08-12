@@ -76,6 +76,7 @@ public class TrainingController {
 		Training dbTraining = trainingRepository.findOne(id);
 		// update the properties with values comming from model
 		dbTraining.setName(training.getName());
+		dbTraining.setDuration(training.getDuration());
 		// then save(update) to database
 		trainingRepository.save(dbTraining);
 		return readAll(model); // and choose template to kick in afterwards

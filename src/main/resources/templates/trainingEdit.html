@@ -8,9 +8,9 @@
  <table>
 	<tr>
 		<th>ID</th>
-		<th>name</th>
-		<th>version</th>
-		<th>expired date</th>
+		<th>Training Name</th>
+		<th>Version</th>
+		<th>Duration</th>
 	
 		
 	</tr>
@@ -18,14 +18,14 @@
 		<td> <a th:href="@{/training/{id}/edit(id=${training.id})}" th:text="${training.id}"/></td>
 		<td th:text="${training.Name}"/>
 		<td th:text="${training.version}"/>
-		<td th:text="${training.expiredDate}"/>
+		<td th:text="${training.duration}"/>
 		
 	</tr> 
   </table>
  	<form action="#" th:action="@{/training/{id}/edit(id=${training.id})}" th:object="${training}" method="post">
-        <p>Name: <input type="text" th:field="*{Name}" /></p>
+        <p>Training Name: <input type="text" th:field="*{Name}" /></p>
         <p>Version: <input type="text" th:field="*{version}" /></p>
-        <p>expired date: <input type="text" th:field="*{expiredDate}" /></p>
+        <p>Duration: <input type="text" th:field="*{duration}" /></p>
        
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" /></p>
         
