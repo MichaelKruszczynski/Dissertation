@@ -94,6 +94,7 @@ public class HolidayController {
 		Holiday dbHoliday = holidayRepository.findOne(id);
 		// update the properties with values comming from model
 		dbHoliday.setDay(holiday.getDay());
+		dbHoliday.setHalfDay(holiday.isHalfDay());
 		// then save(update) to database
 		holidayRepository.save(dbHoliday);
 		return readAll(model); // and choose template to kick in afterwards

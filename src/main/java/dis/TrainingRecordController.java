@@ -96,6 +96,7 @@ public class TrainingRecordController {
 		TrainingRecord dbTrainingRecord = trainingRecordRepository.findOne(id);
 		// update the properties with values comming from model
 		dbTrainingRecord.setTraining(trainingRecord.getTraining());
+		dbTrainingRecord.setDay(trainingRecord.getDay());
 		// then save(update) to database
 		trainingRecordRepository.save(dbTrainingRecord);
 		return readAll(model); // and choose template to kick in afterwards
