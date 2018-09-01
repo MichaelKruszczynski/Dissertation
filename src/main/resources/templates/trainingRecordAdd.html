@@ -10,13 +10,13 @@
 	   
         <p>Employee:
 	        <select th:field="*{employee}">
-				<option th:each="employeeFromLoop : ${employees}" th:value="${employeeFromLoop.id}" th:text="${employeeFromLoop.Name}"/>
+				<option th:each="employeeFromLoop : ${employees}" th:value="${employeeFromLoop.id}" th:text="${employeeFromLoop.name}"/>
 			</select>
 		</p>
 		
 		 <p>Trainings:
 	        <select th:field="*{training}">
-				<option th:each="trainingFromLoop : ${trainings}" th:value="${trainingFromLoop.id}" th:text="${trainingFromLoop.Name}"/>
+				<option th:each="trainingFromLoop : ${trainings}" th:value="${trainingFromLoop.id}" th:text="${trainingFromLoop.name}"/>
 			</select>
 			
 			<p>Day: <input type="text" th:field="*{day}" /></p>

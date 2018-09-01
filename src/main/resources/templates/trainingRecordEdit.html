@@ -8,19 +8,25 @@
  <table>
 	<tr>
 		<th>ID</th>
+	    <th>Employee Name</th>
 		<th>Training Name</th>
+		<th>Version</th>
+		<th>Date of Signed </th>
 	
 		
 	</tr>
 	<tr th:each="trainingRecord : ${trainingRecord }">
 		<td> <a th:href="@{/trainingRecord/{id}/edit(id=${trainingRecord.id})}" th:text="${trainingRecord.id}"/></td>
-		<td th:text="${trainingRecord.employee.Name}"/>
+		<td th:text="${trainingRecord.employee.name}"/>
+		<td th:text="${trainingRecord.training.name}"/>
+		<td th:text="${trainingRecord.training.version}"/>
+		<td th:text="${trainingRecord.day}"/>
 	</tr> 
   </table>
   	<form action="#" th:action="@{/trainingrecord/{id}/edit(id=${trainingRecord.id})}" th:object="${trainingRecord}" method="post">
       <p>Employee name:
 	        <select th:field="*{employee}">
-				<option th:each="employeeFromLoop : ${employees}" th:value="${employeeFromLoop.id}" th:text="${employeeFromLoop.Name}"/>
+				<option th:each="employeeFromLoop : ${employees}" th:value="${employeeFromLoop.id}" th:text="${employeeFromLoop.name}"/>
 			</select>
 		</p>
                 <p>Training:
