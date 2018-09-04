@@ -9,6 +9,7 @@
         <p>Name: <input type="text" th:field="*{departmentName}" /></p>
         <span th:errors="*{departmentName}" class="error"></span>
         <p>Total Hours Available: <input type="text" th:field="*{totalHoursAvailable}" /></p>
+        <span th:errors="*{totalHoursAvailable}" class="error"></span>
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
     </form>  
 </body>

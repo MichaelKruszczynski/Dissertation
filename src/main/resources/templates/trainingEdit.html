@@ -24,9 +24,11 @@
   </table>
  	<form action="#" th:action="@{/training/{id}/edit(id=${training.id})}" th:object="${training}" method="post">
         <p>Training Name: <input type="text" th:field="*{Name}" /></p>
+        <span th:errors="*{name}" class="error"></span>
         <p>Version: <input type="text" th:field="*{version}" /></p>
+        <span th:errors="*{version}" class="error"></span>
         <p>Duration: <input type="text" th:field="*{duration}" /></p>
-       
+        <span th:errors="*{duration}" class="error"></span>
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" /></p>
         
         

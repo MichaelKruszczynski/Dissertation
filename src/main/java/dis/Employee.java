@@ -6,6 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 public class Employee {
@@ -13,9 +16,18 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
+	@NotNull
+	@Size(min = 1, message = "Please input employee name")
 	private String name;
+
 	private EmployeeType type;
+
+	@NotNull
+	@Range(min = 1, message = "Please input employee number")
 	private int employeeNo;
+
+	@NotNull
+	@Range(min = 1, message = "Please input total annual holiday")
 	private int totalAnnualHolidayDays;
 	// private int bookedFullDays;
 	// private int bookedHalfDays;

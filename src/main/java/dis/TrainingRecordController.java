@@ -5,9 +5,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -48,7 +51,12 @@ public class TrainingRecordController {
 	}
 
 	@PostMapping(path = "/add")
-	public String createSubmit(@ModelAttribute TrainingRecord trainingRecord) {
+	public String createSubmit(@ModelAttribute @Valid TrainingRecord trainingRecord, Errors errors, Model model) {
+		if (errors.hasErrors()) {
+
+			return "trainingRecordAdd";
+		}
+
 		trainingRecordRepository.save(trainingRecord);
 		return "trainingRecordAddResult";
 	}
@@ -90,8 +98,13 @@ public class TrainingRecordController {
 	}
 
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
-	public String editForm(@PathVariable("id") long id, @ModelAttribute TrainingRecord trainingRecord, Model model) {
+	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid TrainingRecord trainingRecord,
+			Errors errors, Model model) {
 
+		if (errors.hasErrors()) {
+
+			return "trainingRecordEdit";
+		}
 		// doin't create new object here, read old one by id and update its properties
 		TrainingRecord dbTrainingRecord = trainingRecordRepository.findOne(id);
 		// update the properties with values comming from model

@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -47,7 +50,11 @@ public class HolidayController {
 	}
 
 	@PostMapping(path = "/add")
-	public String createSubmit(@ModelAttribute Holiday holiday) {
+	public String createSubmit(@ModelAttribute @Valid Holiday holiday, Errors errors, Model model) {
+		if (errors.hasErrors()) {
+
+			return "holidayAdd";
+		}
 		holidayRepository.save(holiday);
 		return "holidayAddResult";
 	}
@@ -93,8 +100,12 @@ public class HolidayController {
 	}
 
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
-	public String editForm(@PathVariable("id") long id, @ModelAttribute Holiday holiday, Model model) {
+	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Holiday holiday, Errors errors,
+			Model model) {
+		if (errors.hasErrors()) {
 
+			return "holidayEdit";
+		}
 		// doin't create new object here, read old one by id and update its properties
 		Holiday dbHoliday = holidayRepository.findOne(id);
 		// update the properties with values comming from model

@@ -35,7 +35,7 @@
 			</select>
 		</p>
 		<p>Day: <input type="text" th:field="*{day}" /></p>
-        
+        <span th:errors="*{day}" class="error"></span>
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" 
         
    /></p>

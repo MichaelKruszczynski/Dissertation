@@ -20,7 +20,9 @@
   </table>
   	<form action="#" th:action="@{/department/{id}/edit(id=${department.id})}" th:object="${department}" method="post">
         <p>Name: <input type="text" th:field="*{departmentName}" /></p>
+        <span th:errors="*{departmentName}" class="error"></span>
          <p>Total Hours Available: <input type="text" th:field="*{totalHoursAvailable}" /></p>
+         <span th:errors="*{totalHoursAvailable}" class="error"></span>
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" /></p>
         
         

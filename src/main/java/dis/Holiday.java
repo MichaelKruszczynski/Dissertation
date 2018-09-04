@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Holiday {
@@ -16,7 +19,10 @@ public class Holiday {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private HolidayType type;
+
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull(message = "Please provide a date.")
 	private Date day;
 
 	@ManyToOne

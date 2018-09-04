@@ -12,6 +12,7 @@
 			</select>
 		</p>
         <p>Day: <input type="text" th:field="*{day}" /></p>
+        <span th:errors="*{day}" class="error"></span>
         <p>HolidayType:
 	        <select th:field="*{type}">
 				<option th:each="holidayTypeFromLoop : ${holidayType}" th:value="${holidayTypeFromLoop}" th:text="${holidayTypeFromLoop}"/>

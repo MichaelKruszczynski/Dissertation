@@ -22,6 +22,7 @@
   </table>
   	<form action="#" th:action="@{/holiday/{id}/edit(id=${holiday.id})}" th:object="${holiday}" method="post">
         <p>Holiday day: <input type="text" th:field="*{day}" /></p>
+        <span th:errors="*{day}" class="error"></span>
         
           <p>HolidayType:
 	        <select th:field="*{type}">

@@ -26,6 +26,7 @@
   </table>
   	<form action="#" th:action="@{/employee/{id}/edit(id=${employee.id})}" th:object="${employee}" method="post">
         <p>Name: <input type="text" th:field="*{Name}" /></p>
+        <span th:errors="*{name}" class="error"></span>
         
                 <p>Department:
 	        <select th:field="*{department}">
@@ -34,6 +35,7 @@
 		</p>
 		
 		<p>EmployeeNo: <input type="text" th:field="*{EmployeeNo}" /></p>
+		<span th:errors="*{employeeNo}" class="error"></span>
 		
 		<p>EmployeeType:
 	        <select th:field="*{type}">

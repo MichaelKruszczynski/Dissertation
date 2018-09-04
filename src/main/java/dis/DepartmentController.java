@@ -38,7 +38,7 @@ public class DepartmentController {
 	public String createSubmit(@ModelAttribute @Valid Department department, Errors errors, Model model) {
 
 		if (errors.hasErrors()) {
-			// model.addAttribute("department", "departmentAdd");
+
 			return "departmentAdd";
 		}
 
@@ -81,8 +81,12 @@ public class DepartmentController {
 	}
 
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
-	public String editForm(@PathVariable("id") long id, @ModelAttribute Department department, Model model) {
+	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Department department, Errors errors,
+			Model model) {
+		if (errors.hasErrors()) {
 
+			return "departmentEdit";
+		}
 		// doin't create new object here, read old one by id and update its properties
 		Department dbDepartment = departmentRepository.findOne(id);
 		// update the properties with values comming from model

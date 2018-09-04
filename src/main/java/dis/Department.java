@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Range;
+
 @Entity
 public class Department {
 
@@ -14,14 +16,8 @@ public class Department {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	public int getTotalHoursAvailable() {
-		return totalHoursAvailable;
-	}
-
-	public void setTotalHoursAvailable(int totalHoursAvailable) {
-		this.totalHoursAvailable = totalHoursAvailable;
-	}
-
+	@NotNull
+	@Range(min = 1, message = "Please input total hours available")
 	private int totalHoursAvailable;
 
 	@NotNull
@@ -35,6 +31,14 @@ public class Department {
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
 
+	}
+
+	public int getTotalHoursAvailable() {
+		return totalHoursAvailable;
+	}
+
+	public void setTotalHoursAvailable(int totalHoursAvailable) {
+		this.totalHoursAvailable = totalHoursAvailable;
 	}
 
 	public long getId() {

@@ -1,8 +1,11 @@
 package dis;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +33,12 @@ public class TrainingController {
 	}
 
 	@PostMapping(path = "/add")
-	public String createSubmit(@ModelAttribute Training training) {
+	public String createSubmit(@ModelAttribute @Valid Training training, Errors errors, Model model) {
+		if (errors.hasErrors()) {
+
+			return "trainingAdd";
+		}
+
 		trainingRepository.save(training);
 		return "trainingAddResult";
 	}
@@ -70,8 +78,13 @@ public class TrainingController {
 	}
 
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
-	public String editForm(@PathVariable("id") long id, @ModelAttribute Training training, Model model) {
+	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Training training, Errors errors,
+			Model model) {
 
+		if (errors.hasErrors()) {
+
+			return "trainingEdit";
+		}
 		// doin't create new object here, read old one by id and update its properties
 		Training dbTraining = trainingRepository.findOne(id);
 		// update the properties with values comming from model

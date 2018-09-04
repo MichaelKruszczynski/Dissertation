@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 public class Training {
@@ -12,8 +16,14 @@ public class Training {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
+	@NotNull
+	@Size(min = 1, message = "Please input training name")
 	private String name;
+	@NotNull
+	@Size(min = 1, message = "Please input training version")
 	private String version;
+	@NotNull
+	@Range(min = 1, message = "Please input training duration in years")
 	private int duration;
 
 	public String getName() {

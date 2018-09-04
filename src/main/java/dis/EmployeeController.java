@@ -3,9 +3,12 @@ package dis;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +47,12 @@ public class EmployeeController {
 	}
 
 	@PostMapping(path = "/add")
-	public String createSubmit(@ModelAttribute Employee employee) {
+	public String createSubmit(@ModelAttribute @Valid Employee employee, Errors errors, Model model) {
+
+		if (errors.hasErrors()) {
+
+			return "employeeAdd";
+		}
 		employeeRepository.save(employee);
 		return "employeeAddResult";
 	}
@@ -91,8 +99,12 @@ public class EmployeeController {
 	}
 
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
-	public String editForm(@PathVariable("id") long id, @ModelAttribute Employee employee, Model model) {
+	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Employee employee, Errors errors,
+			Model model) {
+		if (errors.hasErrors()) {
 
+			return "employeeEdit";
+		}
 		// doin't create new object here, read old one by id and update its properties
 		Employee dbEmployee = employeeRepository.findOne(id);
 		// update the properties with values comming from model
