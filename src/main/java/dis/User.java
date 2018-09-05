@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
+
 @Entity
 public class User {
 
@@ -32,6 +34,7 @@ public class User {
 	@Size(min = 1, message = "Please input last name")
 	private String lastName;
 	@NotNull
+	@Email
 	@Size(min = 1, message = "Please input email address")
 	private String email;
 	@NotNull
