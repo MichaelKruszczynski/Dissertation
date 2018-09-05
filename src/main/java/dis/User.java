@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class User {
@@ -23,10 +25,19 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@NotNull
+	@Size(min = 1, message = "Please input first name")
 	private String firstName;
+	@NotNull
+	@Size(min = 1, message = "Please input last name")
 	private String lastName;
+	@NotNull
+	@Size(min = 1, message = "Please input email address")
 	private String email;
+	@NotNull
+	@Size(min = 6, message = "Please input password")
 	private String password;
+
 	private boolean enabled;
 	private boolean tokenExpired;
 

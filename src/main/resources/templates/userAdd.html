@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Test</title>
+  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+</head>
+<body>
+	<form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
+        <p>First name: <input type="text" th:field="*{firstName}" /></p>
+        <span th:errors="*{firstName}" class="error"></span>
+        <p>Last name: <input type="text" th:field="*{lastName}" /></p>
+        <span th:errors="*{lastName}" class="error"></span>
+        <p>Email address: <input type="text" th:field="*{email}" /></p>
+        <span th:errors="*{email}" class="error"></span>
+          <p>Password: <input type="text" th:field="*{password}" /></p>
+        <span th:errors="*{password}" class="error"></span>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>  
+</body>
+</html>
