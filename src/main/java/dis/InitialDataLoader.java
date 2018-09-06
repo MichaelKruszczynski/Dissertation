@@ -66,15 +66,18 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 		createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
 
 		Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-		User user = new User();
-		user.setFirstName("Test");
-		user.setLastName("Test");
-		user.setPassword(passwordEncoder.encode("test"));
-		user.setEmail("test@test.com");
-		user.setRoles(Arrays.asList(adminRole));
-		user.setEnabled(true);
-		userRepository.save(user);
-		// userRepository.saveOrUpdate(user);
+		User findByEmail = userRepository.findByEmail("test@test.com");
+		if (findByEmail == null) {
+			User user = new User();
+			user.setFirstName("Test");
+			user.setLastName("Test");
+			user.setPassword(passwordEncoder.encode("test"));
+			user.setEmail("test@test.com");
+			user.setRoles(Arrays.asList(adminRole));
+			user.setEnabled(true);
+			userRepository.save(user);
+			// userRepository.saveOrUpdate(user);
+		}
 
 		alreadySetup = true;
 	}

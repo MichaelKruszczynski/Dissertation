@@ -50,7 +50,12 @@ public class EmployeeController {
 	public String createSubmit(@ModelAttribute @Valid Employee employee, Errors errors, Model model) {
 
 		if (errors.hasErrors()) {
+			model.addAttribute("departments", departmentRepository.findAll());
 
+			List<EmployeeType> empType = new ArrayList<EmployeeType>();
+			empType.add(EmployeeType.FULL_TIME);
+			empType.add(EmployeeType.PART_TIME);
+			model.addAttribute("EmployeeType", empType);
 			return "employeeAdd";
 		}
 		employeeRepository.save(employee);
