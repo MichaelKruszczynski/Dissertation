@@ -53,7 +53,8 @@ public class TrainingRecordController {
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid TrainingRecord trainingRecord, Errors errors, Model model) {
 		if (errors.hasErrors()) {
-
+			model.addAttribute("employees", employeeRepository.findAll());
+			model.addAttribute("trainings", trainingRepository.findAll());
 			return "trainingRecordAdd";
 		}
 
@@ -102,7 +103,8 @@ public class TrainingRecordController {
 			Errors errors, Model model) {
 
 		if (errors.hasErrors()) {
-
+			model.addAttribute("employees", employeeRepository.findAll());
+			model.addAttribute("trainings", trainingRepository.findAll());
 			return "trainingRecordEdit";
 		}
 		// doin't create new object here, read old one by id and update its properties

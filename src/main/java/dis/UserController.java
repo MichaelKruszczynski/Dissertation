@@ -88,7 +88,8 @@ public class UserController {
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
 	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid User user, Errors errors, Model model) {
 		if (errors.hasErrors()) {
-
+			user.setEnabled(true);
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			return "userEdit";
 		}
 		// doin't create new object here, read old one by id and update its properties

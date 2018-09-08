@@ -21,7 +21,7 @@ public class Holiday {
 	private HolidayType type;
 
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	@NotNull(message = "Please provide a date.")
 	private Date day;
 
