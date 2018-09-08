@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Test</title>
+  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+</head>
+<body>
+	<form action="#" th:action="@{/report/add}" th:object="${report}" method="post">
+        <p>Report Name: <input type="text" th:field="*{name}" /></p>
+        <span th:errors="*{name}" class="error"></span>
+        <p>Query: <input type="text" th:field="*{query}" /></p>
+        <span th:errors="*{query}" class="error"></span>
+        <p>Column Names: <input type="text" th:field="*{columnNames}" /></p>
+        <span th:errors="*{columnNames}" class="error"></span>
+        <p>Access Level:
+	        <select th:field="*{accessLevel}">
+				<option th:each="accessLevelFromLoop : ${accessLevel}" th:value="${accessLevelFromLoop}" th:text="${accessLevelFromLoop}"/>
+				</select>
+				</p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>  
+</body>
+</html>

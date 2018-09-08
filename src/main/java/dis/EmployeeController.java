@@ -107,6 +107,7 @@ public class EmployeeController {
 	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Employee employee, Errors errors,
 			Model model) {
 		if (errors.hasErrors()) {
+
 			model.addAttribute("departments", departmentRepository.findAll());
 			List<EmployeeType> empType = new ArrayList<EmployeeType>();
 			empType.add(EmployeeType.FULL_TIME);

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Test</title>
+  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+</head>
+<body>
+ <table>
+	<tr>
+		<th>ID</th>
+		<th>Report Name</th>
+		<th>Query</th>
+		<th>Column Names</th>
+		<th>Access Level</th>
+		
+	</tr>
+	<tr th:each="report : ${report}">
+		<td> <a th:href="@{/report/{id}/edit(id=${report.id})}" th:text="${report.id}"/></td>
+		<td th:text="${report.name}"/>
+		<td th:text="${report.query}"/>
+		<td th:text="${report.columnNames}"/>
+		<td th:text="${report.accessLevel}"/>
+		
+	</tr>
+  </table>
+  
+</body>
+</html>

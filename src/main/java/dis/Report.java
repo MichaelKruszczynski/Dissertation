@@ -15,7 +15,7 @@ public class Report {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private long id;
 
 	@NotNull
 	@Size(min = 1, message = "Please input raport name")
@@ -29,7 +29,7 @@ public class Report {
 	private String columnNames;
 
 	@NotNull
-	private String accessLevel;
+	private AccessLevel accessLevel;
 
 	public String getName() {
 		return name;
@@ -39,11 +39,11 @@ public class Report {
 		this.name = name;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -63,11 +63,11 @@ public class Report {
 		this.columnNames = columnNames;
 	}
 
-	public String getAccessLevel() {
+	public AccessLevel getAccessLevel() {
 		return accessLevel;
 	}
 
-	public void setAccessLevel(String accessLevel) {
+	public void setAccessLevel(AccessLevel accessLevel) {
 		this.accessLevel = accessLevel;
 	}
 
