@@ -31,6 +31,14 @@ public class Report {
 	@NotNull
 	private String accessLevel;
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public int getId() {
 		return id;
 	}
