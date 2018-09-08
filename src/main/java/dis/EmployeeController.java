@@ -118,6 +118,8 @@ public class EmployeeController {
 		Employee dbEmployee = employeeRepository.findOne(id);
 		// update the properties with values comming from model
 		dbEmployee.setName(employee.getName());
+		dbEmployee.setType(employee.getType());
+		dbEmployee.setEmployeeNo(employee.getEmployeeNo());
 		// then save(update) to database
 		employeeRepository.save(dbEmployee);
 		return readAll(model); // and choose template to kick in afterwards
