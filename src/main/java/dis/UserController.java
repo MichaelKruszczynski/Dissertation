@@ -89,7 +89,7 @@ public class UserController {
 	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid User user, Errors errors, Model model) {
 		if (errors.hasErrors()) {
 			user.setEnabled(true);
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
+
 			return "userEdit";
 		}
 		// doin't create new object here, read old one by id and update its properties
@@ -98,7 +98,8 @@ public class UserController {
 		dbUser.setFirstName(user.getFirstName());
 		dbUser.setLastName(user.getLastName());
 		dbUser.setEmail(user.getEmail());
-		dbUser.setPassword(user.getPassword());
+		// dbUser.setPassword(user.getPassword());
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		// then save(update) to database
 		userRepository.save(dbUser);
 		return readAll(model); // and choose template to kick in afterwards
