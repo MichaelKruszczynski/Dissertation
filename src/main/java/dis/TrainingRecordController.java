@@ -103,6 +103,7 @@ public class TrainingRecordController {
 			Errors errors, Model model) {
 
 		if (errors.hasErrors()) {
+			trainingRecord.setId(id);
 			model.addAttribute("employees", employeeRepository.findAll());
 			model.addAttribute("trainings", trainingRepository.findAll());
 			return "trainingRecordEdit";
