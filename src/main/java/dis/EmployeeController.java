@@ -121,6 +121,7 @@ public class EmployeeController {
 		dbEmployee.setName(employee.getName());
 		dbEmployee.setType(employee.getType());
 		dbEmployee.setEmployeeNo(employee.getEmployeeNo());
+		dbEmployee.setTotalAnnualHolidayDays(employee.getTotalAnnualHolidayDays());
 		// then save(update) to database
 		employeeRepository.save(dbEmployee);
 		return readAll(model); // and choose template to kick in afterwards

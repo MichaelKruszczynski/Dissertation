@@ -43,6 +43,8 @@
 			</select>
 		</p>
 		
+		<p>Total Annual Holiday Days: <input type="text" th:field="*{totalAnnualHolidayDays}" /></p>
+		<span th:errors="*{totalAnnualHolidayDays}" class="error"></span>
         
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" 
         
