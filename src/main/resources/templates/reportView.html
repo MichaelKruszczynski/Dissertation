@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Test</title>
+  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+</head>
+<body>
+ <table>
+ 	<tr>
+ 		<th:block th:each="columnName: ${columnNames}">
+    	    <th th:text="${columnName}">Dataset Field</th>
+    	</th:block>
+	</tr>
+	<tr th:each="viewResult : ${viewResults}">
+		<th:block th:each="entry : ${viewResult}">
+                <td th:text="${entry.value}">Dataset Field</td>
+        </th:block>
+	</tr>
+  </table>
+  
+</body>
+</html>

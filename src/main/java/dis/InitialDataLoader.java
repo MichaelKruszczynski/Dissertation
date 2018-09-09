@@ -29,6 +29,9 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	@Autowired
+	private ReportRepository reportRepository;
+
 	@Transactional
 	private Privilege createPrivilegeIfNotFound(String name) {
 
@@ -77,6 +80,52 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 			user.setEnabled(true);
 			userRepository.save(user);
 			// userRepository.saveOrUpdate(user);
+		}
+		String firstName = "test";
+		Report firstReport = reportRepository.findByName(firstName);
+		if (firstReport == null) {
+			firstReport = new Report();
+			firstReport.setName(firstName);
+			// firstReport.setQuery("Select user.firstName, user.LastName from User user
+			// where user.id=:id");
+			// firstReport.setQuery("select usr.firstName, usr.lastName from User usr");
+			firstReport.setQuery("select * from User usr");
+			firstReport.setAccessLevel(AccessLevel.ADMIN);
+			firstReport.setColumnNames("First name, Second Name");
+			reportRepository.save(firstReport);
+		}
+		String secondName = "test2";
+		Report secondReport = reportRepository.findByName(secondName);
+		if (secondReport == null) {
+			secondReport = new Report();
+			secondReport.setName(secondName);
+			// firstReport.setQuery("Select user.firstName, user.LastName from User user
+			// where user.id=:id");
+			secondReport.setQuery("select usr.first_name, usr.last_name from User usr");
+			secondReport.setAccessLevel(AccessLevel.ADMIN);
+			secondReport.setColumnNames("First name, Second Name");
+			reportRepository.save(secondReport);
+		}
+		String thirdName = "test3";
+		Report thirdReport = reportRepository.findByName(thirdName);
+		if (thirdReport == null) {
+			thirdReport = new Report();
+			thirdReport.setName(thirdName);
+			thirdReport.setQuery("select usr.first_name, usr.last_name from User usr where usr.id=?");
+			thirdReport.setAccessLevel(AccessLevel.ADMIN);
+			thirdReport.setColumnNames("First name, Second Name");
+			reportRepository.save(thirdReport);
+		}
+		String fourthName = "test4";
+		Report fourthReport = reportRepository.findByName(fourthName);
+		if (fourthReport == null) {
+			fourthReport = new Report();
+			fourthReport.setName(fourthName);
+			fourthReport
+					.setQuery("select usr.first_name, usr.last_name from User usr where usr.id=? and usr.first_name=?");
+			fourthReport.setAccessLevel(AccessLevel.ADMIN);
+			fourthReport.setColumnNames("First name, Second Name");
+			reportRepository.save(fourthReport);
 		}
 
 		alreadySetup = true;
