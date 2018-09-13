@@ -18,7 +18,7 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 	boolean alreadySetup = false;
 
 	@Autowired
-	private UserRepository userRepository;
+	private EmployeeRepository employeeRepository;
 
 	@Autowired
 	private RoleRepository roleRepository;
@@ -69,16 +69,15 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 		createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
 
 		Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-		User findByEmail = userRepository.findByEmail("test@test.com");
+		Employee findByEmail = employeeRepository.findByEmail("test@test.com");
 		if (findByEmail == null) {
-			User user = new User();
-			user.setFirstName("Test");
-			user.setLastName("Test");
+			Employee user = new Employee();
+			user.setName("Test");
 			user.setPassword(passwordEncoder.encode("test"));
 			user.setEmail("test@test.com");
 			user.setRoles(Arrays.asList(adminRole));
 			user.setEnabled(true);
-			userRepository.save(user);
+			employeeRepository.save(user);
 			// userRepository.saveOrUpdate(user);
 		}
 		createReportIfNotExists("test", AccessLevel.ADMIN, "select * from User usr");
@@ -90,6 +89,14 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 
 		createReportIfNotExists("test4", AccessLevel.ADMIN,
 				"select usr.first_name, usr.last_name from User usr where usr.id=? and usr.first_name=?");
+
+		createReportIfNotExists("test5", AccessLevel.ADMIN,
+				"select emp.name, emp.total_Annual_Holiday_Days from Employee emp where emp.id=4");
+
+		createReportIfNotExists("test6", AccessLevel.ADMIN,
+				"SELECT CURRENT_USER, usr.first_name, usr.last_name from User usr");
+
+		createReportIfNotExists("test7", AccessLevel.ADMIN, "select hol.day from Holiday hol");
 
 		alreadySetup = true;
 	}

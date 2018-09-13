@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 	@Autowired
-	private UserRepository userRepository;
+	private EmployeeRepository userRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(username);// user email is the username now
+		Employee user = userRepository.findByEmail(username);// user email is the username now
 		if (user == null) {
 			throw new UsernameNotFoundException(username);
 		}

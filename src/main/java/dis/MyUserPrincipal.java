@@ -10,9 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class MyUserPrincipal implements UserDetails {
 	private static final long serialVersionUID = 1L;
-	private User user;
+	private Employee user;
 
-	public MyUserPrincipal(User user) {
+	public MyUserPrincipal(Employee user) {
 		this.user = user;
 	}
 
