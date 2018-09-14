@@ -121,6 +121,8 @@ public class EmployeeController {
 		dbEmployee.setName(employee.getName());
 		dbEmployee.setType(employee.getType());
 		dbEmployee.setEmployeeNo(employee.getEmployeeNo());
+		dbEmployee.setEmail(employee.getEmail());
+		dbEmployee.setPassword(employee.getPassword());
 		dbEmployee.setTotalAnnualHolidayDays(employee.getTotalAnnualHolidayDays());
 		// then save(update) to database
 		employeeRepository.save(dbEmployee);

@@ -9,11 +9,15 @@
 	<tr>
 		<th>ID</th>
 		<th>Name</th>
+		<th>Email Address</th>
+		<th>Password</th>
 		
 	</tr>
 	<tr th:each="employee : ${employee}">
 		<td> <a th:href="@{/employee/{id}/edit(id=${employee.id})}" th:text="${employee.id}"/></td>
 		<td th:text="${employee.Name}"/>
+		<td th:text="${employee.email}"/>
+		<td th:text="${employee.password}"/>
 	</tr>
   </table>
   

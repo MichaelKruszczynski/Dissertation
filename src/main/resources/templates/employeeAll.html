@@ -13,6 +13,8 @@
 		<th>Department</th>
 		<th>Employee Type</th>
 		<th>Total Annual Holiday Days</th>
+		<th>Email</th>
+		<th>Password</th>
 		
 	</tr>
 	<tr th:each="employee : ${employees}">
@@ -22,6 +24,8 @@
 		<td th:text="${employee.department.departmentName}"/>
 		<td th:text="${employee.type}"/>
 		<td th:text="${employee.totalAnnualHolidayDays}"/>
+		<td th:text="${employee.email}"/>
+		<td th:text="${employee.password}"/>
 	</tr>
 	
   </table>

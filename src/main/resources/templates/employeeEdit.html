@@ -13,6 +13,8 @@
 		<th>Department</th>
 		<th>Employee Type</th>
 		<th>Total Annual Holiday Days</th>
+		<th>Email Address</th>
+		<th>Password</th>
 		
 	</tr>
 	<tr th:each="employee : ${employee}">
@@ -22,6 +24,8 @@
 		<td th:text="${employee.department.departmentName}"/>
 		<td th:text="${employee.type}"/>
 		<td th:text="${employee.totalAnnualHolidayDays}"/>
+		<td th:text="${employee.email}"/>
+		<td th:text="${employee.password}"/>
 	</tr> 
   </table>
   	<form action="#" th:action="@{/employee/{id}/edit(id=${employee.id})}" th:object="${employee}" method="post">
@@ -45,6 +49,10 @@
 		
 		<p>Total Annual Holiday Days: <input type="text" th:field="*{totalAnnualHolidayDays}" /></p>
 		<span th:errors="*{totalAnnualHolidayDays}" class="error"></span>
+		<p>Email Address: <input type="text" th:field="*{email}" /></p>
+		<span th:errors="*{email}" class="error"></span>
+          <p>Password: <input type="text" th:field="*{password}" /></p>
+         <span th:errors="*{password}" class="error"></span>
         
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" 
         

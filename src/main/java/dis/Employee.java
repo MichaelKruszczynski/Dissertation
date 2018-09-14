@@ -58,7 +58,7 @@ public class Employee {
 	// private int bookedHalfDays;
 	// private double daysAvailableToBook;
 
-	@NotNull
+	// @NotNull
 	@ManyToOne
 	private Department department;
 

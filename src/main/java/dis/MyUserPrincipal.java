@@ -10,20 +10,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class MyUserPrincipal implements UserDetails {
 	private static final long serialVersionUID = 1L;
-	private Employee user;
+	private Employee employee;
 
-	public MyUserPrincipal(Employee user) {
-		this.user = user;
+	public MyUserPrincipal(Employee employee) {
+		this.employee = employee;
 	}
 
 	@Override
 	public String getPassword() {
-		return user.getPassword();
+		return employee.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		return user.getEmail();
+		return employee.getEmail();
 	}
 
 	@Override
@@ -38,17 +38,17 @@ public class MyUserPrincipal implements UserDetails {
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return !user.isTokenExpired();
+		return !employee.isTokenExpired();
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return user.isEnabled();
+		return employee.isEnabled();
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return getAuthorities(user.getRoles());
+		return getAuthorities(employee.getRoles());
 	}
 
 	private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {

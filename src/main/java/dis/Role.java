@@ -30,7 +30,7 @@ public class Role {
 
 	private String name;
 	@ManyToMany(mappedBy = "roles")
-	private Collection<Employee> users;
+	private Collection<Employee> employees;
 
 	// @ManyToMany(fetch = FetchType.EAGER, mappedBy = "topic", cascade =
 	// CascadeType.ALL)
@@ -51,12 +51,12 @@ public class Role {
 		this.name = name;
 	}
 
-	public Collection<Employee> getUsers() {
-		return users;
+	public Collection<Employee> getEmployees() {
+		return employees;
 	}
 
-	public void setUsers(Collection<Employee> users) {
-		this.users = users;
+	public void setEmployees(Collection<Employee> employees) {
+		this.employees = employees;
 	}
 
 	public Collection<Privilege> getPrivileges() {
