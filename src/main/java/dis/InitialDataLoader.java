@@ -18,6 +18,9 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 	boolean alreadySetup = false;
 
 	@Autowired
+	private DepartmentRepository departmentRepository;
+
+	@Autowired
 	private EmployeeRepository employeeRepository;
 
 	@Autowired
@@ -67,7 +70,15 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 		List<Privilege> adminPrivileges = Arrays.asList(readPrivilege, writePrivilege);
 		createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
 		createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
+		String departmentName = "deptName";
+		Department department = departmentRepository.findByDepartmentName(departmentName);
+		if (department == null) {
 
+			department = new Department();
+			department.setDepartmentName(departmentName);
+			department.setTotalHoursAvailable(40);
+			departmentRepository.save(department);
+		}
 		Role adminRole = roleRepository.findByName("ROLE_ADMIN");
 		Employee findByEmail = employeeRepository.findByEmail("test@test.com");
 		if (findByEmail == null) {
@@ -77,6 +88,9 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 			employee.setEmail("test@test.com");
 			employee.setRoles(Arrays.asList(adminRole));
 			employee.setEnabled(true);
+			employee.setDepartment(department);
+			employee.setTotalAnnualHolidayDays(686);
+			employee.setEmployeeNo(665);
 			employeeRepository.save(employee);
 			// userRepository.saveOrUpdate(user);
 		}
