@@ -3,8 +3,17 @@
 <head>
   <title>Test</title>
   <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/jquery-ui.css"/>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd", firstDay: 1 });
+  } );
+  </script>
 </head>
 <body>
+
 	<form action="#" th:action="@{/trainingrecord/add}" th:object="${trainingRecord}" method="post">
 	   
 	   
@@ -16,10 +25,10 @@
 		
 		 <p>Trainings:
 	        <select th:field="*{training}">
-				<option th:each="trainingFromLoop : ${trainings}" th:value="${trainingFromLoop.id}" th:text="${trainingFromLoop.name}"/>
+				<option th:each="trainingFromLoop : ${trainings}" th :value="${trainingFromLoop.id}" th:text="${trainingFromLoop.name}"/>
 			</select>
 			
-			<p>Day: <input type="text" th:field="*{day}" /></p>
+			<p>Day: <input type="text" th:id="datepicker" th:field="*{day}" autocomplete="off" /></p>
 			<span th:errors="*{day}" class="error"></span>
 		</p>
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>

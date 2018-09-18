@@ -139,7 +139,7 @@ public class TrainingRecordController {
 			@Override
 			public void setAsText(String value) {
 				try {
-					setValue(new SimpleDateFormat("dd/MM/yyyy").parse(value));
+					setValue(new SimpleDateFormat("yyyy-MM-dd").parse(value));
 				} catch (ParseException e) {
 					setValue(null);
 				}
