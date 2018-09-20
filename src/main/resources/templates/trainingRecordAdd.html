@@ -25,7 +25,7 @@
 		
 		 <p>Trainings:
 	        <select th:field="*{training}">
-				<option th:each="trainingFromLoop : ${trainings}" th :value="${trainingFromLoop.id}" th:text="${trainingFromLoop.name}"/>
+				<option th:each="trainingFromLoop : ${trainings}" th:value="${trainingFromLoop.id}" th:text="${trainingFromLoop.name}"/>
 			</select>
 			
 			<p>Day: <input type="text" th:id="datepicker" th:field="*{day}" autocomplete="off" /></p>

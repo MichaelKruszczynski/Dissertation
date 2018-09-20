@@ -3,6 +3,15 @@
 <head>
   <title>Test</title>
   <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/jquery-ui.css"/>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd", firstDay: 1 });
+  } );
+  </script>
 </head>
 <body>
  <table>
@@ -21,7 +30,7 @@
 	</tr> 
   </table>
   	<form action="#" th:action="@{/holiday/{id}/edit(id=${holiday.id})}" th:object="${holiday}" method="post">
-        <p>Holiday day: <input type="text" th:field="*{day}" /></p>
+        <p>Holiday Date: <input type="text" th:id="datepicker" th:field="*{day}" autocomplete="off" /></p>
         <span th:errors="*{day}" class="error"></span>
         
           <p>HolidayType:
