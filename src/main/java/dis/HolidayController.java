@@ -107,6 +107,7 @@ public class HolidayController {
 	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Holiday holiday, Errors errors,
 			Model model) {
 		if (errors.hasErrors()) {
+			holiday.setId(id);
 			model.addAttribute("employees", employeeRepository.findAll());
 			List<HolidayType> holType = new ArrayList<HolidayType>();
 			holType.add(HolidayType.FULL_DAY);
@@ -119,6 +120,7 @@ public class HolidayController {
 		// update the properties with values comming from model
 		dbHoliday.setDay(holiday.getDay());
 		dbHoliday.setType(holiday.getType());
+		dbHoliday.setEmployee(holiday.getEmployee());
 		// dbHoliday.setHalfDay(holiday.isHalfDay());
 		// then save(update) to database
 		holidayRepository.save(dbHoliday);

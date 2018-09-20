@@ -20,9 +20,9 @@ public class Holiday {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private HolidayType type;
-	@Future
+	@Future(message = "Only the future data is valid")
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull(message = "Please provide a date.")
 	private Date day;
 
