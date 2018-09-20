@@ -107,7 +107,11 @@ public class HolidayController {
 	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Holiday holiday, Errors errors,
 			Model model) {
 		if (errors.hasErrors()) {
-
+			model.addAttribute("employees", employeeRepository.findAll());
+			List<HolidayType> holType = new ArrayList<HolidayType>();
+			holType.add(HolidayType.FULL_DAY);
+			holType.add(HolidayType.HALF_DAY);
+			model.addAttribute("holidayType", holType);
 			return "holidayEdit";
 		}
 		// doin't create new object here, read old one by id and update its properties
