@@ -63,6 +63,33 @@ public class HolidayController {
 		return "holidayAddResult";
 	}
 
+	@GetMapping(path = "/request")
+	public String createRequestForm(Model model) {
+		model.addAttribute("holiday", new Holiday());
+		model.addAttribute("employees", employeeRepository.findAll());
+		List<HolidayType> holType = new ArrayList<HolidayType>();
+		holType.add(HolidayType.FULL_DAY);
+		holType.add(HolidayType.HALF_DAY);
+		model.addAttribute("holidayType", holType);
+
+		return "holidayRequest";
+	}
+
+	@PostMapping(path = "/request")
+	public String createRequestSubmit(@ModelAttribute @Valid Holiday holiday, Errors errors, Model model) {
+		if (errors.hasErrors()) {
+			model.addAttribute("employees", employeeRepository.findAll());
+			List<HolidayType> holType = new ArrayList<HolidayType>();
+			holType.add(HolidayType.FULL_DAY);
+			holType.add(HolidayType.HALF_DAY);
+			model.addAttribute("holidayType", holType);
+			return "holidayRequest";
+		}
+		holidayRepository.save(holiday);
+		return "holidayAddResult";
+
+	}
+
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<Holiday> findAll = holidayRepository.findAll();

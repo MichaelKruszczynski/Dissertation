@@ -24,6 +24,7 @@ public class QueryTokenizer {
 		avaliableTokens.put("myDepartment", employee.getDepartment().getDepartmentName());
 		avaliableTokens.put("myEmail", employee.getEmail());
 		avaliableTokens.put("myEmployeeNo", "" + employee.getEmployeeNo());
+		avaliableTokens.put("myId", "" + employee.getId());
 
 	}
 

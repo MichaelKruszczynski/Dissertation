@@ -113,6 +113,10 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 		createReportIfNotExists("Tk", AccessLevel.ADMIN, "select emp.* from Employee emp where name= :myName");
 		createReportIfNotExists("Tk2", AccessLevel.ADMIN, "select emp.* from Employee emp where name= :myName or id=?");
 
+		createReportIfNotExists("Tk3", AccessLevel.ADMIN,
+				"select *  from Holiday hol join hol.employee emp where emp.name= :myName or emp.id=?");
+
+
 		alreadySetup = true;
 	}
 
