@@ -73,5 +73,13 @@ public class MyUserPrincipal implements UserDetails {
 			authorities.add(new SimpleGrantedAuthority(privilege));
 		}
 		return authorities;
+
 	}
+
+	public Employee getEmployee() {
+
+		return employee;
+
+	}
+
 }

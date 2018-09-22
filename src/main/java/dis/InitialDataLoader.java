@@ -98,11 +98,10 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 
 		createReportIfNotExists("test2", AccessLevel.ADMIN, "select emp.name from Employee emp");
 
-		createReportIfNotExists("test3", AccessLevel.ADMIN,
-				"select usr.first_name, usr.last_name from User usr where usr.id=?");
+		createReportIfNotExists("test3", AccessLevel.ADMIN, "select emp.name from Employee emp where emp.id=?");
 
 		createReportIfNotExists("test4", AccessLevel.ADMIN,
-				"select usr.first_name, usr.last_name from User usr where usr.id=? and usr.first_name=?");
+				"select emp.name from Employee emp where emp.id=? and emp.name=?");
 
 		createReportIfNotExists("test5", AccessLevel.ADMIN,
 				"select emp.name, emp.total_Annual_Holiday_Days from Employee emp where emp.id=4");
@@ -110,6 +109,9 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 		createReportIfNotExists("test6", AccessLevel.ADMIN, "SELECT CURRENT_USER, emp.name from Employee emp");
 
 		createReportIfNotExists("test7", AccessLevel.ADMIN, "select hol.day from Holiday hol");
+
+		createReportIfNotExists("Tk", AccessLevel.ADMIN, "select emp.* from Employee emp where name= :myName");
+		createReportIfNotExists("Tk2", AccessLevel.ADMIN, "select emp.* from Employee emp where name= :myName or id=?");
 
 		alreadySetup = true;
 	}
