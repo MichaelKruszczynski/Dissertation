@@ -19,10 +19,10 @@ public class TrainingRecord {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	private long id;
-	@NotNull
+	@NotNull(message = "Please provide a training name.")
 	@OneToOne
 	private Training training;
-	@NotNull
+	@NotNull(message = "Please provide a employee name.")
 	@OneToOne
 	private Employee employee;
 	@Past(message = "Only the past data is valid")
