@@ -19,7 +19,7 @@
 	 
         <p>From: <input type="text" th:id="datepicker" th:field="*{day}" autocomplete="off" /></p>
         <span th:errors="*{day}" class="error"></span>
-        
+        <span th:errors="*{employee}" class="error"></span>
           <p>To: <input type="text" th:id="datepicker2" th:field="*{day}" autocomplete="off" /></p>
         <span th:errors="*{day}" class="error"></span>
         <p>HolidayType:
