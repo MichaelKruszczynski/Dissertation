@@ -26,6 +26,7 @@ public class Holiday {
 	@NotNull(message = "Please provide a date.")
 	private Date day;
 
+	@NotNull(message = "Please assign an employee")
 	@ManyToOne
 	private Employee employee;
 

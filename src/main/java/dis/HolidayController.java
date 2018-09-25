@@ -66,7 +66,7 @@ public class HolidayController {
 	@GetMapping(path = "/request")
 	public String createRequestForm(Model model) {
 		model.addAttribute("holiday", new Holiday());
-		model.addAttribute("employees", employeeRepository.findAll());
+
 		List<HolidayType> holType = new ArrayList<HolidayType>();
 		holType.add(HolidayType.FULL_DAY);
 		holType.add(HolidayType.HALF_DAY);
@@ -86,7 +86,7 @@ public class HolidayController {
 			return "holidayRequest";
 		}
 		holidayRepository.save(holiday);
-		return "holidayAddResult";
+		return "holidayAllResult";
 
 	}
 
