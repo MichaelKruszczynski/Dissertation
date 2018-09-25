@@ -21,6 +21,7 @@
 	        <select th:field="*{employee}">
 				<option th:each="employeeFromLoop : ${employees}" th:value="${employeeFromLoop.id}" th:text="${employeeFromLoop.name}"/>
 			</select>
+			<span th:errors="*{day}" class="error"></span>
 		</p>
 		
 		 <p>Trainings:

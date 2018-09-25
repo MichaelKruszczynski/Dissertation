@@ -1,13 +1,12 @@
 package dis;
 
-import java.beans.PropertyEditorSupport;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -135,16 +134,7 @@ public class TrainingRecordController {
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
+		dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
 
-		dataBinder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
-			@Override
-			public void setAsText(String value) {
-				try {
-					setValue(new SimpleDateFormat("yyyy-MM-dd").parse(value));
-				} catch (ParseException e) {
-					setValue(null);
-				}
-			}
-		});
 	}
 }
