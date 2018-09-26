@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
@@ -93,12 +94,19 @@ public class HolidayController {
 			model.addAttribute("holidayType", holType);
 			return "holidayRequest";
 		}
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
-		Employee employee = principal.getEmployee();
-		employee = employeeRepository.findOne(employee.getId());
-		holiday.setEmployee(employee);
-		holidayRepository.save(holiday);
+		long daysBetween = holiday.getDay2().getTime() - holiday.getDay().getTime();
+		daysBetween = TimeUnit.DAYS.convert(daysBetween, TimeUnit.MILLISECONDS);
+		System.out.println("daysBetween:" + daysBetween);
+		int index = (int) (daysBetween + 1);
+		for (int i = 0; i < index; i++) {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
+			Employee employee = principal.getEmployee();
+			employee = employeeRepository.findOne(employee.getId());
+			holiday.setEmployee(employee);
+			holidayRepository.save(holiday);
+			holiday.setDay(new Date(holiday.getDay().getTime() + TimeUnit.DAYS.convert(1, TimeUnit.MILLISECONDS)));
+		}
 		return "holidayAllResult";
 
 	}
