@@ -1,5 +1,6 @@
 package dis;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -21,7 +22,8 @@ public class Holiday {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private HolidayType type;
-
+	private Timestamp activatedAt;
+	private String activatedBy;
 	@Future(message = "Only the future data is valid")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -77,6 +79,21 @@ public class Holiday {
 
 	public void setDay2(Date day2) {
 		this.day2 = day2;
+	}
+
+	public Timestamp getActivatedAt() {
+		return activatedAt;
+	}
+
+	public String getActivatedBy() {
+		return activatedBy;
+	}
+
+	public void setActivatedBy(String userName) {
+
+		this.activatedBy = userName;
+		this.activatedAt = new Timestamp(System.currentTimeMillis());
+
 	}
 
 }

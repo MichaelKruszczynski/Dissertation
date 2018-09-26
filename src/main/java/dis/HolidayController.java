@@ -60,6 +60,10 @@ public class HolidayController {
 			model.addAttribute("holidayType", holType);
 			return "holidayAdd";
 		}
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
+		Employee employee = principal.getEmployee();
+		holiday.setActivatedBy(employee.getName());
 		holidayRepository.save(holiday);
 		return "holidayAddResult";
 	}
@@ -157,6 +161,10 @@ public class HolidayController {
 		dbHoliday.setDay(holiday.getDay());
 		dbHoliday.setType(holiday.getType());
 		dbHoliday.setEmployee(holiday.getEmployee());
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
+		Employee employee = principal.getEmployee();
+		dbHoliday.setActivatedBy(employee.getName());
 		// dbHoliday.setHalfDay(holiday.isHalfDay());
 		// then save(update) to database
 		holidayRepository.save(dbHoliday);
