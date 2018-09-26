@@ -66,11 +66,7 @@ public class HolidayController {
 
 	@GetMapping(path = "/request")
 	public String createRequestForm(Model model) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
-		Employee employee = principal.getEmployee();
-		model.addAttribute("employeed", employee);
-		model.addAttribute("employeedId", employee.getId());
+
 		model.addAttribute("holiday", new Holiday());
 
 		List<HolidayType> holType = new ArrayList<HolidayType>();
@@ -84,7 +80,8 @@ public class HolidayController {
 
 	@PostMapping(path = "/request")
 	public String createRequestSubmit(@ModelAttribute @Valid Holiday holiday, Errors errors, Model model) {
-		if (errors.hasErrors()) {
+		System.out.println(holiday.getDay2());
+		if (errors.getErrorCount() > 1) {
 			model.addAttribute("employees", employeeRepository.findAll());
 			List<HolidayType> holType = new ArrayList<HolidayType>();
 			holType.add(HolidayType.FULL_DAY);
@@ -92,6 +89,11 @@ public class HolidayController {
 			model.addAttribute("holidayType", holType);
 			return "holidayRequest";
 		}
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
+		Employee employee = principal.getEmployee();
+		employee = employeeRepository.findOne(employee.getId());
+		holiday.setEmployee(employee);
 		holidayRepository.save(holiday);
 		return "holidayAllResult";
 

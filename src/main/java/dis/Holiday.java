@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
@@ -20,11 +21,18 @@ public class Holiday {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private HolidayType type;
+
 	@Future(message = "Only the future data is valid")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull(message = "Please provide a date.")
 	private Date day;
+	@Transient
+	@Future(message = "Only the future data is valid")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull(message = "Please provide a date.")
+	private Date day2;
 
 	@NotNull(message = "Please assign an employee")
 	@ManyToOne
@@ -60,6 +68,15 @@ public class Holiday {
 
 	public HolidayType getType() {
 		return type;
+
+	}
+
+	public Date getDay2() {
+		return day2;
+	}
+
+	public void setDay2(Date day2) {
+		this.day2 = day2;
 	}
 
 }
