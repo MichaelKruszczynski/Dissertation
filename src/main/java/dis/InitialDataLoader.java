@@ -116,6 +116,9 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 		createReportIfNotExists("Tk3", AccessLevel.ADMIN,
 				"select * from Holiday hol join Employee emp on emp.id=hol.employee_id where emp.name= :myName or emp.id=?");
 
+		createReportIfNotExists("myholidays", AccessLevel.ADMIN,
+				"select emp.name, count(hol.id) 'Taken Holidays'  , coalesce(emp.total_annual_holiday_days, 0 ) 'Annual Entitlement'  ,coalesce(emp.total_annual_holiday_days, 0 ) - count(hol.id) 'Remaining holidays' from employee emp left join holiday hol on hol.employee_id=emp.id  where  hol.activated_at is not null  and emp.id=:myId ;");
+
 		alreadySetup = true;
 	}
 

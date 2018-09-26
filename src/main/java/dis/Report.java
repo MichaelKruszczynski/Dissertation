@@ -1,5 +1,6 @@
 package dis;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,7 @@ public class Report {
 	@Size(min = 1, message = "Please input raport name")
 	private String name;
 
+	@Column(length = 5000)
 	@NotNull
 	@Size(min = 1, message = "Please input a query ")
 	private String query;

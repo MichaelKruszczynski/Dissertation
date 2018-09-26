@@ -19,6 +19,7 @@
 				<option th:each="employeeFromLoop : ${employees}" th:value="${employeeFromLoop.id}" th:text="${employeeFromLoop.name}"/>
 			</select>
 		</p>
+        <span th:errors="*{employee}" class="error"></span>
         <p>Day: <input type="text" th:id="datepicker" th:field="*{day}" autocomplete="off" /></p>
         <span th:errors="*{day}" class="error"></span>
         <p>HolidayType:

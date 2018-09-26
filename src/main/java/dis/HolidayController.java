@@ -97,18 +97,22 @@ public class HolidayController {
 		long daysBetween = holiday.getDay2().getTime() - holiday.getDay().getTime();
 		daysBetween = TimeUnit.DAYS.convert(daysBetween, TimeUnit.MILLISECONDS);
 		System.out.println("daysBetween:" + daysBetween);
+		Date holidayDate = holiday.getDay();
 		int index = (int) (daysBetween + 1);
 		for (int i = 0; i < index; i++) {
+			Holiday holidayToSave = new Holiday();
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
 			Employee employee = principal.getEmployee();
 			employee = employeeRepository.findOne(employee.getId());
-			holiday.setEmployee(employee);
-			holidayRepository.save(holiday);
-			holiday.setDay(new Date(holiday.getDay().getTime() + TimeUnit.DAYS.convert(1, TimeUnit.MILLISECONDS)));
+			holidayToSave.setType(holiday.getType());
+			holidayToSave.setEmployee(employee);
+			holidayToSave.setDay(holidayDate);
+			holidayToSave.setDay2(holidayDate);
+			holidayRepository.save(holidayToSave);
+			holidayDate = new Date(holidayDate.getTime() + TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
 		}
 		return "holidayAllResult";
-
 	}
 
 	@GetMapping(path = "/all")

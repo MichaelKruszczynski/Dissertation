@@ -8,15 +8,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "employee_id", "day", "type" }) })
 public class Holiday {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
