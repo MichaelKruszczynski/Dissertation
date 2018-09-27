@@ -12,7 +12,7 @@
 		
 	</tr>
 	<tr th:each="holiday : ${holiday }">
-		<td> <a th:href="@{/holiday /{id}/edit(id=${holiday .id})}" th:text="${holiday .id}"/></td>
+		<td> <a th:href="@{/holiday /{id}/edit(id=${holiday.id})}" th:text="${holiday.id}"/></td>
 		<td th:text="${holiday.day}"/>
 	</tr>
   </table>

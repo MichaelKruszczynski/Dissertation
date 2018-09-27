@@ -36,7 +36,6 @@ public class Holiday {
 	@Future(message = "Only the future data is valid")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@NotNull(message = "Please provide a date.")
 	private Date day2;
 
 	@NotNull(message = "Please assign an employee")

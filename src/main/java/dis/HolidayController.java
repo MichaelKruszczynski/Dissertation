@@ -2,6 +2,7 @@ package dis;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -61,10 +62,20 @@ public class HolidayController {
 			model.addAttribute("holidayType", holType);
 			return "holidayAdd";
 		}
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
-		Employee employee = principal.getEmployee();
-		holiday.setActivatedBy(employee.getName());
+
+		Employee employee = getCurrentUser();
+		Collection<Role> roles = getCurrentUser().getRoles();
+		boolean admin = false;
+		for (Role role : roles) {
+			if ("ROLE_ADMIN".equals(role.getName())) {
+				admin = true;
+				break;
+			}
+		}
+		if (admin && holiday.getEmployee().getId() != getCurrentUser().getId()) {
+			holiday.setActivatedBy(employee.getName());
+		}
+
 		holidayRepository.save(holiday);
 		return "holidayAddResult";
 	}
@@ -94,16 +105,18 @@ public class HolidayController {
 			model.addAttribute("holidayType", holType);
 			return "holidayRequest";
 		}
-		long daysBetween = holiday.getDay2().getTime() - holiday.getDay().getTime();
-		daysBetween = TimeUnit.DAYS.convert(daysBetween, TimeUnit.MILLISECONDS);
+		long daysBetween = 0;
+		if (holiday.getDay2() != null) {
+
+			daysBetween = holiday.getDay2().getTime() - holiday.getDay().getTime();
+			daysBetween = TimeUnit.DAYS.convert(daysBetween, TimeUnit.MILLISECONDS);
+		}
 		System.out.println("daysBetween:" + daysBetween);
 		Date holidayDate = holiday.getDay();
 		int index = (int) (daysBetween + 1);
 		for (int i = 0; i < index; i++) {
 			Holiday holidayToSave = new Holiday();
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
-			Employee employee = principal.getEmployee();
+			Employee employee = getCurrentUser();
 			employee = employeeRepository.findOne(employee.getId());
 			holidayToSave.setType(holiday.getType());
 			holidayToSave.setEmployee(employee);
@@ -115,6 +128,13 @@ public class HolidayController {
 		return "holidayAllResult";
 	}
 
+	private Employee getCurrentUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
+		Employee employee = principal.getEmployee();
+		return employeeRepository.findOne(employee.getId());
+	}
+
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<Holiday> findAll = holidayRepository.findAll();
@@ -123,6 +143,18 @@ public class HolidayController {
 		// return departmentRepository.findAll();
 
 		return "holidayAll";
+	}
+
+	@GetMapping(path = "/my")
+	public String readMy(Model model) {
+		Employee emp = getCurrentUser();
+		Iterable<Holiday> findAll = holidayRepository.findAllByEmployeeId(emp.getId());
+		model.addAttribute("holidays", findAll);
+		// this returns JSON or XML with the users
+		// return departmentRepository.findAll();
+
+		return "holidayMy";
+
 	}
 
 	@GetMapping(path = "/{id}")
@@ -155,6 +187,18 @@ public class HolidayController {
 		return readAll(model);
 	}
 
+	@RequestMapping(path = "/{id}/cancel")
+	public String createCancel(@PathVariable("id") long id, Model model) {
+		Holiday holiday = holidayRepository.findOne(id);
+		if (holiday.getDay().after(new Date())) {
+			holidayRepository.delete(holiday);
+			return readMy(model);
+		} else {
+			return "Holiday in the past";// @ TODO
+		}
+
+	}
+
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
 	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Holiday holiday, Errors errors,
 			Model model) {
@@ -173,10 +217,18 @@ public class HolidayController {
 		dbHoliday.setDay(holiday.getDay());
 		dbHoliday.setType(holiday.getType());
 		dbHoliday.setEmployee(holiday.getEmployee());
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
-		Employee employee = principal.getEmployee();
-		dbHoliday.setActivatedBy(employee.getName());
+		Employee employee = getCurrentUser();
+		Collection<Role> roles = getCurrentUser().getRoles();
+		boolean admin = false;
+		for (Role role : roles) {
+			if ("ROLE_ADMIN".equals(role.getName())) {
+				admin = true;
+				break;
+			}
+		}
+		if (admin && holiday.getEmployee().getId() != getCurrentUser().getId()) {
+			dbHoliday.setActivatedBy(employee.getName());
+		}
 		// dbHoliday.setHalfDay(holiday.isHalfDay());
 		// then save(update) to database
 		holidayRepository.save(dbHoliday);
@@ -186,14 +238,6 @@ public class HolidayController {
 		// keep in mind that you may be forced to change this one to catch the action
 		// type "submit" or "save" or something like this
 
-	}
-
-	@RequestMapping(path = "/delete/{id}")
-	public String createEdit(@ModelAttribute Holiday holiday, Model model) {
-		Holiday findOne = holidayRepository.findOne(holiday.getId());
-		holidayRepository.delete(findOne);
-
-		return readAll(model);
 	}
 
 	@InitBinder

@@ -9,4 +9,6 @@ import org.springframework.data.repository.CrudRepository;
  */
 
 public interface HolidayRepository extends CrudRepository<Holiday, Long> {
+
+	Iterable<Holiday> findAllByEmployeeId(long id);
 }
