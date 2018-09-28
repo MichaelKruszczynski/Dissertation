@@ -1,6 +1,7 @@
 package dis;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -164,6 +165,22 @@ public class Employee {
 
 	public Collection<Role> getRoles() {
 		return roles;
+	}
+
+	public boolean hasRole(Role role) {
+		return true;
+	}
+
+	public boolean hasRole(Role[] role) {
+		return true;
+	}
+
+	public boolean hasRole(List<Role> role) {
+		return true;
+	}
+
+	public boolean hasRole(Collection<Role> role) {
+		return true;
 	}
 
 	public void setRoles(Collection<Role> roles) {

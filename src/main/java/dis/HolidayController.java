@@ -11,6 +11,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,9 @@ public class HolidayController {
 		return "holiday";
 	}
 
+	// @PreAuthorize("hasRole('" + ProjectNames.ROLE_ADMIN + "')")
+	// @PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/add")
 	public String createForm(Model model) {
 		model.addAttribute("holiday", new Holiday());
@@ -52,6 +56,7 @@ public class HolidayController {
 		return "holidayAdd";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid Holiday holiday, Errors errors, Model model) {
 		if (errors.hasErrors()) {
@@ -135,12 +140,23 @@ public class HolidayController {
 		return employeeRepository.findOne(employee.getId());
 	}
 
+	@PreAuthorize("hasRole('" + ProjectNames.ROLE_ADMIN + "')")
+	// @PreAuthorize("hasRole('ADMIN')")
+	// @PreAuthorize("hasRole('ROLE_USER')")
+	// @PreAuthorize("hasRole('USER')")
+	// @PreAuthorize("hasAnyRole('ADMIN','USER')")
+	// @PreAuthorize("hasAnyRole('ADMIN','USER','ROLE_ADMIN','ROLE_USER')")
 	@GetMapping(path = "/all")
-	public String readAll(Model model) {
+	public String readAll(Model model, Authentication auth) {
 		Iterable<Holiday> findAll = holidayRepository.findAll();
 		model.addAttribute("holidays", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
+
+		return "holidayAll";
+	}
+
+	public String readAll(Model model) {
 
 		return "holidayAll";
 	}

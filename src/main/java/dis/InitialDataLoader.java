@@ -68,8 +68,8 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 		Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
 
 		List<Privilege> adminPrivileges = Arrays.asList(readPrivilege, writePrivilege);
-		createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
-		createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
+		createRoleIfNotFound(ProjectNames.ROLE_ADMIN, adminPrivileges);
+		createRoleIfNotFound(ProjectNames.ROLE_USER, Arrays.asList(readPrivilege));
 		String departmentName = "deptName";
 		Department department = departmentRepository.findByDepartmentName(departmentName);
 		if (department == null) {

@@ -13,7 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+// @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+// @Order(ManagementServerProperties.BASIC_AUTH_ORDER + 1)
+// @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER + 1)
+// @Order(SecurityProperties.IGNORED_ORDER)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private MyUserDetailsService userDetailsService;
@@ -21,7 +25,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
+		// auth.build();
 	}
+
+	// @Override
+	// protected void configure(HttpSecurity http) throws Exception {
+	// // TODO Auto-generated method stub
+	//// super.configure(http);
+	//// http.anyMatchers("/").hasAnyAuthority("ROLE_USER").anyRequest().authenticated();
+	// // .accessDecisionManager(accessDecisionManager());
+	// }
 
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
@@ -29,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		authProvider.setUserDetailsService(userDetailsService);
 		authProvider.setPasswordEncoder(getEncoder());
 		return authProvider;
+
 	}
 
 	@Bean
