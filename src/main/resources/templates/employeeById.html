@@ -8,17 +8,27 @@
  <table>
 	<tr>
 		<th>ID</th>
-		<th>Name</th>
+		<th>Employee Name</th>
+		<th>Employee No</th>
+		<th>Department</th>
+		<th>Employee Type</th>
+		<th>Access Level</th>
+		<th>Total Annual Holiday Days</th>
 		<th>Email Address</th>
 		<th>Password</th>
 		
 	</tr>
 	<tr th:each="employee : ${employee}">
 		<td> <a th:href="@{/employee/{id}/edit(id=${employee.id})}" th:text="${employee.id}"/></td>
-		<td th:text="${employee.Name}"/>
+			<td th:text="${employee.name}"/>
+		<td th:text="${employee.employeeNo}"/>
+		<td th:text="${employee.department.departmentName}"/>
+		<td th:text="${employee.type}"/>
+		<td th:text="${employee.accessLevel}"/>
+		<td th:text="${employee.totalAnnualHolidayDays}"/>
 		<td th:text="${employee.email}"/>
 		<td th:text="${employee.password}"/>
-	</tr>
+	</tr> 
   </table>
   
 </body>

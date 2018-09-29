@@ -25,6 +25,13 @@
 				<option th:each="EmployeeTypeFromLoop : ${EmployeeType}" th:value="${EmployeeTypeFromLoop}" th:text="${EmployeeTypeFromLoop}"/>
 			</select>
 		</p>
+		
+		    <p>Access Level:
+	        <select th:field="*{accessLevel}">
+				<option th:each="accessLevelFromLoop : ${accessLevel}" th:value="${accessLevelFromLoop}" th:text="${accessLevelFromLoop}"/>
+				</select>
+				</p>
+		
 		 <p>Total Annual Holiday Days: <input type="text" th:field="*{totalAnnualHolidayDays}" /></p>
 		 <span th:errors="*{totalAnnualHolidayDays}" class="error"></span>
 		 

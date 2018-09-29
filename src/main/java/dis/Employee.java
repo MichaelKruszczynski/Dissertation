@@ -31,6 +31,9 @@ public class Employee {
 
 	private EmployeeType type;
 
+	@NotNull
+	private AccessLevel accessLevel;
+
 	@Email
 	@Size(min = 1, message = "Please input email address")
 	private String email;
@@ -189,6 +192,14 @@ public class Employee {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public AccessLevel getAccessLevel() {
+		return accessLevel;
+	}
+
+	public void setAccessLevel(AccessLevel accessLevel) {
+		this.accessLevel = accessLevel;
 	}
 
 }

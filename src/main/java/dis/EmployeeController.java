@@ -45,7 +45,10 @@ public class EmployeeController {
 	public String createForm(Model model) {
 		model.addAttribute("employee", new Employee());
 		model.addAttribute("departments", departmentRepository.findAll());
-
+		List<AccessLevel> accessLevel = new ArrayList<AccessLevel>();
+		accessLevel.add(AccessLevel.ADMIN);
+		accessLevel.add(AccessLevel.USER);
+		model.addAttribute("accessLevel", accessLevel);
 		List<EmployeeType> empType = new ArrayList<EmployeeType>();
 		empType.add(EmployeeType.FULL_TIME);
 		empType.add(EmployeeType.PART_TIME);
@@ -59,7 +62,10 @@ public class EmployeeController {
 
 		if (errors.hasErrors()) {
 			model.addAttribute("departments", departmentRepository.findAll());
-
+			List<AccessLevel> accessLevel = new ArrayList<AccessLevel>();
+			accessLevel.add(AccessLevel.ADMIN);
+			accessLevel.add(AccessLevel.USER);
+			model.addAttribute("accessLevel", accessLevel);
 			List<EmployeeType> empType = new ArrayList<EmployeeType>();
 			empType.add(EmployeeType.FULL_TIME);
 			empType.add(EmployeeType.PART_TIME);
@@ -100,7 +106,10 @@ public class EmployeeController {
 		model.addAttribute("employee", employeeRepository.findOne(id));
 		model.addAttribute("departments", departmentRepository.findAll());
 		// this returns JSON or XML with the department
-
+		List<AccessLevel> accessLevel = new ArrayList<AccessLevel>();
+		accessLevel.add(AccessLevel.ADMIN);
+		accessLevel.add(AccessLevel.USER);
+		model.addAttribute("accessLevel", accessLevel);
 		List<EmployeeType> empType = new ArrayList<EmployeeType>();
 		empType.add(EmployeeType.FULL_TIME);
 		empType.add(EmployeeType.PART_TIME);
@@ -122,7 +131,10 @@ public class EmployeeController {
 	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Employee employee, Errors errors,
 			Model model) {
 		if (errors.hasErrors()) {
-
+			List<AccessLevel> accessLevel = new ArrayList<AccessLevel>();
+			accessLevel.add(AccessLevel.ADMIN);
+			accessLevel.add(AccessLevel.USER);
+			model.addAttribute("accessLevel", accessLevel);
 			model.addAttribute("departments", departmentRepository.findAll());
 			List<EmployeeType> empType = new ArrayList<EmployeeType>();
 			empType.add(EmployeeType.FULL_TIME);
@@ -140,6 +152,7 @@ public class EmployeeController {
 		dbEmployee.setDepartment(employee.getDepartment());
 		dbEmployee.setPassword(passwordEncoder.encode(employee.getPassword()));
 		dbEmployee.setTotalAnnualHolidayDays(employee.getTotalAnnualHolidayDays());
+		dbEmployee.setAccessLevel(employee.getAccessLevel());
 		// then save(update) to database
 		employeeRepository.save(dbEmployee);
 		return readAll(model); // and choose template to kick in afterwards
