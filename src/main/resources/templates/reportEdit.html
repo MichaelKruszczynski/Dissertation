@@ -26,7 +26,7 @@
 		<td th:text="${report.name}"/>
 		<td th:text="${report.query}"/>
 		<td th:text="${report.columnNames}"/>
-		<td th:text="${report.accessLevel}"/>
+		<td th:text="${report.role.name}"/>
 	</tr> 
   </table>
   	<form action="#" th:action="@{/report/{id}/edit(id=${report.id})}" th:object="${report}" method="post">
@@ -37,8 +37,8 @@
           <p>Column names: <input type="text" th:field="*{columnNames}" /></p>
          <span th:errors="*{columnNames}" class="error"></span>
          <p>Access Level:
-          <select th:field="*{accessLevel}">
-				<option th:each="accessLevelFromLoop : ${accessLevel}" th:value="${accessLevelFromLoop}" th:text="${accessLevelFromLoop}"/>
+          <select th:field="*{role}">
+				<option th:each="accessLevelFromLoop : ${accessLevel}" th:value="${accessLevelFromLoop.id}" th:text="${accessLevelFromLoop.name}"/>
 				</select>
 				</p>
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" /></p>
