@@ -31,7 +31,10 @@
 		<td th:text="${employee.employeeNo}"/>
 		<td th:text="${employee.department.departmentName}"/>
 		<td th:text="${employee.type}"/>
-		<td th:text="${employee.accessLevel}"/>
+		<td><th:block th:each="role : ${employee.roles}">
+                <span th:text="${role.name}">Dataset Field</span>
+        </th:block>
+		</td>
 		<td th:text="${employee.totalAnnualHolidayDays}"/>
 		<td th:text="${employee.email}"/>
 		<td th:text="${employee.password}"/>
@@ -56,7 +59,7 @@
 			</select>
 		</p>
 		  <p>Access Level:
-          <select th:field="*{accessLevel}">
+          <select th:field="*{roles}">
 				<option th:each="accessLevelFromLoop : ${accessLevel}" th:value="${accessLevelFromLoop}" th:text="${accessLevelFromLoop}"/>
 				</select>
 				</p>
