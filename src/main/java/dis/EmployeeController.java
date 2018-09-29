@@ -50,10 +50,7 @@ public class EmployeeController {
 	public String createForm(Model model) {
 		model.addAttribute("employee", new Employee());
 		model.addAttribute("departments", departmentRepository.findAll());
-		List<AccessLevel> accessLevel = new ArrayList<AccessLevel>();
-		accessLevel.add(AccessLevel.ADMIN);
-		accessLevel.add(AccessLevel.USER);
-		model.addAttribute("accessLevel", accessLevel);
+		model.addAttribute("accessLevel", roleRepository.findAll());
 		List<EmployeeType> empType = new ArrayList<EmployeeType>();
 		empType.add(EmployeeType.FULL_TIME);
 		empType.add(EmployeeType.PART_TIME);
