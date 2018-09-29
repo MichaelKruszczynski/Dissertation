@@ -148,7 +148,7 @@ public class HolidayController {
 	// @PreAuthorize("hasAnyRole('ADMIN','USER','ROLE_ADMIN','ROLE_USER')")
 	@GetMapping(path = "/all")
 	public String readAll(Model model, Authentication auth) {
-		Iterable<Holiday> findAll = holidayRepository.findAll();
+		Iterable<Holiday> findAll = holidayRepository.findAllByOrderByDayAsc();
 		model.addAttribute("holidays", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();

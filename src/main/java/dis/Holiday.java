@@ -28,12 +28,13 @@ public class Holiday {
 	private Timestamp activatedAt;
 	private String activatedBy;
 	@Future(message = "Only the future data is valid")
-
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull(message = "Please provide a date.")
 	private Date day;
+
 	@Transient
+	// @NotNull(message = "Please provide a date.")
 	@Future(message = "Only the future data is valid")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
