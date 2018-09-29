@@ -35,7 +35,7 @@
 		
 		    <p>Access Level:
 	        <select th:field="*{roles}">
-				<option th:each="accessLevelFromLoop : ${accessLevel}" th:value="${accessLevelFromLoop}" th:text="${accessLevelFromLoop}"/>
+				<option th:each="accessLevelFromLoop : ${accessLevel}" th:value="${accessLevelFromLoop.id}" th:text="${accessLevelFromLoop.name}"/>
 				</select>
 				</p>
 		
