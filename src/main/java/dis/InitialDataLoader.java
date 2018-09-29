@@ -94,41 +94,42 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 			employeeRepository.save(employee);
 			// userRepository.saveOrUpdate(user);
 		}
-		createReportIfNotExists("test", AccessLevel.ADMIN, "select * from Employee emp");
+		createReportIfNotExists("test", ProjectNames.ROLE_ADMIN, "select * from Employee emp");
 
-		createReportIfNotExists("test2", AccessLevel.ADMIN, "select emp.name from Employee emp");
+		createReportIfNotExists("test2", ProjectNames.ROLE_ADMIN, "select emp.name from Employee emp");
 
-		createReportIfNotExists("test3", AccessLevel.ADMIN, "select emp.name from Employee emp where emp.id=?");
+		createReportIfNotExists("test3", ProjectNames.ROLE_ADMIN, "select emp.name from Employee emp where emp.id=?");
 
-		createReportIfNotExists("test4", AccessLevel.ADMIN,
+		createReportIfNotExists("test4", ProjectNames.ROLE_ADMIN,
 				"select emp.name from Employee emp where emp.id=? and emp.name=?");
 
-		createReportIfNotExists("test5", AccessLevel.ADMIN,
+		createReportIfNotExists("test5", ProjectNames.ROLE_ADMIN,
 				"select emp.name, emp.total_Annual_Holiday_Days from Employee emp where emp.id=4");
 
-		createReportIfNotExists("test6", AccessLevel.ADMIN, "SELECT CURRENT_USER, emp.name from Employee emp");
+		createReportIfNotExists("test6", ProjectNames.ROLE_ADMIN, "SELECT CURRENT_USER, emp.name from Employee emp");
 
-		createReportIfNotExists("test7", AccessLevel.ADMIN, "select hol.day from Holiday hol");
+		createReportIfNotExists("test7", ProjectNames.ROLE_ADMIN, "select hol.day from Holiday hol");
 
-		createReportIfNotExists("Tk", AccessLevel.ADMIN, "select emp.* from Employee emp where name= :myName");
-		createReportIfNotExists("Tk2", AccessLevel.ADMIN, "select emp.* from Employee emp where name= :myName or id=?");
+		createReportIfNotExists("Tk", ProjectNames.ROLE_ADMIN, "select emp.* from Employee emp where name= :myName");
+		createReportIfNotExists("Tk2", ProjectNames.ROLE_ADMIN,
+				"select emp.* from Employee emp where name= :myName or id=?");
 
-		createReportIfNotExists("Tk3", AccessLevel.ADMIN,
+		createReportIfNotExists("Tk3", ProjectNames.ROLE_ADMIN,
 				"select * from Holiday hol join Employee emp on emp.id=hol.employee_id where emp.name= :myName or emp.id=?");
 
-		createReportIfNotExists("myholidays", AccessLevel.ADMIN,
+		createReportIfNotExists("myholidays", ProjectNames.ROLE_ADMIN,
 				"select emp.name, coalesce(emp.total_annual_holiday_days, 0 ) 'Annual Entitlement' , sum(if(hol.type=0,1,0.5)) 'Holidays Taken', coalesce(emp.total_annual_holiday_days, 0 ) - sum(if(hol.type=0,1,0.5)) 'Remaining holidays'  from employee emp left join holiday hol on hol.employee_id=emp.id where hol.activated_at is not null and emp.id=:myId group by emp.id;");
 
 		alreadySetup = true;
 	}
 
-	public void createReportIfNotExists(String name, AccessLevel accesslevel, String query) {
+	public void createReportIfNotExists(String name, String accesslevel, String query) {
 		Report fourthReport = reportRepository.findByName(name);
 		if (fourthReport == null) {
 			fourthReport = new Report();
 			fourthReport.setName(name);
 			fourthReport.setQuery(query);
-			fourthReport.setAccessLevel(accesslevel);
+			fourthReport.setRole(roleRepository.findByName(accesslevel));
 			fourthReport.setColumnNames("Not yet developed");
 			reportRepository.save(fourthReport);
 		}

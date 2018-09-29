@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -29,9 +30,9 @@ public class Report {
 	@NotNull
 	@Size(min = 1, message = "Please input a column names ")
 	private String columnNames;
-
+	@OneToMany
 	@NotNull
-	private AccessLevel accessLevel;
+	private Role role;
 
 	public String getName() {
 		return name;
@@ -65,12 +66,12 @@ public class Report {
 		this.columnNames = columnNames;
 	}
 
-	public AccessLevel getAccessLevel() {
-		return accessLevel;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setAccessLevel(AccessLevel accessLevel) {
-		this.accessLevel = accessLevel;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 }
