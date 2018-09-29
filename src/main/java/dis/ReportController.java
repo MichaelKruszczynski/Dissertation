@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -30,6 +31,7 @@ public class ReportController {
 		return "report";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/add")
 	public String createForm(Model model) {
 		model.addAttribute("report", "reportAdd");
@@ -41,6 +43,7 @@ public class ReportController {
 		return "reportAdd";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid Report report, Errors errors, Model model) {
 
@@ -56,6 +59,7 @@ public class ReportController {
 		return "reportAddResult";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<Report> findAll = reportRepository.findAll();
@@ -65,6 +69,7 @@ public class ReportController {
 		return "reportAll";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/{id}")
 	public String readById(@PathVariable("id") long id, Model model) {
 		model.addAttribute("report", reportRepository.findOne(id));
@@ -73,6 +78,7 @@ public class ReportController {
 
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	// @ TODO
 	@GetMapping(path = "/{id}/edit")
 	public String createEdit(@PathVariable("id") long id, Model model) {
@@ -87,6 +93,7 @@ public class ReportController {
 
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(path = "/{id}/edit", params = "edit=Delete")
 	public String createEditPostDelete(@PathVariable("id") long id, Model model) {
 		Report findOne = reportRepository.findOne(id);
@@ -94,6 +101,7 @@ public class ReportController {
 		return readAll(model);
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
 	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Report report, Errors errors,
 			Model model) {
@@ -121,6 +129,7 @@ public class ReportController {
 
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(path = "/delete/{id}")
 	public String createEdit(@ModelAttribute Report report, Model model) {
 		Report findOne = reportRepository.findOne(report.getId());

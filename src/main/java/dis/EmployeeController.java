@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +40,7 @@ public class EmployeeController {
 		return "employee";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/add")
 	public String createForm(Model model) {
 		model.addAttribute("employee", new Employee());
@@ -51,6 +53,7 @@ public class EmployeeController {
 		return "employeeAdd";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid Employee employee, Errors errors, Model model) {
 
@@ -69,6 +72,7 @@ public class EmployeeController {
 		return "employeeAddResult";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<Employee> findAll = employeeRepository.findAll();
@@ -79,6 +83,7 @@ public class EmployeeController {
 		return "employeeAll";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/{id}")
 	public String readById(@PathVariable("id") long id, Model model) {
 		model.addAttribute("employee", employeeRepository.findOne(id));
@@ -87,6 +92,7 @@ public class EmployeeController {
 
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	// @ TODO
 	@GetMapping(path = "/{id}/edit")
 	public String createEdit(@PathVariable("id") long id, Model model) {
@@ -103,6 +109,7 @@ public class EmployeeController {
 
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(path = "/{id}/edit", params = "edit=Delete")
 	public String createEditPostDelete(@PathVariable("id") long id, Model model) {
 		Employee findOne = employeeRepository.findOne(id);
@@ -110,6 +117,7 @@ public class EmployeeController {
 		return readAll(model);
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
 	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Employee employee, Errors errors,
 			Model model) {
@@ -142,6 +150,7 @@ public class EmployeeController {
 
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(path = "/delete/{id}")
 	public String createEdit(@ModelAttribute Employee employee, Model model) {
 		Employee findOne = employeeRepository.findOne(employee.getId());

@@ -3,6 +3,7 @@ package dis;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -26,12 +27,14 @@ public class TrainingController {
 		return "training";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/add")
 	public String createForm(Model model) {
 		model.addAttribute("training", new Training());
 		return "trainingAdd";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid Training training, Errors errors, Model model) {
 		if (errors.hasErrors()) {
@@ -43,6 +46,7 @@ public class TrainingController {
 		return "trainingAddResult";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<Training> findAll = trainingRepository.findAll();
@@ -52,6 +56,7 @@ public class TrainingController {
 		return "trainingAll";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/{id}")
 	public String readById(@PathVariable("id") long id, Model model) {
 		model.addAttribute("training", trainingRepository.findOne(id));
@@ -60,6 +65,7 @@ public class TrainingController {
 
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	// @ TODO
 	@GetMapping(path = "/{id}/edit")
 	public String createEdit(@PathVariable("id") long id, Model model) {
@@ -70,6 +76,7 @@ public class TrainingController {
 
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(path = "/{id}/edit", params = "edit=Delete")
 	public String createEditPostDelete(@PathVariable("id") long id, Model model) {
 		Training findOne = trainingRepository.findOne(id);
@@ -77,6 +84,7 @@ public class TrainingController {
 		return readAll(model);
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
 	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Training training, Errors errors,
 			Model model) {
@@ -101,6 +109,7 @@ public class TrainingController {
 
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(path = "/delete/{id}")
 	public String createEdit(@ModelAttribute Training training, Model model) {
 		Training findOne = trainingRepository.findOne(training.getId());
