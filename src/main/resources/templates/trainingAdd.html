@@ -5,7 +5,14 @@
   <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
 </head>
 <body>
-	<form action="#" th:action="@{/training/add}" th:object="${training}" method="post">
+<style>
+.error {
+	color: #ff0000;
+	font-style: italic;
+	font-weight: bold;
+}
+</style>
+<form action="#" th:action="@{/training/add}" th:object="${training}" method="post">
         <p>Name: <input type="text" th:field="*{name}" /></p>
         <span th:errors="*{name}" class="error"></span>
         <p>Version: <input type="text" th:field="*{version}" /></p>

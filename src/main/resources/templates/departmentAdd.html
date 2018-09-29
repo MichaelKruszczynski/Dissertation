@@ -5,6 +5,14 @@
   <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
 </head>
 <body>
+
+<style>
+.error {
+	color: #ff0000;
+	font-style: italic;
+	font-weight: bold;
+}
+</style>
 	<form action="#" th:action="@{/department/add}" th:object="${department}" method="post">
         <p>Name: <input type="text" th:field="*{departmentName}" /></p>
         <span th:errors="*{departmentName}" class="error"></span>
