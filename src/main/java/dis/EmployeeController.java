@@ -108,10 +108,7 @@ public class EmployeeController {
 		model.addAttribute("employee", employeeRepository.findOne(id));
 		model.addAttribute("departments", departmentRepository.findAll());
 		// this returns JSON or XML with the department
-		List<AccessLevel> accessLevel = new ArrayList<AccessLevel>();
-		accessLevel.add(AccessLevel.ADMIN);
-		accessLevel.add(AccessLevel.USER);
-		model.addAttribute("accessLevel", accessLevel);
+		model.addAttribute("accessLevel", roleRepository.findAll());
 		List<EmployeeType> empType = new ArrayList<EmployeeType>();
 		empType.add(EmployeeType.FULL_TIME);
 		empType.add(EmployeeType.PART_TIME);
