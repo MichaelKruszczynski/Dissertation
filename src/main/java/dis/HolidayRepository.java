@@ -1,5 +1,6 @@
 package dis;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -13,5 +14,8 @@ public interface HolidayRepository extends CrudRepository<Holiday, Long> {
 	Iterable<Holiday> findAllByEmployeeId(long id);
 
 	Iterable<Holiday> findAllByOrderByDayAsc();
+
+	@Query("SELECT hol FROM Holiday AS hol INNER JOIN hol.employee AS emp INNER JOIN emp.department as dep WHERE dep.id = ?1")
+	Iterable<Holiday> findAllByDepartmentByDayAsc(long departmentId);
 
 }

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 // This means that this class is a Controller
@@ -147,16 +148,11 @@ public class HolidayController {
 	// @PreAuthorize("hasAnyRole('ADMIN','USER')")
 	// @PreAuthorize("hasAnyRole('ADMIN','USER','ROLE_ADMIN','ROLE_USER')")
 	@GetMapping(path = "/all")
-	public String readAll(Model model, Authentication auth) {
+	public String readAll(Model model) {
 		Iterable<Holiday> findAll = holidayRepository.findAllByOrderByDayAsc();
 		model.addAttribute("holidays", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
-
-		return "holidayAll";
-	}
-
-	public String readAll(Model model) {
 
 		return "holidayAll";
 	}
@@ -168,18 +164,24 @@ public class HolidayController {
 	// @PreAuthorize("hasAnyRole('ADMIN','USER')")
 	// @PreAuthorize("hasAnyRole('ADMIN','USER','ROLE_ADMIN','ROLE_USER')")
 	@GetMapping(path = "/requested")
-	public String readRequested(Model model, Authentication auth) {
-		Iterable<Holiday> findAll = holidayRepository.findAllByOrderByDayAsc();
+	public String readRequested(Model model) {
+		Iterable<Holiday> findAll = holidayRepository
+				.findAllByDepartmentByDayAsc(getCurrentUser().getDepartment().getId());
+
 		model.addAttribute("holidays", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
 
-		return "holidayAll";
+		return "holidayRequested";
 	}
 
-	public String readRequested(Model model) {
+	@RequestMapping(path = "/{id}/accept")
+	public ModelAndView createAcceptRequested(@PathVariable("id") long id, Model model) {
+		Holiday holiday = holidayRepository.findOne(id);
+		holiday.setActivatedBy(getCurrentUser().getName());
+		holidayRepository.save(holiday);
 
-		return "holidayAll";
+		return new ModelAndView("redirect:/holiday/requested");
 	}
 
 	@GetMapping(path = "/my")
@@ -191,7 +193,6 @@ public class HolidayController {
 		// return departmentRepository.findAll();
 
 		return "holidayMy";
-
 	}
 
 	@GetMapping(path = "/{id}")
@@ -233,7 +234,13 @@ public class HolidayController {
 		} else {
 			return "Holiday in the past";// @ TODO
 		}
+	}
 
+	@RequestMapping(path = "/{id}/cancelRequest")
+	public ModelAndView createCancelRequest(@PathVariable("id") long id, Model model) {
+		Holiday holiday = holidayRepository.findOne(id);
+		holidayRepository.delete(holiday);
+		return new ModelAndView("redirect:/holiday/requested");
 	}
 
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")

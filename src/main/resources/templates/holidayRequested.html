@@ -11,6 +11,8 @@
 		<th>Day</th>
 		<th>Full/Half Day</th>
 		<th>Employee Name</th>
+		<th>Activated At</th>
+		<th>Activated By</th>
 		<th>Holiday Accept</th>
 		<th>Holiday Decline</th>
 	</tr>
@@ -19,8 +21,10 @@
 		<td th:text="${holiday.day}"/>
 		<td th:text="${holiday.type}"/>
 		<td th:text="${holiday.employee.name}"/>
-        <td><a th:href="@{/holiday/{id}/cancel(id=${holiday.id})}"><button type="button" name="cancel" value="Cancel">Accept</button></a></td>  
-	    <td><a th:href="@{/holiday/{id}/cancel(id=${holiday.id})}"><button type="button" name="cancel" value="Cancel">Decline</button></a></td>  
+		<td th:text="${holiday.activatedAt}"/>
+		<td th:text="${holiday.activatedBy}"/>
+        <td><a th:href="@{/holiday/{id}/accept(id=${holiday.id})}"><button type="button" name="accept" value="Accept">Accept</button></a></td>  
+	    <td><a th:href="@{/holiday/{id}/cancelRequest(id=${holiday.id})}"><button type="button" name="cancel" value="Cancel">Decline</button></a></td>  
 			</tr>
   </table>
  
