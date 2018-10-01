@@ -82,7 +82,11 @@ public class Holiday {
 	}
 
 	public void setDay2(Date day2) {
-		this.day2 = day2;
+		if (!day2.before(getDay())) {
+			this.day2 = day2;
+		} else {
+			throw new RuntimeException("Not correct date");
+		}
 	}
 
 	public Timestamp getActivatedAt() {

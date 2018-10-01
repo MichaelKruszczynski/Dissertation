@@ -161,6 +161,27 @@ public class HolidayController {
 		return "holidayAll";
 	}
 
+	@PreAuthorize("hasRole('" + ProjectNames.ROLE_ADMIN + "')")
+	// @PreAuthorize("hasRole('ADMIN')")
+	// @PreAuthorize("hasRole('ROLE_USER')")
+	// @PreAuthorize("hasRole('USER')")
+	// @PreAuthorize("hasAnyRole('ADMIN','USER')")
+	// @PreAuthorize("hasAnyRole('ADMIN','USER','ROLE_ADMIN','ROLE_USER')")
+	@GetMapping(path = "/requested")
+	public String readRequested(Model model, Authentication auth) {
+		Iterable<Holiday> findAll = holidayRepository.findAllByOrderByDayAsc();
+		model.addAttribute("holidays", findAll);
+		// this returns JSON or XML with the users
+		// return departmentRepository.findAll();
+
+		return "holidayAll";
+	}
+
+	public String readRequested(Model model) {
+
+		return "holidayAll";
+	}
+
 	@GetMapping(path = "/my")
 	public String readMy(Model model) {
 		Employee emp = getCurrentUser();

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ public class Employee {
 	private String name;
 
 	private EmployeeType type;
-
+	@Column(unique = true)
 	@Email
 	@Size(min = 1, message = "Please input email address")
 	private String email;
@@ -47,7 +48,7 @@ public class Employee {
 	// @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private Collection<Role> roles;
-
+	@Column(unique = true)
 	@NotNull
 	@Range(min = 1, message = "Please input employee number")
 	private int employeeNo;
