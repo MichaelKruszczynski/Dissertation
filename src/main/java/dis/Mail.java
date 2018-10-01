@@ -17,8 +17,8 @@ import javax.mail.internet.MimeMultipart;
 
 public class Mail {
 	private static Properties prop = null;
-	private final static String username = "username";
-	private final static String password = "password";
+	private final static String username = "dc5e2b2346382d";
+	private final static String password = "18bc60e21f5135";
 	private final static String companyEmail = "test@gmail.com";
 	private String toMail;
 
