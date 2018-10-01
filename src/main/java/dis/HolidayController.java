@@ -1,5 +1,6 @@
 package dis;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,7 +131,15 @@ public class HolidayController {
 			holidayToSave.setDay(holidayDate);
 			holidayToSave.setDay2(holidayDate);
 			holidayRepository.save(holidayToSave);
+			Employee currentUser = getCurrentUser();
 			holidayDate = new Date(holidayDate.getTime() + TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
+			try {
+				new Mail(holiday.getEmployee().getEmail()).sendMail("Holiday Requested",
+						"Your holiday request on " + holiday.getDay() + " was created and will be reviewed shortly");
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return "holidayAllResult";
 	}
@@ -180,6 +190,15 @@ public class HolidayController {
 		Holiday holiday = holidayRepository.findOne(id);
 		holiday.setActivatedBy(getCurrentUser().getName());
 		holidayRepository.save(holiday);
+		Employee currentUser = getCurrentUser();
+		try {
+			new Mail(holiday.getEmployee().getEmail()).sendMail("Holiday Accepted",
+					"Your holiday request on " + holiday.getDay() + " was accepted by " + currentUser.getName() + " on "
+							+ new Timestamp(System.currentTimeMillis()));
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return new ModelAndView("redirect:/holiday/requested");
 	}
@@ -230,6 +249,15 @@ public class HolidayController {
 		Holiday holiday = holidayRepository.findOne(id);
 		if (holiday.getDay().after(new Date())) {
 			holidayRepository.delete(holiday);
+			Employee currentUser = getCurrentUser();
+			try {
+				String message = "You cancelled your holiday request on " + holiday.getDay() + " was rejected by "
+						+ currentUser.getName() + " on " + new Timestamp(System.currentTimeMillis());
+				new Mail(holiday.getEmployee().getEmail()).sendMail("Holiday Request cancelled", message);
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return readMy(model);
 		} else {
 			return "Holiday in the past";// @ TODO
@@ -240,6 +268,15 @@ public class HolidayController {
 	public ModelAndView createCancelRequest(@PathVariable("id") long id, Model model) {
 		Holiday holiday = holidayRepository.findOne(id);
 		holidayRepository.delete(holiday);
+		try {
+			Employee currentUser = getCurrentUser();
+			new Mail(holiday.getEmployee().getEmail()).sendMail("Holiday Rejected",
+					"Your holiday request on " + holiday.getDay() + " was rejected by " + currentUser.getName() + " on "
+							+ new Timestamp(System.currentTimeMillis()));
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return new ModelAndView("redirect:/holiday/requested");
 	}
 
