@@ -14,6 +14,13 @@
 </head>
 <body>
 
+<style>
+.error {
+	color: #ff0000;
+	font-style: italic;
+	font-weight: bold;
+}
+</style>
 	<form action="#" th:action="@{/trainingrecord/add}" th:object="${trainingRecord}" method="post">
 	   
 	   
@@ -21,7 +28,7 @@
 	        <select th:field="*{employee}">
 				<option th:each="employeeFromLoop : ${employees}" th:value="${employeeFromLoop.id}" th:text="${employeeFromLoop.name}"/>
 			</select>
-			<span th:errors="*{day}" class="error"></span>
+			<span th:errors="*{employee}" class="error"></span>
 		</p>
 		
 		 <p>Trainings:

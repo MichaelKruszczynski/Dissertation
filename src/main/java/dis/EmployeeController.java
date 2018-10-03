@@ -51,6 +51,7 @@ public class EmployeeController {
 		model.addAttribute("employee", new Employee());
 		model.addAttribute("departments", departmentRepository.findAll());
 		model.addAttribute("accessLevel", roleRepository.findAll());
+		model.addAttribute("managers", employeeRepository.findAllManagers());
 		List<EmployeeType> empType = new ArrayList<EmployeeType>();
 		empType.add(EmployeeType.FULL_TIME);
 		empType.add(EmployeeType.PART_TIME);
@@ -98,13 +99,13 @@ public class EmployeeController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	// @ TODO
 	@GetMapping(path = "/{id}/edit")
 	public String createEdit(@PathVariable("id") long id, Model model) {
 		// with input provided
 		model.addAttribute("employee", employeeRepository.findOne(id));
 		model.addAttribute("departments", departmentRepository.findAll());
 		// this returns JSON or XML with the department
+		model.addAttribute("managers", employeeRepository.findAllManagers());
 		model.addAttribute("accessLevel", roleRepository.findAll());
 		List<EmployeeType> empType = new ArrayList<EmployeeType>();
 		empType.add(EmployeeType.FULL_TIME);
@@ -140,7 +141,7 @@ public class EmployeeController {
 		}
 		// doin't create new object here, read old one by id and update its properties
 		Employee dbEmployee = employeeRepository.findOne(id);
-		// update the properties with values comming from model
+		// update the properties with values coming from model
 		dbEmployee.setName(employee.getName());
 		dbEmployee.setType(employee.getType());
 		dbEmployee.setEmployeeNo(employee.getEmployeeNo());
@@ -148,6 +149,7 @@ public class EmployeeController {
 		dbEmployee.setDepartment(employee.getDepartment());
 		dbEmployee.setPassword(passwordEncoder.encode(employee.getPassword()));
 		dbEmployee.setTotalAnnualHolidayDays(employee.getTotalAnnualHolidayDays());
+		dbEmployee.setManager(employeeRepository.findOne(employee.getManager().getId()));
 		dbEmployee.setRoles(employee.getRoles());
 		// then save(update) to database
 		employeeRepository.save(dbEmployee);

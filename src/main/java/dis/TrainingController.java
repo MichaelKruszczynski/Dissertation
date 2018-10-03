@@ -49,7 +49,7 @@ public class TrainingController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
-		Iterable<Training> findAll = trainingRepository.findAll();
+		Iterable<Training> findAll = trainingRepository.findAllByOrderByName();
 		model.addAttribute("trainings", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();

@@ -1,7 +1,6 @@
 package dis;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -63,6 +62,9 @@ public class Employee {
 	// @NotNull
 	@ManyToOne
 	private Department department;
+
+	@ManyToOne
+	private Employee manager;
 
 	public void setName(String name) {
 		this.name = name;
@@ -169,19 +171,16 @@ public class Employee {
 	}
 
 	public boolean hasRole(Role role) {
-		return true;
+		return hasRole(role.getName());
 	}
 
-	public boolean hasRole(Role[] role) {
-		return true;
-	}
-
-	public boolean hasRole(List<Role> role) {
-		return true;
-	}
-
-	public boolean hasRole(Collection<Role> role) {
-		return true;
+	public boolean hasRole(String role) {
+		for (Role existingRole : roles) {
+			if (existingRole.getName().equals(role)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void setRoles(Collection<Role> roles) {
@@ -190,6 +189,14 @@ public class Employee {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public Employee getManager() {
+		return manager;
+	}
+
+	public void setManager(Employee manager) {
+		this.manager = manager;
 	}
 
 }

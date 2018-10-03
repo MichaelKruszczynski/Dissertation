@@ -19,7 +19,8 @@ public class Mail {
 	private static Properties prop = null;
 	private final static String username = "dc5e2b2346382d";
 	private final static String password = "18bc60e21f5135";
-	private final static String companyEmail = "test@gmail.com";
+	private final static String companyFromEmail = "test@gmail.com";
+	public final static String companyHrEmail = "testHR@gmail.com";
 	private String toMail;
 
 	public Mail(String toMail) {
@@ -55,7 +56,7 @@ public class Mail {
 		// sending:
 
 		Message message = new MimeMessage(session);
-		message.setFrom(new InternetAddress(companyEmail));
+		message.setFrom(new InternetAddress(companyFromEmail));
 		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toMail));
 		message.setSubject(subject);
 

@@ -69,6 +69,7 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 
 		List<Privilege> adminPrivileges = Arrays.asList(readPrivilege, writePrivilege);
 		createRoleIfNotFound(ProjectNames.ROLE_ADMIN, adminPrivileges);
+		createRoleIfNotFound(ProjectNames.ROLE_MANAGER, adminPrivileges);
 		createRoleIfNotFound(ProjectNames.ROLE_USER, Arrays.asList(readPrivilege));
 		String departmentName = "deptName";
 		Department department = departmentRepository.findByDepartmentName(departmentName);
@@ -91,6 +92,7 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 			employee.setDepartment(department);
 			employee.setTotalAnnualHolidayDays(686);
 			employee.setEmployeeNo(665);
+			employee.setManager(employee);
 			employeeRepository.save(employee);
 			// userRepository.saveOrUpdate(user);
 		}
@@ -119,6 +121,14 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 
 		createReportIfNotExists("myholidays", ProjectNames.ROLE_ADMIN,
 				"select emp.name, coalesce(emp.total_annual_holiday_days, 0 ) 'Annual Entitlement' , sum(if(hol.type=0,1,0.5)) 'Holidays Taken', coalesce(emp.total_annual_holiday_days, 0 ) - sum(if(hol.type=0,1,0.5)) 'Remaining holidays'  from employee emp left join holiday hol on hol.employee_id=emp.id where hol.activated_at is not null and emp.id=:myId group by emp.id;");
+		createReportIfNotExists("holidaysTakenByWeek", ProjectNames.ROLE_ADMIN,
+				" select week,count(distinct empid) as 'Employees on Holiday',count(id) as 'Holidays taken',sum(day_value) as 'Days taken',sum(day_value)*7.5 'Hours taken',departmentName,total_hours_available 'Total hours',total_hours_available-(sum(day_value)*7.5) 'Hours remaining' from (select hol.id,hol.type,hol.employee_id empid, hol.day, week(hol.day,5) week,if(hol.type=0,1,0.5) day_value,hol.activated_at,hol.activated_by,dept.department_name departmentName, dept.total_hours_available from holiday hol inner join employee emp on hol.employee_id=emp.id inner join Department dept on dept.id=emp.department_id where hol.activated_by is not null) z group by week order by week desc;");
+		createReportIfNotExists("holidaysTakenByDepartmentByWeek", ProjectNames.ROLE_ADMIN,
+				" select week,count(distinct empid) as 'Employees on Holiday',count(id) as 'Holidays taken',sum(day_value) as 'Days taken',sum(day_value)*7.5 'Hours taken',departmentName,total_hours_available 'Total hours',total_hours_available-(sum(day_value)*7.5) 'Hours remaining' from (select hol.id,hol.type,hol.employee_id empid, hol.day, week(hol.day,5) week,if(hol.type=0,1,0.5) day_value,hol.activated_at,hol.activated_by,dept.department_name departmentName, dept.total_hours_available from holiday hol inner join employee emp on hol.employee_id=emp.id inner join Department dept on dept.id=emp.department_id where dept.department_name=? and hol.activated_by is not null) z group by week order by week desc;");
+		createReportIfNotExists("holidaysTakenByDay", ProjectNames.ROLE_ADMIN,
+				" select day,count(distinct empid) as 'Employees on Holiday',count(id) as 'Holidays taken',sum(day_value) as 'Days taken',sum(day_value)*7.5 'Hours taken',departmentName from (select hol.id,hol.type,hol.employee_id empid, hol.day, if(hol.type=0,1,0.5) day_value,dept.department_name departmentName from holiday hol inner join employee emp on hol.employee_id=emp.id inner join Department dept on dept.id=emp.department_id where hol.activated_by is not null ) z group by day order by day desc");
+		createReportIfNotExists("holidaysTakenByDepartmentByDay", ProjectNames.ROLE_ADMIN,
+				" select day,count(distinct empid) as 'Employees on Holiday',count(id) as 'Holidays taken',sum(day_value) as 'Days taken',sum(day_value)*7.5 'Hours taken',departmentName from (select hol.id,hol.type,hol.employee_id empid, hol.day, if(hol.type=0,1,0.5) day_value,dept.department_name departmentName from holiday hol inner join employee emp on hol.employee_id=emp.id inner join Department dept on dept.id=emp.department_id where dept.department_name=? and hol.activated_by is not null ) z group by day order by day desc");
 
 		alreadySetup = true;
 	}

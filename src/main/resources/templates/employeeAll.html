@@ -13,6 +13,7 @@
 		<th>Department</th>
 		<th>Employee Type</th>
 		<th>Access Level</th>
+		<th>Manager</th>
 		<th>Total Annual Holiday Days</th>
 		<th>Email</th>
 		<th>Password</th>
@@ -28,6 +29,7 @@
                 <span th:text="${role.name}">Dataset Field</span>
         </th:block>
 		</td>
+		<td th:text="${employee.manager.name}"/>
 		<td th:text="${employee.totalAnnualHolidayDays}"/>
 		<td th:text="${employee.email}"/>
 		<td th:text="${employee.password}"/>

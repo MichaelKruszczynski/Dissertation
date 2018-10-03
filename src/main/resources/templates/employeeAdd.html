@@ -44,8 +44,20 @@
 		 		 
 		   <p>Email address: <input type="text" th:field="*{email}" /></p>
         <span th:errors="*{email}" class="error"></span>
+        
+           
+        <p>Manager:
+	        <select th:field="*{manager}">
+	       
+				<option th:each="managerFromLoop : ${managers}" th:value="${managerFromLoop.id}" th:text="${managerFromLoop.name}"/>
+			</select>
+        <span th:errors="*{manager}" class="error"></span>
+		</p>
+        
           <p>Password: <input type="text" th:field="*{password}" /></p>
         <span th:errors="*{password}" class="error"></span>
+        
+     
 		
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
     </form>  

@@ -18,4 +18,10 @@ public interface HolidayRepository extends CrudRepository<Holiday, Long> {
 	@Query("SELECT hol FROM Holiday AS hol INNER JOIN hol.employee AS emp INNER JOIN emp.department as dep WHERE dep.id = ?1")
 	Iterable<Holiday> findAllByDepartmentByDayAsc(long departmentId);
 
+	@Query("SELECT hol FROM Holiday AS hol INNER JOIN hol.employee AS emp INNER JOIN emp.department as dep WHERE dep.id = ?1 AND emp.id != ?2")
+	Iterable<Holiday> findAllByDepartmentByDayAscExcludingEmployee(long departmentId, long employeeId);
+
+	@Query("SELECT hol FROM Holiday AS hol INNER JOIN hol.employee AS emp INNER JOIN emp.manager as man WHERE man.id = ?1")
+	Iterable<Holiday> findAllWhereEmployeeIsManager(long id);
+
 }

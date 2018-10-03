@@ -1,9 +1,11 @@
 package dis;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -38,6 +41,8 @@ public class HolidayController {
 	private HolidayRepository holidayRepository;
 	@Autowired
 	private EmployeeRepository employeeRepository;
+
+	private static DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
 	@RequestMapping
 	public String main() {
@@ -121,27 +126,42 @@ public class HolidayController {
 		}
 		System.out.println("daysBetween:" + daysBetween);
 		Date holidayDate = holiday.getDay();
+		Date firstHolidayDate = holiday.getDay();
+		Holiday lastHoliday = null;
 		int index = (int) (daysBetween + 1);
 		for (int i = 0; i < index; i++) {
-			Holiday holidayToSave = new Holiday();
 			Employee employee = getCurrentUser();
 			employee = employeeRepository.findOne(employee.getId());
+			Holiday holidayToSave = new Holiday();
 			holidayToSave.setType(holiday.getType());
 			holidayToSave.setEmployee(employee);
 			holidayToSave.setDay(holidayDate);
 			holidayToSave.setDay2(holidayDate);
 			holidayRepository.save(holidayToSave);
-			Employee currentUser = getCurrentUser();
+			lastHoliday = holidayToSave;
 			holidayDate = new Date(holidayDate.getTime() + TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
-			try {
-				new Mail(holiday.getEmployee().getEmail()).sendMail("Holiday Requested",
-						"Your holiday request on " + holiday.getDay() + " was created and will be reviewed shortly");
-			} catch (MessagingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
+		}
+		try {
+			// inform employee
+			new Mail(lastHoliday.getEmployee().getEmail()).sendMail("Holiday Requested",
+					"Your holiday request for " + dateFormat(firstHolidayDate) + " - "
+							+ dateFormat(lastHoliday.getDay()) + " was created and will be reviewed shortly");
+
+			// now inform manager
+			Employee manager = lastHoliday.getEmployee().getManager();
+			new Mail(manager.getEmail()).sendMail("Holiday Requested",
+					"Employee " + lastHoliday.getEmployee().getEmail() + " requested a "
+							+ ((HolidayType.HALF_DAY.equals(lastHoliday.getType()) ? "" : "half day")) + " holiday on "
+							+ dateFormat(firstHolidayDate) + " - " + dateFormat(lastHoliday.getDay()));
+		} catch (MessagingException e) {
+			e.printStackTrace();
 		}
 		return "holidayAllResult";
+	}
+
+	private String dateFormat(Date day) {
+		return dateFormat.format(day);
 	}
 
 	private Employee getCurrentUser() {
@@ -159,6 +179,7 @@ public class HolidayController {
 	// @PreAuthorize("hasAnyRole('ADMIN','USER','ROLE_ADMIN','ROLE_USER')")
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
+
 		Iterable<Holiday> findAll = holidayRepository.findAllByOrderByDayAsc();
 		model.addAttribute("holidays", findAll);
 		// this returns JSON or XML with the users
@@ -167,16 +188,15 @@ public class HolidayController {
 		return "holidayAll";
 	}
 
-	@PreAuthorize("hasRole('" + ProjectNames.ROLE_ADMIN + "')")
-	// @PreAuthorize("hasRole('ADMIN')")
-	// @PreAuthorize("hasRole('ROLE_USER')")
-	// @PreAuthorize("hasRole('USER')")
-	// @PreAuthorize("hasAnyRole('ADMIN','USER')")
-	// @PreAuthorize("hasAnyRole('ADMIN','USER','ROLE_ADMIN','ROLE_USER')")
+	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/requested")
 	public String readRequested(Model model) {
-		Iterable<Holiday> findAll = holidayRepository
-				.findAllByDepartmentByDayAsc(getCurrentUser().getDepartment().getId());
+		Iterable<Holiday> findAll = null;
+		if (getCurrentUser().hasRole(ProjectNames.ROLE_ADMIN)) {
+			findAll = holidayRepository.findAllByDepartmentByDayAsc(getCurrentUser().getDepartment().getId());
+		} else {
+			findAll = holidayRepository.findAllWhereEmployeeIsManager(getCurrentUser().getId());
+		}
 
 		model.addAttribute("holidays", findAll);
 		// this returns JSON or XML with the users
@@ -185,19 +205,159 @@ public class HolidayController {
 		return "holidayRequested";
 	}
 
-	@RequestMapping(path = "/{id}/accept")
-	public ModelAndView createAcceptRequested(@PathVariable("id") long id, Model model) {
-		Holiday holiday = holidayRepository.findOne(id);
-		holiday.setActivatedBy(getCurrentUser().getName());
-		holidayRepository.save(holiday);
-		Employee currentUser = getCurrentUser();
+	@SuppressWarnings("unchecked")
+	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
+	@PostMapping(path = "/requested", params = "edit=Accept")
+	public ModelAndView acceptRequested(@RequestParam(value = "holidayIds", required = true) Long[] holidayIds,
+			Model model) {
+		List<Holiday> holidays = new ArrayList<Holiday>();
+		for (Long holidayId : holidayIds) {
+			holidays.add(holidayRepository.findOne(holidayId));
+		}
+		Collections.sort(holidays, new HolidayComparator());
+
+		boolean chain = false;
+		Holiday firstChainHoliday = null;
+		Holiday currentChainHoliday = null;
+		for (int i = 0; i < holidays.size(); i++) {
+			chain = false;
+			Holiday currentHoliday = holidays.get(i);
+			{ // save first in case messages cause some unknown exception
+				Holiday holidayToSave = holidayRepository.findOne(currentHoliday.getId());
+				holidayToSave.setActivatedBy(getCurrentUser().getEmail());
+				holidayRepository.save(holidayToSave);
+			}
+			if (firstChainHoliday == null) {
+				firstChainHoliday = currentHoliday;
+			} else {
+				if (firstChainHoliday.getEmployee().getId() == currentHoliday.getEmployee().getId()) {
+					int daysBetween = daysBetween(firstChainHoliday.getDay(), currentHoliday.getDay());
+					if (daysBetween == 1) {
+						currentChainHoliday = currentHoliday;
+						chain = true;
+					}
+				}
+				if (!chain) {
+					sendRequestAcceptatedMessages(firstChainHoliday, currentChainHoliday);
+					firstChainHoliday = currentHoliday;
+					currentChainHoliday = null;
+				}
+			}
+
+		}
+		if (firstChainHoliday != null) {
+			sendRequestAcceptatedMessages(firstChainHoliday, currentChainHoliday);
+		}
+
+		return new ModelAndView("redirect:/holiday/requested");
+	}
+
+	private void sendRequestAcceptatedMessages(Holiday firstChainHoliday, Holiday currentChainHoliday) {
 		try {
-			new Mail(holiday.getEmployee().getEmail()).sendMail("Holiday Accepted",
-					"Your holiday request on " + holiday.getDay() + " was accepted by " + currentUser.getName() + " on "
-							+ new Timestamp(System.currentTimeMillis()));
+			// mail to User
+			String userMessage = "Your holiday request on " + dateFormat(firstChainHoliday.getDay());
+			if (currentChainHoliday != null) {
+				userMessage += " - " + dateFormat(currentChainHoliday.getDay());
+			}
+			userMessage += " was accepted by " + getCurrentUser().getName() + " on "
+					+ dateFormat(new Timestamp(System.currentTimeMillis()));
+			new Mail(firstChainHoliday.getEmployee().getEmail()).sendMail("Holiday Accepted", userMessage);
+
+			// mail to HR
+			String hrMessage = "Employee's " + firstChainHoliday.getEmployee().getName() + " holiday request on "
+					+ dateFormat(firstChainHoliday.getDay());
+			if (currentChainHoliday != null) {
+				hrMessage += " - " + dateFormat(currentChainHoliday.getDay());
+			}
+			hrMessage += " was accepted by " + getCurrentUser().getName() + " on "
+					+ dateFormat(new Timestamp(System.currentTimeMillis()));
+			new Mail(Mail.companyHrEmail).sendMail("Holiday Accepted", hrMessage);
+
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	private void sendRequestDeclinedMessages(Holiday firstChainHoliday, Holiday currentChainHoliday) {
+		try {
+			// mail to User
+			String userMessage = "Your holiday request on " + dateFormat(firstChainHoliday.getDay());
+			if (currentChainHoliday != null) {
+				userMessage += " - " + dateFormat(currentChainHoliday.getDay());
+			}
+			userMessage += " was declined by " + getCurrentUser().getName() + " on "
+					+ dateFormat(new Timestamp(System.currentTimeMillis()));
+			new Mail(firstChainHoliday.getEmployee().getEmail()).sendMail("Holiday Accepted", userMessage);
+
+			// mail to HR
+			String hrMessage = "Employee's " + firstChainHoliday.getEmployee().getName() + " holiday request on "
+					+ dateFormat(firstChainHoliday.getDay());
+			if (currentChainHoliday != null) {
+				hrMessage += " - " + dateFormat(currentChainHoliday.getDay());
+			}
+			hrMessage += " was declined by " + getCurrentUser().getName() + " on "
+					+ dateFormat(new Timestamp(System.currentTimeMillis()));
+			new Mail(Mail.companyHrEmail).sendMail("Holiday Accepted", hrMessage);
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
+	@PostMapping(path = "/requested", params = "edit=Decline")
+	public ModelAndView declineRequested(@RequestParam(value = "holidayIds", required = true) Long[] holidayIds,
+			Model model) {
+		List<Holiday> holidays = new ArrayList<Holiday>();
+		for (Long holidayId : holidayIds) {
+			holidays.add(holidayRepository.findOne(holidayId));
+		}
+		Collections.sort(holidays, new HolidayComparator());
+
+		boolean chain = false;
+		Holiday firstChainHoliday = null;
+		Holiday currentChainHoliday = null;
+		List<Holiday> chainedHolidays = new ArrayList<Holiday>();
+		for (int i = 0; i < holidays.size(); i++) {
+			chain = false;
+			Holiday currentHoliday = holidays.get(i);
+			if (firstChainHoliday == null) {
+				firstChainHoliday = currentHoliday;
+				chainedHolidays.add(firstChainHoliday);
+			} else {
+				if (firstChainHoliday.getEmployee().getId() == currentHoliday.getEmployee().getId()) {
+					int daysBetween = daysBetween(firstChainHoliday.getDay(), currentHoliday.getDay());
+					if (daysBetween == 1) {
+						currentChainHoliday = currentHoliday;
+						chain = true;
+						chainedHolidays.add(currentChainHoliday);
+					}
+				}
+				if (!chain) {
+					for (Holiday holidayToRemove : chainedHolidays) {
+						Holiday findOne = holidayRepository.findOne(holidayToRemove.getId());
+						if (findOne.getActivatedBy() == null || getCurrentUser().hasRole(ProjectNames.ROLE_ADMIN)) {
+							holidayRepository.delete(findOne);
+						}
+					}
+					chainedHolidays.clear();
+					sendRequestDeclinedMessages(firstChainHoliday, currentChainHoliday);
+					firstChainHoliday = currentHoliday;
+					chainedHolidays.add(currentHoliday);
+					currentChainHoliday = null;
+				}
+			}
+
+		}
+		if (firstChainHoliday != null) {
+			for (Holiday holidayToRemove : chainedHolidays) {
+				Holiday findOne = holidayRepository.findOne(holidayToRemove.getId());
+				if (findOne.getActivatedBy() == null || getCurrentUser().hasRole(ProjectNames.ROLE_ADMIN)) {
+					holidayRepository.delete(findOne);
+				}
+			}
+			sendRequestAcceptatedMessages(firstChainHoliday, currentChainHoliday);
 		}
 
 		return new ModelAndView("redirect:/holiday/requested");
@@ -251,8 +411,9 @@ public class HolidayController {
 			holidayRepository.delete(holiday);
 			Employee currentUser = getCurrentUser();
 			try {
-				String message = "You cancelled your holiday request on " + holiday.getDay() + " was rejected by "
-						+ currentUser.getName() + " on " + new Timestamp(System.currentTimeMillis());
+				String message = "You cancelled your holiday request on " + dateFormat(holiday.getDay())
+						+ " was rejected by " + currentUser.getName() + " on "
+						+ dateFormat(new Timestamp(System.currentTimeMillis()));
 				new Mail(holiday.getEmployee().getEmail()).sendMail("Holiday Request cancelled", message);
 			} catch (MessagingException e) {
 				// TODO Auto-generated catch block
@@ -271,8 +432,8 @@ public class HolidayController {
 		try {
 			Employee currentUser = getCurrentUser();
 			new Mail(holiday.getEmployee().getEmail()).sendMail("Holiday Rejected",
-					"Your holiday request on " + holiday.getDay() + " was rejected by " + currentUser.getName() + " on "
-							+ new Timestamp(System.currentTimeMillis()));
+					"Your holiday request on " + dateFormat(holiday.getDay()) + " was rejected by "
+							+ currentUser.getName() + " on " + dateFormat(new Timestamp(System.currentTimeMillis())));
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -298,19 +459,7 @@ public class HolidayController {
 		dbHoliday.setDay(holiday.getDay());
 		dbHoliday.setType(holiday.getType());
 		dbHoliday.setEmployee(holiday.getEmployee());
-		Employee employee = getCurrentUser();
-		Collection<Role> roles = getCurrentUser().getRoles();
-		boolean admin = false;
-		for (Role role : roles) {
-			if ("ROLE_ADMIN".equals(role.getName())) {
-				admin = true;
-				break;
-			}
-		}
-		if (admin && holiday.getEmployee().getId() != getCurrentUser().getId()) {
-			dbHoliday.setActivatedBy(employee.getName());
-		}
-		// dbHoliday.setHalfDay(holiday.isHalfDay());
+		// Employee employee = getCurrentUser();
 		// then save(update) to database
 		holidayRepository.save(dbHoliday);
 		return readAll(model); // and choose template to kick in afterwards
@@ -326,5 +475,9 @@ public class HolidayController {
 		dataBinder.setDisallowedFields("id");
 		dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
 
+	}
+
+	public int daysBetween(Date d1, Date d2) {
+		return (int) ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
 	}
 }

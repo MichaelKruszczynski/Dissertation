@@ -11,6 +11,8 @@
 		<th>Day</th>
 		<th>Full/Half Day</th>
 		<th>Employee Name</th>
+		<th>Accepted By</th>
+		<th>Accepted At</th>
 		
 	</tr>
 	<tr th:each="holiday : ${holidays}">
@@ -18,6 +20,8 @@
 		<td th:text="${holiday.day}"/>
 		<td th:text="${holiday.type}"/>
 		<td th:text="${holiday.employee.name}"/>
+		<td th:text="${holiday.activatedBy}"/>
+		<td th:text="${holiday.activatedAt}"/>
 	</tr>
   </table>
  
