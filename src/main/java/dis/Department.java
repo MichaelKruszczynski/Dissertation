@@ -22,14 +22,14 @@ public class Department {
 
 	@NotNull
 	@Size(min = 1, message = "Please input department name")
-	private String departmentName;
+	private String name;
 
-	public String getDepartmentName() {
-		return departmentName;
+	public String getName() {
+		return name;
 	}
 
-	public void setDepartmentName(String departmentName) {
-		this.departmentName = departmentName;
+	public void setName(String name) {
+		this.name = name;
 
 	}
 
@@ -48,11 +48,5 @@ public class Department {
 	public void setId(long id) {
 		this.id = id;
 	}
-
-	// @Override
-	// public String toString() {
-	// return "Department(Name: " + this.departmentName + ")";
-	//
-	// }
 
 }

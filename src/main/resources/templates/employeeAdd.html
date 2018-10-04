@@ -20,7 +20,7 @@
         <p>Department:
 	        <select th:field="*{department}">
 	       
-				<option th:each="departmentFromLoop : ${departments}" th:value="${departmentFromLoop.id}" th:text="${departmentFromLoop.departmentName}"/>
+				<option th:each="departmentFromLoop : ${departments}" th:value="${departmentFromLoop.id}" th:text="${departmentFromLoop.name}"/>
 			</select>
 		</p>
 		

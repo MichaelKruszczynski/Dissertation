@@ -14,7 +14,7 @@
 	</tr>
 	<tr th:each="department : ${departments}">
 		<td> <a th:href="@{/department/{id}/edit(id=${department.id})}" th:text="${department.id}"/></td>
-		<td th:text="${department.departmentName}"/>
+		<td th:text="${department.name}"/>
 		<td th:text="${department.totalHoursAvailable}"/>
 		
 	</tr>

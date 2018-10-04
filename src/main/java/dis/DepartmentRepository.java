@@ -10,5 +10,8 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface DepartmentRepository extends CrudRepository<Department, Long> {
 
-	Department findByDepartmentName(String departmentName);
+	Department findByName(String departmentName);
+
+	Iterable<Department> findAllByOrderByNameAsc();
+
 }

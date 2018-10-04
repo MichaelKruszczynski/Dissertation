@@ -52,7 +52,7 @@ public class DepartmentController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
-		Iterable<Department> findAll = departmentRepository.findAll();
+		Iterable<Department> findAll = departmentRepository.findAllByOrderByNameAsc();
 		model.addAttribute("departments", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
@@ -99,7 +99,7 @@ public class DepartmentController {
 		Department dbDepartment = departmentRepository.findOne(id);
 		// update the properties with values comming from model
 		dbDepartment.setTotalHoursAvailable(department.getTotalHoursAvailable());
-		dbDepartment.setDepartmentName(department.getDepartmentName());
+		dbDepartment.setName(department.getName());
 		// then save(update) to database
 		departmentRepository.save(dbDepartment);
 		return readAll(model); // and choose template to kick in afterwards

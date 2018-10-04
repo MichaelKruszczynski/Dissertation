@@ -22,7 +22,7 @@
 		<td> <a th:href="@{/employee/{id}/edit(id=${employee.id})}" th:text="${employee.id}"/></td>
 			<td th:text="${employee.name}"/>
 		<td th:text="${employee.employeeNo}"/>
-		<td th:text="${employee.department.departmentName}"/>
+		<td th:text="${employee.department.name}"/>
 		<td th:text="${employee.type}"/>
 		<td th:text="${employee.accessLevel}"/>
 		<td th:text="${employee.totalAnnualHolidayDays}"/>

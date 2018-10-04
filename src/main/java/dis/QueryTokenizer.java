@@ -21,7 +21,7 @@ public class QueryTokenizer {
 		String currentPrincipalName = authentication.getName();
 		avaliableTokens = new HashMap<String, String>();
 		avaliableTokens.put("myName", employee.getName());
-		avaliableTokens.put("myDepartment", employee.getDepartment().getDepartmentName());
+		avaliableTokens.put("myDepartment", employee.getDepartment().getName());
 		avaliableTokens.put("myEmail", employee.getEmail());
 		avaliableTokens.put("myEmployeeNo", "" + employee.getEmployeeNo());
 		avaliableTokens.put("myId", "" + employee.getId());

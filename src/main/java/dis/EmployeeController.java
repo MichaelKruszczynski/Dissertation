@@ -49,7 +49,7 @@ public class EmployeeController {
 	@GetMapping(path = "/add")
 	public String createForm(Model model) {
 		model.addAttribute("employee", new Employee());
-		model.addAttribute("departments", departmentRepository.findAll());
+		model.addAttribute("departments", departmentRepository.findAllByOrderByNameAsc());
 		model.addAttribute("accessLevel", roleRepository.findAll());
 		model.addAttribute("managers", employeeRepository.findAllManagers());
 		List<EmployeeType> empType = new ArrayList<EmployeeType>();
@@ -64,7 +64,7 @@ public class EmployeeController {
 	public String createSubmit(@ModelAttribute @Valid Employee employee, Errors errors, Model model) {
 
 		if (errors.hasErrors()) {
-			model.addAttribute("departments", departmentRepository.findAll());
+			model.addAttribute("departments", departmentRepository.findAllByOrderByNameAsc());
 			model.addAttribute("accessLevel", roleRepository.findAll());
 			model.addAttribute("managers", employeeRepository.findAllManagers());
 			List<EmployeeType> empType = new ArrayList<EmployeeType>();
@@ -104,7 +104,7 @@ public class EmployeeController {
 	public String createEdit(@PathVariable("id") long id, Model model) {
 		// with input provided
 		model.addAttribute("employee", employeeRepository.findOne(id));
-		model.addAttribute("departments", departmentRepository.findAll());
+		model.addAttribute("departments", departmentRepository.findAllByOrderByNameAsc());
 		// this returns JSON or XML with the department
 		model.addAttribute("managers", employeeRepository.findAllManagers());
 		model.addAttribute("accessLevel", roleRepository.findAll());
@@ -133,7 +133,7 @@ public class EmployeeController {
 			// accessLevel.add(AccessLevel.ADMIN);
 			// accessLevel.add(AccessLevel.USER);
 			model.addAttribute("accessLevel", roleRepository.findAll());
-			model.addAttribute("departments", departmentRepository.findAll());
+			model.addAttribute("departments", departmentRepository.findAllByOrderByNameAsc());
 			model.addAttribute("managers", employeeRepository.findAllManagers());
 			List<EmployeeType> empType = new ArrayList<EmployeeType>();
 			empType.add(EmployeeType.FULL_TIME);
