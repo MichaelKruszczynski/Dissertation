@@ -130,6 +130,14 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 		createReportIfNotExists("holidaysTakenByDepartmentByDay", ProjectNames.ROLE_ADMIN,
 				" select day,count(distinct empid) as 'Employees on Holiday',count(id) as 'Holidays taken',sum(day_value) as 'Days taken',sum(day_value)*7.5 'Hours taken',departmentName from (select hol.id,hol.type,hol.employee_id empid, hol.day, if(hol.type=0,1,0.5) day_value,dept.department_name departmentName from holiday hol inner join employee emp on hol.employee_id=emp.id inner join Department dept on dept.id=emp.department_id where dept.department_name=? and hol.activated_by is not null ) z group by day order by day desc");
 
+		createReportIfNotExists("trainingRecords", ProjectNames.ROLE_ADMIN,
+				"select tr.id,tr.day,emp.name,dept.department_name,train.name,train.duration,DATE_ADD(tr.day, INTERVAL train.duration YEAR) 'Expiration date', datediff(DATE_ADD(tr.day, INTERVAL train.duration YEAR), CURDATE()) 'Days until expiration' from training_record tr inner join employee emp on emp.id=tr.employee_id inner join training train on train.id=tr.training_id inner join department dept on dept.id=emp.department_id");
+
+		createReportIfNotExists("trainingRecordsByDepartment", ProjectNames.ROLE_ADMIN,
+				"select tr.id,tr.day,emp.name,dept.department_name,train.name,train.duration,DATE_ADD(tr.day, INTERVAL train.duration YEAR) 'Expiration date', datediff(DATE_ADD(tr.day, INTERVAL train.duration YEAR), CURDATE()) 'Days until expiration' from training_record tr inner join employee emp on emp.id=tr.employee_id inner join training train on train.id=tr.training_id inner join department dept on dept.id=emp.department_id where dept.department_name = ?");
+
+		createReportIfNotExists("trainingRecordsByEmployee", ProjectNames.ROLE_ADMIN,
+				"select tr.id,tr.day,emp.name,dept.department_name,train.name,train.duration,DATE_ADD(tr.day, INTERVAL train.duration YEAR) 'Expiration date', datediff(DATE_ADD(tr.day, INTERVAL train.duration YEAR), CURDATE()) 'Days until expiration' from training_record tr inner join employee emp on emp.id=tr.employee_id inner join training train on train.id=tr.training_id inner join department dept on dept.id=emp.department_id where emp.id = ?");
 		alreadySetup = true;
 	}
 
