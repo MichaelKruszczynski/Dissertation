@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -55,7 +54,7 @@ public class HolidayController {
 	@GetMapping(path = "/add")
 	public String createForm(Model model) {
 		model.addAttribute("holiday", new Holiday());
-		model.addAttribute("employees", employeeRepository.findAll());
+		model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 		List<HolidayType> holType = new ArrayList<HolidayType>();
 		holType.add(HolidayType.FULL_DAY);
 		holType.add(HolidayType.HALF_DAY);
@@ -68,7 +67,7 @@ public class HolidayController {
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid Holiday holiday, Errors errors, Model model) {
 		if (errors.hasErrors()) {
-			model.addAttribute("employees", employeeRepository.findAll());
+			model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 			List<HolidayType> holType = new ArrayList<HolidayType>();
 			holType.add(HolidayType.FULL_DAY);
 			holType.add(HolidayType.HALF_DAY);
@@ -76,18 +75,18 @@ public class HolidayController {
 			return "holidayAdd";
 		}
 
-		Employee employee = getCurrentUser();
-		Collection<Role> roles = getCurrentUser().getRoles();
-		boolean admin = false;
-		for (Role role : roles) {
-			if ("ROLE_ADMIN".equals(role.getName())) {
-				admin = true;
-				break;
-			}
-		}
-		if (admin && holiday.getEmployee().getId() != getCurrentUser().getId()) {
-			holiday.setActivatedBy(employee.getName());
-		}
+		// Employee employee = getCurrentUser();
+		// Collection<Role> roles = getCurrentUser().getRoles();
+		// boolean admin = false;
+		// for (Role role : roles) {
+		// if ("ROLE_ADMIN".equals(role.getName())) {
+		// admin = true;
+		// break;
+		// }
+		// }
+		// if (admin && holiday.getEmployee().getId() != getCurrentUser().getId()) {
+		// holiday.setActivatedBy(employee.getName());
+		// }
 
 		holidayRepository.save(holiday);
 		return "holidayAddResult";
@@ -111,7 +110,7 @@ public class HolidayController {
 	public String createRequestSubmit(@ModelAttribute @Valid Holiday holiday, Errors errors, Model model) {
 		System.out.println(holiday.getDay2());
 		if (errors.getErrorCount() > 1) {
-			model.addAttribute("employees", employeeRepository.findAll());
+			model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 			List<HolidayType> holType = new ArrayList<HolidayType>();
 			holType.add(HolidayType.FULL_DAY);
 			holType.add(HolidayType.HALF_DAY);
@@ -180,7 +179,7 @@ public class HolidayController {
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 
-		Iterable<Holiday> findAll = holidayRepository.findAllByOrderByDayAsc();
+		Iterable<Holiday> findAll = holidayRepository.findAllByOrderByEmployeeNameAscDayAsc();
 		model.addAttribute("holidays", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
@@ -388,7 +387,7 @@ public class HolidayController {
 		// with input provided
 		model.addAttribute("holiday", holidayRepository.findOne(id));
 		// this returns JSON or XML with the department
-		model.addAttribute("employees", employeeRepository.findAll());
+		model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 		List<HolidayType> holType = new ArrayList<HolidayType>();
 		holType.add(HolidayType.FULL_DAY);
 		holType.add(HolidayType.HALF_DAY);
@@ -446,7 +445,7 @@ public class HolidayController {
 			Model model) {
 		if (errors.hasErrors()) {
 			holiday.setId(id);
-			model.addAttribute("employees", employeeRepository.findAll());
+			model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 			List<HolidayType> holType = new ArrayList<HolidayType>();
 			holType.add(HolidayType.FULL_DAY);
 			holType.add(HolidayType.HALF_DAY);

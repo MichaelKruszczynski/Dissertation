@@ -11,4 +11,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface TrainingRepository extends CrudRepository<Training, Long> {
 
 	Iterable<Training> findAllByOrderByName();
+
+	Iterable<Training> findAllByOrderByNameAsc();
 }

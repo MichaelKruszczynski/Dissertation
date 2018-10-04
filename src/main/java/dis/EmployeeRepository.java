@@ -15,10 +15,12 @@ public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 
 	Iterable<Employee> findByDepartmentId(long l);
 
+	Iterable<Employee> findAllByOrderByNameAsc();
+
 	@Query("SELECT emp FROM Employee emp INNER JOIN emp.department as dep inner join emp.roles as role WHERE dep.id = ?1 and role.name = ?2")
 	Iterable<Employee> findByDepartmentIdAndRoleName(long l, String string);
 
 	@Query("SELECT emp FROM Employee emp inner join emp.roles as role WHERE role.name = '" + ProjectNames.ROLE_MANAGER
-			+ "' or role.name = '" + ProjectNames.ROLE_ADMIN + "'")
+			+ "' or role.name = '" + ProjectNames.ROLE_ADMIN + "' order by emp.name")
 	Iterable<Employee> findAllManagers();
 }

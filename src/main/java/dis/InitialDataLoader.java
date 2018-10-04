@@ -138,6 +138,11 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 
 		createReportIfNotExists("trainingRecordsByEmployee", ProjectNames.ROLE_ADMIN,
 				"select tr.id,tr.day,emp.name,dept.name,train.name,train.duration,DATE_ADD(tr.day, INTERVAL train.duration YEAR) 'Expiration date', datediff(DATE_ADD(tr.day, INTERVAL train.duration YEAR), CURDATE()) 'Days until expiration' from training_record tr inner join employee emp on emp.id=tr.employee_id inner join training train on train.id=tr.training_id inner join department dept on dept.id=emp.department_id where emp.id = ?");
+		createReportIfNotExists("trainingRecordLatest", ProjectNames.ROLE_ADMIN,
+				"select tr.id,tr.day,emp.name 'Employee name',train.name 'Training Name',max(train.version) 'Latest version',tr.day 'Training passed' from training_record tr inner join training train on train.id=tr.training_id inner join Employee emp on emp.id=tr.employee_id group by tr.employee_id,train.name order by train.version asc;");// createReportIfNotExists("trainingRecordLatest",
+		createReportIfNotExists("outdatedTrainingRecords", ProjectNames.ROLE_ADMIN,
+				"select z.empName 'Employee Name',z.trainName 'Training name',z.maxAchi 'Current version',z.topV 'Newest version' from (select emp.name 'empName',train.name 'trainName',max(train.version) 'maxAchi',(select  max(train2.version) from training train2  where train2.name=train.name) 'topV' from training_record tr inner join training train on tr.training_id=train.id  inner join Employee emp on emp.id=tr.employee_id group by emp.name,train.name) z where  z.maxAchi<z.topV;"); // ProjectNames.ROLE_ADMIN,
+																																																																																																																											// "");
 		alreadySetup = true;
 	}
 

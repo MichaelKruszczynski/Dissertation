@@ -82,7 +82,7 @@ public class EmployeeController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
-		Iterable<Employee> findAll = employeeRepository.findAll();
+		Iterable<Employee> findAll = employeeRepository.findAllByOrderByNameAsc();
 		model.addAttribute("employees", findAll);
 
 		// the users

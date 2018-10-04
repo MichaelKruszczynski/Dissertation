@@ -24,7 +24,7 @@ public class Training {
 	private String name;
 	@NotNull
 	@Size(min = 1, message = "Please input training version")
-	private String version;
+	private int version;
 	@NotNull
 	@Range(min = 1, message = "Please input training duration in years")
 	private int duration;
@@ -37,11 +37,11 @@ public class Training {
 		this.name = name;
 	}
 
-	public String getVersion() {
+	public int getVersion() {
 		return version;
 	}
 
-	public void setVersion(String version) {
+	public void setVersion(int version) {
 		this.version = version;
 	}
 

@@ -46,8 +46,8 @@ public class TrainingRecordController {
 	@GetMapping(path = "/add")
 	public String createForm(Model model) {
 		model.addAttribute("trainingRecord", new TrainingRecord());
-		model.addAttribute("employees", employeeRepository.findAll());
-		model.addAttribute("trainings", trainingRepository.findAll());
+		model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
+		model.addAttribute("trainings", trainingRepository.findAllByOrderByNameAsc());
 		return "trainingRecordAdd";
 	}
 
@@ -55,8 +55,8 @@ public class TrainingRecordController {
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid TrainingRecord trainingRecord, Errors errors, Model model) {
 		if (errors.hasErrors()) {
-			model.addAttribute("employees", employeeRepository.findAll());
-			model.addAttribute("trainings", trainingRepository.findAll());
+			model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
+			model.addAttribute("trainings", trainingRepository.findAllByOrderByNameAsc());
 			return "trainingRecordAdd";
 		}
 
@@ -67,7 +67,7 @@ public class TrainingRecordController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
-		Iterable<TrainingRecord> findAll = trainingRecordRepository.findAll();
+		Iterable<TrainingRecord> findAll = trainingRecordRepository.findAllByOrderByEmployeeNameAsc();
 		model.addAttribute("trainingRecords", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
@@ -89,8 +89,8 @@ public class TrainingRecordController {
 	public String createEdit(@PathVariable("id") long id, Model model) {
 		// with input provided
 		model.addAttribute("trainingRecord", trainingRecordRepository.findOne(id));
-		model.addAttribute("trainings", trainingRepository.findAll());
-		model.addAttribute("employees", employeeRepository.findAll());
+		model.addAttribute("trainings", trainingRepository.findAllByOrderByNameAsc());
+		model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 		// this returns JSON or XML with the department
 		return "trainingRecordEdit";
 
@@ -111,8 +111,8 @@ public class TrainingRecordController {
 
 		if (errors.hasErrors()) {
 			trainingRecord.setId(id);
-			model.addAttribute("employees", employeeRepository.findAll());
-			model.addAttribute("trainings", trainingRepository.findAll());
+			model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
+			model.addAttribute("trainings", trainingRepository.findAllByOrderByNameAsc());
 			return "trainingRecordEdit";
 		}
 		// doin't create new object here, read old one by id and update its properties
