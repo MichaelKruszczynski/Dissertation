@@ -66,6 +66,7 @@ public class EmployeeController {
 		if (errors.hasErrors()) {
 			model.addAttribute("departments", departmentRepository.findAll());
 			model.addAttribute("accessLevel", roleRepository.findAll());
+			model.addAttribute("managers", employeeRepository.findAllManagers());
 			List<EmployeeType> empType = new ArrayList<EmployeeType>();
 			empType.add(EmployeeType.FULL_TIME);
 			empType.add(EmployeeType.PART_TIME);
@@ -133,6 +134,7 @@ public class EmployeeController {
 			// accessLevel.add(AccessLevel.USER);
 			model.addAttribute("accessLevel", roleRepository.findAll());
 			model.addAttribute("departments", departmentRepository.findAll());
+			model.addAttribute("managers", employeeRepository.findAllManagers());
 			List<EmployeeType> empType = new ArrayList<EmployeeType>();
 			empType.add(EmployeeType.FULL_TIME);
 			empType.add(EmployeeType.PART_TIME);

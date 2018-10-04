@@ -287,7 +287,7 @@ public class HolidayController {
 			}
 			userMessage += " was declined by " + getCurrentUser().getName() + " on "
 					+ dateFormat(new Timestamp(System.currentTimeMillis()));
-			new Mail(firstChainHoliday.getEmployee().getEmail()).sendMail("Holiday Accepted", userMessage);
+			new Mail(firstChainHoliday.getEmployee().getEmail()).sendMail("Holiday Declined", userMessage);
 
 			// mail to HR
 			String hrMessage = "Employee's " + firstChainHoliday.getEmployee().getName() + " holiday request on "
@@ -297,7 +297,7 @@ public class HolidayController {
 			}
 			hrMessage += " was declined by " + getCurrentUser().getName() + " on "
 					+ dateFormat(new Timestamp(System.currentTimeMillis()));
-			new Mail(Mail.companyHrEmail).sendMail("Holiday Accepted", hrMessage);
+			new Mail(Mail.companyHrEmail).sendMail("Holiday Declined", hrMessage);
 
 		} catch (MessagingException e) {
 			e.printStackTrace();
