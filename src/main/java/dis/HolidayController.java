@@ -234,9 +234,10 @@ public class HolidayController {
 			}
 			if (firstChainHoliday == null) {
 				firstChainHoliday = currentHoliday;
+				currentChainHoliday = currentHoliday;
 			} else {
 				if (firstChainHoliday.getEmployee().getId() == currentHoliday.getEmployee().getId()) {
-					int daysBetween = daysBetween(firstChainHoliday.getDay(), currentHoliday.getDay());
+					int daysBetween = daysBetween(currentChainHoliday.getDay(), currentHoliday.getDay());
 					if (daysBetween == 1) {
 						currentChainHoliday = currentHoliday;
 						chain = true;
@@ -245,7 +246,7 @@ public class HolidayController {
 				if (!chain) {
 					sendRequestAcceptatedMessages(firstChainHoliday, currentChainHoliday);
 					firstChainHoliday = currentHoliday;
-					currentChainHoliday = null;
+					currentChainHoliday = currentHoliday;
 				}
 			}
 
