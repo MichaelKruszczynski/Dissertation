@@ -2,20 +2,17 @@
 <html>
 
   <head>
-    <meta charset="utf-8">
     <title>Employee Management Systems</title>
-    <meta name="description" content="Health & Safety Training Matrix with Holiday Planner" <meta name="keywords" content=" Management, System, Holiday, Planner, Health, Safety " />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <link href="../css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
-
   </head>
 
   <body>
-	<div class="admin">
+	<div th:if="${userLevel}=='ROLE_ADMIN'" class="admin">
 		<h2>Admin</h2>
-		<a th:href="@{'employee/view/test'}">View The test</a>
+		<a th:href="@{'view/test'}">View The test</a>
 	</div>
-	<div class="manager">
+	<div th:if="${userLevel}=='ROLE_ADMIN' OR ${userLevel}=='ROLE_MANAGER'" class="manager">
 		<h2>Manager</h2>
 		<a th:href="@{'holiday/requested'}">Outstanding holiday requests</a> 
 	</div>
