@@ -69,10 +69,11 @@ public class ReportViewController {
 		switch (reportRole) {
 		case ProjectNames.ROLE_USER:
 			authenticated = true;
+			break;
 		case ProjectNames.ROLE_MANAGER:
 			authenticated = getCurrentUser().hasRole(reportRole);
 		default:
-			authenticated = getCurrentUser().hasRole(ProjectNames.ROLE_ADMIN);
+			authenticated = authenticated || getCurrentUser().hasRole(ProjectNames.ROLE_ADMIN);
 			break;
 		}
 		if (!authenticated) {

@@ -119,7 +119,7 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 		createReportIfNotExists("Tk3", ProjectNames.ROLE_ADMIN,
 				"select * from Holiday hol join Employee emp on emp.id=hol.employee_id where emp.name= :myName or emp.id=?");
 
-		createReportIfNotExists("myholidays", ProjectNames.ROLE_ADMIN,
+		createReportIfNotExists("myholidays", ProjectNames.ROLE_USER,
 				"select emp.name, coalesce(emp.total_annual_holiday_days, 0 ) 'Annual Entitlement' , sum(if(hol.type=0,1,0.5)) 'Holidays Taken', coalesce(emp.total_annual_holiday_days, 0 ) - sum(if(hol.type=0,1,0.5)) 'Remaining holidays'  from employee emp left join holiday hol on hol.employee_id=emp.id where hol.activated_at is not null and emp.id=:myId group by emp.id;");
 		createReportIfNotExists("holidaysTakenByWeek", ProjectNames.ROLE_ADMIN,
 				" select week,count(distinct empid) as 'Employees on Holiday',count(id) as 'Holidays taken',sum(day_value) as 'Days taken',sum(day_value)*7.5 'Hours taken',departmentName,total_hours_available 'Total hours',total_hours_available-(sum(day_value)*7.5) 'Hours remaining' from (select hol.id,hol.type,hol.employee_id empid, hol.day, week(hol.day,5) week,if(hol.type=0,1,0.5) day_value,hol.activated_at,hol.activated_by,dept.name departmentName, dept.total_hours_available from holiday hol inner join employee emp on hol.employee_id=emp.id inner join Department dept on dept.id=emp.department_id where hol.activated_by is not null) z group by week order by week desc;");

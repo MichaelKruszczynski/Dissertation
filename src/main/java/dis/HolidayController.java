@@ -410,23 +410,35 @@ public class HolidayController {
 	}
 
 	@RequestMapping(path = "/{id}/cancel")
-	public String createCancel(@PathVariable("id") long id, Model model) {
+	public ModelAndView createCancel(@PathVariable("id") long id, Model model) {
 		Holiday holiday = holidayRepository.findOne(id);
 		if (holiday.getDay().after(new Date())) {
-			holidayRepository.delete(holiday);
 			Employee currentUser = getCurrentUser();
-			try {
-				String message = "You cancelled your holiday request on " + dateFormat(holiday.getDay())
-						+ " was rejected by " + currentUser.getName() + " on "
-						+ dateFormat(new Timestamp(System.currentTimeMillis()));
-				new Mail(holiday.getEmployee().getEmail()).sendMail("Holiday Request cancelled", message);
-			} catch (MessagingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (currentUser.hasRole(ProjectNames.ROLE_ADMIN) || currentUser.getId() == holiday.getEmployee().getId()) {
+				holidayRepository.delete(holiday);
+				try {
+					// mail to user
+					String message = "You cancelled your holiday request on " + dateFormat(holiday.getDay())
+							+ " was rejected by " + currentUser.getName() + " on "
+							+ dateFormat(new Timestamp(System.currentTimeMillis()));
+					new Mail(holiday.getEmployee().getEmail()).sendMail("Holiday Request cancelled", message);
+					// mail to HR
+					String hrMessage = "Employee " + holiday.getEmployee().getName()
+							+ " canceled his/her holiday request on " + dateFormat(holiday.getDay());
+					// if (holiday != null) {
+					// hrMessage += " - " + dateFormat(holiday.getDay());
+					// }
+					// hrMessage += " was declined by " + getCurrentUser().getName() + " on "
+					hrMessage += " was cancelled on " + dateFormat(new Timestamp(System.currentTimeMillis()));
+					new Mail(Mail.companyHrEmail).sendMail("Holiday Cancelled", hrMessage);
+
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
 			}
-			return readMy(model);
+			return new ModelAndView("redirect:/holiday/my");
 		} else {
-			return "Holiday in the past";// @ TODO
+			return new ModelAndView("redirect:/holiday/my");
 		}
 	}
 
