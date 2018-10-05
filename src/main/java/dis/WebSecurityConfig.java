@@ -75,7 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	// @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
 	// @Scheduled(fixedRate = 60 * 1000)
-	@Scheduled(cron = "0 24 20 * * *")
+	@Scheduled(cron = "0 22 2 * * *") // 2:22 am
 	public void dailyHolidayUserReport() {
 		List<Employee> employees = new ArrayList<Employee>();
 		for (Department dept : departmentRepository.findAll()) {
@@ -113,9 +113,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	// @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
-	@Scheduled(fixedRate = 60 * 1000)
-	// @Scheduled(cron = "0 15 10 15 * ?")
-	// @Scheduled(cron = "0 19 1 * * *")
+	// @Scheduled(fixedRate = 60 * 1000)
+	@Scheduled(cron = "0 22 2 * * *") // 2:22 am
 	public void dailyHolidayManagerReport() {
 		List<Employee> employees = new ArrayList<Employee>();
 		for (Department dept : departmentRepository.findAll()) {
