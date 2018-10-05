@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.maven.shared.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +28,8 @@ public class ReportViewController {
 	private ReportRepository reportRepository;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private CrudRepository<Employee, Long> employeeRepository;
 
 	@RequestMapping
 	public String main() {
@@ -33,6 +38,7 @@ public class ReportViewController {
 
 	@RequestMapping(path = "/{name}/**") // ** means any thing else
 	public String displayView(@PathVariable("name") String name, Model model, HttpServletRequest request) {
+
 		String uri = request.getRequestURI();
 		String[] split = uri.split("/");
 		List<Object> parameters = new ArrayList<Object>();
@@ -56,10 +62,26 @@ public class ReportViewController {
 		Report report = reportRepository.findByName(name);
 		if (report == null) {
 			return "empty";
-		} // Object[] uuid = jdbcTemplate.queryForObject(report.getQuery(),
-			// Object[].class);
-			// Map<String, Object> queryForMap =
-			// jdbcTemplate.queryForMap(report.getQuery());
+		}
+		String reportRole = report.getRole().getName();
+
+		boolean authenticated = false;
+		switch (reportRole) {
+		case ProjectNames.ROLE_USER:
+			authenticated = true;
+		case ProjectNames.ROLE_MANAGER:
+			authenticated = getCurrentUser().hasRole(reportRole);
+		default:
+			authenticated = getCurrentUser().hasRole(ProjectNames.ROLE_ADMIN);
+			break;
+		}
+		if (!authenticated) {
+			return "accessDenied";
+		}
+		// Object[] uuid = jdbcTemplate.queryForObject(report.getQuery(),
+		// Object[].class);
+		// Map<String, Object> queryForMap =
+		// jdbcTemplate.queryForMap(report.getQuery());
 		List<Map<String, Object>> queryForList = null;
 		String query = report.getQuery();
 		query = new QueryTokenizer().deTokenize(query);
@@ -76,6 +98,13 @@ public class ReportViewController {
 		}
 
 		return "reportView";
+	}
+
+	private Employee getCurrentUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
+		Employee employee = principal.getEmployee();
+		return employeeRepository.findOne(employee.getId());
 	}
 
 }

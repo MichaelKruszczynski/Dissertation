@@ -48,7 +48,8 @@ public class HolidayController {
 		return "holiday";
 	}
 
-	// @PreAuthorize("hasRole('" + ProjectNames.ROLE_ADMIN + "')")
+	// @PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" +
+	// ProjectNames.ROLE_MANAGER + "', )")
 	// @PreAuthorize("hasRole('ADMIN')")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/add")
@@ -151,7 +152,7 @@ public class HolidayController {
 			Employee manager = lastHoliday.getEmployee().getManager();
 			new Mail(manager.getEmail()).sendMail("Holiday Requested",
 					"Employee " + lastHoliday.getEmployee().getEmail() + " requested a "
-							+ ((HolidayType.HALF_DAY.equals(lastHoliday.getType()) ? "" : "half day")) + " holiday on "
+							+ ((HolidayType.HALF_DAY.equals(lastHoliday.getType()) ? "half day" : "")) + " holiday on "
 							+ dateFormat(firstHolidayDate) + " - " + dateFormat(lastHoliday.getDay()));
 		} catch (MessagingException e) {
 			e.printStackTrace();
@@ -170,7 +171,7 @@ public class HolidayController {
 		return employeeRepository.findOne(employee.getId());
 	}
 
-	@PreAuthorize("hasRole('" + ProjectNames.ROLE_ADMIN + "')")
+	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	// @PreAuthorize("hasRole('ADMIN')")
 	// @PreAuthorize("hasRole('ROLE_USER')")
 	// @PreAuthorize("hasRole('USER')")
@@ -192,9 +193,14 @@ public class HolidayController {
 	public String readRequested(Model model) {
 		Iterable<Holiday> findAll = null;
 		if (getCurrentUser().hasRole(ProjectNames.ROLE_ADMIN)) {
-			findAll = holidayRepository.findAllByDepartmentByDayAsc(getCurrentUser().getDepartment().getId());
+			// findAll =
+			// holidayRepository.findAllByDepartmentByDayAsc(getCurrentUser().getDepartment().getId());
+			findAll = holidayRepository
+					.findByDepartmentWhereActivatedAtIsNullByDayAsc(getCurrentUser().getDepartment().getId());
 		} else {
-			findAll = holidayRepository.findAllWhereEmployeeIsManager(getCurrentUser().getId());
+			// findAll =
+			// holidayRepository.findAllWhereEmployeeIsManager(getCurrentUser().getId());
+			findAll = holidayRepository.findNotRequestedWhereEmployeeIsManager(getCurrentUser().getId());
 		}
 
 		model.addAttribute("holidays", findAll);
@@ -356,7 +362,7 @@ public class HolidayController {
 					holidayRepository.delete(findOne);
 				}
 			}
-			sendRequestAcceptatedMessages(firstChainHoliday, currentChainHoliday);
+			sendRequestDeclinedMessages(firstChainHoliday, currentChainHoliday);
 		}
 
 		return new ModelAndView("redirect:/holiday/requested");

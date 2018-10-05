@@ -42,7 +42,7 @@ public class TrainingRecordController {
 		return "trainingRecord";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/add")
 	public String createForm(Model model) {
 		model.addAttribute("trainingRecord", new TrainingRecord());
@@ -51,7 +51,7 @@ public class TrainingRecordController {
 		return "trainingRecordAdd";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid TrainingRecord trainingRecord, Errors errors, Model model) {
 		if (errors.hasErrors()) {
@@ -64,7 +64,7 @@ public class TrainingRecordController {
 		return "trainingRecordAddResult";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<TrainingRecord> findAll = trainingRecordRepository.findAllByOrderByEmployeeNameAsc();
@@ -74,7 +74,7 @@ public class TrainingRecordController {
 		return "trainingRecordAll";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/{id}")
 	public String readById(@PathVariable("id") long id, Model model) {
 		model.addAttribute("trainingRecord", trainingRecordRepository.findOne(id));
@@ -83,7 +83,7 @@ public class TrainingRecordController {
 
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	// @ TODO
 	@GetMapping(path = "/{id}/edit")
 	public String createEdit(@PathVariable("id") long id, Model model) {
@@ -96,7 +96,7 @@ public class TrainingRecordController {
 
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/{id}/edit", params = "edit=Delete")
 	public String createEditPostDelete(@PathVariable("id") long id, Model model) {
 		TrainingRecord findOne = trainingRecordRepository.findOne(id);
@@ -104,7 +104,7 @@ public class TrainingRecordController {
 		return readAll(model);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
 	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid TrainingRecord trainingRecord,
 			Errors errors, Model model) {
@@ -131,7 +131,7 @@ public class TrainingRecordController {
 
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@RequestMapping(path = "/delete/{id}")
 	public String createEdit(@ModelAttribute TrainingRecord trainingRecord, Model model) {
 		TrainingRecord findOne = trainingRecordRepository.findOne(trainingRecord.getId());
