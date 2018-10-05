@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -149,7 +151,9 @@ public class EmployeeController {
 		dbEmployee.setEmployeeNo(employee.getEmployeeNo());
 		dbEmployee.setEmail(employee.getEmail());
 		dbEmployee.setDepartment(employee.getDepartment());
-		dbEmployee.setPassword(passwordEncoder.encode(employee.getPassword()));
+		if (getCurrentUser().hasRole(ProjectNames.ROLE_ADMIN)) {
+			dbEmployee.setPassword(passwordEncoder.encode(employee.getPassword()));
+		}
 		dbEmployee.setTotalAnnualHolidayDays(employee.getTotalAnnualHolidayDays());
 		dbEmployee.setManager(employeeRepository.findOne(employee.getManager().getId()));
 		dbEmployee.setRoles(employee.getRoles());
@@ -170,5 +174,12 @@ public class EmployeeController {
 		employeeRepository.delete(findOne);
 
 		return readAll(model);
+	}
+
+	private Employee getCurrentUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
+		Employee employee = principal.getEmployee();
+		return employeeRepository.findOne(employee.getId());
 	}
 }
