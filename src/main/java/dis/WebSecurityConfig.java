@@ -39,7 +39,8 @@ import com.google.common.collect.Iterators;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private MyUserDetailsService userDetailsService;
-
+	@Autowired
+	private TrainingRecordRepository trainingRecordRepository;
 	@Autowired
 	private HolidayRepository holidayRepository;
 	@Autowired
@@ -253,5 +254,104 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			}
 		}
 
+	}
+
+	private void sendUserOutdatedTrainingEmails(List<Map<String, Object>> users) {
+		// mine the departments
+		Set<String> departments = new HashSet<String>();
+		for (Map<String, Object> map : users) {
+			Employee emp = (Employee) map.get("emp");
+			map.put("dept", emp.getDepartment().getName());
+			departments.add(emp.getDepartment().getName());
+		}
+		// send message for each department
+		for (String departmentName : departments) {
+			Iterable<Employee> managers = employeeRepository.findByDepartmentIdAndRoleName(
+					departmentRepository.findByName(departmentName).getId(), ProjectNames.ROLE_MANAGER);
+			String emailTitle = "Outdated training - department: " + departmentName;
+			String emailString = "This is the list of currently held qualifications that are out of date, please make sure personel is appropriately trained\n";
+			for (Map<String, Object> map : users) {
+				// [id, day, Employee email, Training Name, Latest version, Training passed]
+				Employee emp = (Employee) map.get("emp");
+				Training training = trainingRecordRepository.findOne((Long) map.get("id")).getTraining();
+				if (map.get("dept").equals(departmentName)) {
+					emailString += emp.getName() + " - " + emp.getEmployeeNo() + "(" + emp.getEmail() + "):"
+							+ map.get("Training name") + " was passed " + map.get("Training passed")
+							+ " and it's duration is " + training.getDuration() + " years\n";
+				}
+			}
+			for (Employee manager : managers) {
+				try {
+					new Mail(manager.getEmail()).sendMail(emailTitle, emailString);
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
+	private void sendManagerOutdatedTrainingEmails(List<Map<String, Object>> managers) {
+		// mine the departments
+		Set<String> departments = new HashSet<String>();
+		for (Map<String, Object> map : managers) {
+			Employee emp = (Employee) map.get("emp");
+			map.put("dept", emp.getDepartment().getName());
+			departments.add(emp.getDepartment().getName());
+		}
+		// send message for each department
+		for (String departmentName : departments) {
+			Iterable<Employee> admins = employeeRepository.findByDepartmentIdAndRoleName(
+					departmentRepository.findByName(departmentName).getId(), ProjectNames.ROLE_ADMIN);
+			String emailTitle = "Outdated training - managers department: " + departmentName;
+			String emailString = "This is the list of currently held qualifications that are out of date, please make sure personel is appropriately trained\n";
+			for (Map<String, Object> map : managers) {
+				// [id, day, Employee email, Training Name, Latest version, Training passed]
+				Employee emp = (Employee) map.get("emp");
+				Training training = trainingRecordRepository.findOne((Long) map.get("id")).getTraining();
+				if (map.get("dept").equals(departmentName)) {
+					emailString += "Manager " + emp.getName() + " - " + emp.getEmployeeNo() + "(" + emp.getEmail()
+							+ "):" + map.get("Training name") + " was passed " + map.get("Training passed")
+							+ " and it's duration is " + training.getDuration() + " years\n";
+				}
+			}
+			for (Employee manager : admins) {
+				try {
+					new Mail(manager.getEmail()).sendMail(emailTitle, emailString);
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
+	// @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
+	@Scheduled(fixedRate = 60 * 1000)
+	// @Scheduled(cron = "0 22 2 * * *") // 2:22 am
+	public void dailyOutdatedUserTrainingReport() {
+		List<Map<String, Object>> queryForList = null;
+		String query = ReportController.outdatedTrainingRecordsQuery;
+		query = new QueryTokenizer().deTokenize(query);
+		queryForList = jdbcTemplate.queryForList(query);
+		List<Map<String, Object>> managers = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> users = new ArrayList<Map<String, Object>>();
+		// mine the data
+		for (Map<String, Object> map : queryForList) {
+			// [id, day, Employee email, Training Name, Latest version, Training passed]
+			String email = (String) map.get("Employee email");
+			Employee employee = employeeRepository.findByEmail(email);
+			if (employee.hasRole(ProjectNames.ROLE_MANAGER)) {
+				map.put("emp", employee);
+				managers.add(map);
+			} else if (employee.hasRole(ProjectNames.ROLE_USER)) {
+				map.put("emp", employee);
+				users.add(map);
+			}
+		}
+		// send email to managers
+		sendUserOutdatedTrainingEmails(users);
+		// // send email to admins
+		sendManagerOutdatedTrainingEmails(managers);
 	}
 }
