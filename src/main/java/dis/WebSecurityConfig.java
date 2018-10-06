@@ -163,7 +163,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	// @Scheduled(cron = "0 22 2 * * *") // 2:22 am
 	public void dailyMissingUserTrainingReport() {
 		List<Map<String, Object>> queryForList = null;
-		String query = ReportController.outdatedTrainingRecordsQuery;
+		String query = ReportController.outversionedTrainingRecordsQuery;
 		query = new QueryTokenizer().deTokenize(query);
 		queryForList = jdbcTemplate.queryForList(query);
 		List<Map<String, Object>> managers = new ArrayList<Map<String, Object>>();
