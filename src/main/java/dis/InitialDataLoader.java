@@ -124,9 +124,10 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 				"select tr.id,tr.day,emp.name,dept.name,train.name,train.duration,DATE_ADD(tr.day, INTERVAL train.duration YEAR) 'Expiration date', datediff(DATE_ADD(tr.day, INTERVAL train.duration YEAR), CURDATE()) 'Days until expiration' from training_record tr inner join employee emp on emp.id=tr.employee_id inner join training train on train.id=tr.training_id inner join department dept on dept.id=emp.department_id where emp.id = ?");
 		createReportIfNotExists("trainingRecordLatest", ProjectNames.ROLE_MANAGER,
 				"select tr.id,tr.day,emp.name 'Employee name',train.name 'Training Name',max(train.version) 'Latest version',tr.day 'Training passed' from training_record tr inner join training train on train.id=tr.training_id inner join Employee emp on emp.id=tr.employee_id group by tr.employee_id,train.name order by train.version asc;");// createReportIfNotExists("trainingRecordLatest",
+		createReportIfNotExists("outversionedTrainingRecordsQuery", ProjectNames.ROLE_MANAGER,
+				ReportController.outversionedTrainingRecordsQuery); // ProjectNames.ROLE_ADMIN,
 		createReportIfNotExists("outdatedTrainingRecords", ProjectNames.ROLE_MANAGER,
 				ReportController.outdatedTrainingRecordsQuery); // ProjectNames.ROLE_ADMIN,
-																// "");
 		alreadySetup = true;
 	}
 

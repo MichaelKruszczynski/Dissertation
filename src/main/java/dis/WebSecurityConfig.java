@@ -159,8 +159,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	// @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
-	// @Scheduled(fixedRate = 60 * 1000)
-	@Scheduled(cron = "0 22 2 * * *") // 2:22 am
+	@Scheduled(fixedRate = 60 * 1000)
+	// @Scheduled(cron = "0 22 2 * * *") // 2:22 am
 	public void dailyMissingUserTrainingReport() {
 		List<Map<String, Object>> queryForList = null;
 		String query = ReportController.outdatedTrainingRecordsQuery;
