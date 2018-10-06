@@ -98,51 +98,35 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 		}
 		createReportIfNotExists("test", ProjectNames.ROLE_ADMIN, "select * from Employee emp");
 
-		createReportIfNotExists("test2", ProjectNames.ROLE_ADMIN, "select emp.name from Employee emp");
+		createReportIfNotExists("test2", ProjectNames.ROLE_ADMIN, "select emp.name from Employee emp where emp.id=?");
 
-		createReportIfNotExists("test3", ProjectNames.ROLE_ADMIN, "select emp.name from Employee emp where emp.id=?");
-
-		createReportIfNotExists("test4", ProjectNames.ROLE_ADMIN,
+		createReportIfNotExists("test3", ProjectNames.ROLE_ADMIN,
 				"select emp.name from Employee emp where emp.id=? and emp.name=?");
-
-		createReportIfNotExists("test5", ProjectNames.ROLE_ADMIN,
-				"select emp.name, emp.total_Annual_Holiday_Days from Employee emp where emp.id=4");
-
-		createReportIfNotExists("test6", ProjectNames.ROLE_ADMIN, "SELECT CURRENT_USER, emp.name from Employee emp");
-
-		createReportIfNotExists("test7", ProjectNames.ROLE_ADMIN, "select hol.day from Holiday hol");
-
-		createReportIfNotExists("Tk", ProjectNames.ROLE_ADMIN, "select emp.* from Employee emp where name= :myName");
-		createReportIfNotExists("Tk2", ProjectNames.ROLE_ADMIN,
-				"select emp.* from Employee emp where name= :myName or id=?");
-
-		createReportIfNotExists("Tk3", ProjectNames.ROLE_ADMIN,
-				"select * from Holiday hol join Employee emp on emp.id=hol.employee_id where emp.name= :myName or emp.id=?");
 
 		createReportIfNotExists("myholidays", ProjectNames.ROLE_USER,
 				"select emp.name, coalesce(emp.total_annual_holiday_days, 0 ) 'Annual Entitlement' , sum(if(hol.type=0,1,0.5)) 'Holidays Taken', coalesce(emp.total_annual_holiday_days, 0 ) - sum(if(hol.type=0,1,0.5)) 'Remaining holidays'  from employee emp left join holiday hol on hol.employee_id=emp.id where hol.activated_at is not null and emp.id=:myId group by emp.id;");
-		createReportIfNotExists("holidaysTakenByWeek", ProjectNames.ROLE_ADMIN,
+		createReportIfNotExists("holidaysTakenByWeek", ProjectNames.ROLE_MANAGER,
 				" select week,count(distinct empid) as 'Employees on Holiday',count(id) as 'Holidays taken',sum(day_value) as 'Days taken',sum(day_value)*7.5 'Hours taken',departmentName,total_hours_available 'Total hours',total_hours_available-(sum(day_value)*7.5) 'Hours remaining' from (select hol.id,hol.type,hol.employee_id empid, hol.day, week(hol.day,5) week,if(hol.type=0,1,0.5) day_value,hol.activated_at,hol.activated_by,dept.name departmentName, dept.total_hours_available from holiday hol inner join employee emp on hol.employee_id=emp.id inner join Department dept on dept.id=emp.department_id where hol.activated_by is not null) z group by week order by week desc;");
-		createReportIfNotExists("holidaysTakenByDepartmentByWeek", ProjectNames.ROLE_ADMIN,
+		createReportIfNotExists("holidaysTakenByDepartmentByWeek", ProjectNames.ROLE_MANAGER,
 				" select week,count(distinct empid) as 'Employees on Holiday',count(id) as 'Holidays taken',sum(day_value) as 'Days taken',sum(day_value)*7.5 'Hours taken',departmentName,total_hours_available 'Total hours',total_hours_available-(sum(day_value)*7.5) 'Hours remaining' from (select hol.id,hol.type,hol.employee_id empid, hol.day, week(hol.day,5) week,if(hol.type=0,1,0.5) day_value,hol.activated_at,hol.activated_by,dept.name departmentName, dept.total_hours_available from holiday hol inner join employee emp on hol.employee_id=emp.id inner join Department dept on dept.id=emp.department_id where dept.name=? and hol.activated_by is not null) z group by week order by week desc;");
-		createReportIfNotExists("holidaysTakenByDay", ProjectNames.ROLE_ADMIN,
+		createReportIfNotExists("holidaysTakenByDay", ProjectNames.ROLE_MANAGER,
 				" select day,count(distinct empid) as 'Employees on Holiday',count(id) as 'Holidays taken',sum(day_value) as 'Days taken',sum(day_value)*7.5 'Hours taken',departmentName from (select hol.id,hol.type,hol.employee_id empid, hol.day, if(hol.type=0,1,0.5) day_value,dept.name departmentName from holiday hol inner join employee emp on hol.employee_id=emp.id inner join Department dept on dept.id=emp.department_id where hol.activated_by is not null ) z group by day order by day desc");
-		createReportIfNotExists("holidaysTakenByDepartmentByDay", ProjectNames.ROLE_ADMIN,
+		createReportIfNotExists("holidaysTakenByDepartmentByDay", ProjectNames.ROLE_MANAGER,
 				" select day,count(distinct empid) as 'Employees on Holiday',count(id) as 'Holidays taken',sum(day_value) as 'Days taken',sum(day_value)*7.5 'Hours taken',departmentName from (select hol.id,hol.type,hol.employee_id empid, hol.day, if(hol.type=0,1,0.5) day_value,dept.name departmentName from holiday hol inner join employee emp on hol.employee_id=emp.id inner join Department dept on dept.id=emp.department_id where dept.name=? and hol.activated_by is not null ) z group by day order by day desc");
 
-		createReportIfNotExists("trainingRecords", ProjectNames.ROLE_ADMIN,
+		createReportIfNotExists("trainingRecords", ProjectNames.ROLE_MANAGER,
 				"select tr.id,tr.day,emp.name,dept.name,train.name,train.duration,DATE_ADD(tr.day, INTERVAL train.duration YEAR) 'Expiration date', datediff(DATE_ADD(tr.day, INTERVAL train.duration YEAR), CURDATE()) 'Days until expiration' from training_record tr inner join employee emp on emp.id=tr.employee_id inner join training train on train.id=tr.training_id inner join department dept on dept.id=emp.department_id");
 
-		createReportIfNotExists("trainingRecordsByDepartment", ProjectNames.ROLE_ADMIN,
+		createReportIfNotExists("trainingRecordsByDepartment", ProjectNames.ROLE_MANAGER,
 				"select tr.id,tr.day,emp.name,dept.name,train.name,train.duration,DATE_ADD(tr.day, INTERVAL train.duration YEAR) 'Expiration date', datediff(DATE_ADD(tr.day, INTERVAL train.duration YEAR), CURDATE()) 'Days until expiration' from training_record tr inner join employee emp on emp.id=tr.employee_id inner join training train on train.id=tr.training_id inner join department dept on dept.id=emp.department_id where dept.name = ?");
 
-		createReportIfNotExists("trainingRecordsByEmployee", ProjectNames.ROLE_ADMIN,
+		createReportIfNotExists("trainingRecordsByEmployee", ProjectNames.ROLE_MANAGER,
 				"select tr.id,tr.day,emp.name,dept.name,train.name,train.duration,DATE_ADD(tr.day, INTERVAL train.duration YEAR) 'Expiration date', datediff(DATE_ADD(tr.day, INTERVAL train.duration YEAR), CURDATE()) 'Days until expiration' from training_record tr inner join employee emp on emp.id=tr.employee_id inner join training train on train.id=tr.training_id inner join department dept on dept.id=emp.department_id where emp.id = ?");
-		createReportIfNotExists("trainingRecordLatest", ProjectNames.ROLE_ADMIN,
+		createReportIfNotExists("trainingRecordLatest", ProjectNames.ROLE_MANAGER,
 				"select tr.id,tr.day,emp.name 'Employee name',train.name 'Training Name',max(train.version) 'Latest version',tr.day 'Training passed' from training_record tr inner join training train on train.id=tr.training_id inner join Employee emp on emp.id=tr.employee_id group by tr.employee_id,train.name order by train.version asc;");// createReportIfNotExists("trainingRecordLatest",
-		createReportIfNotExists("outdatedTrainingRecords", ProjectNames.ROLE_ADMIN,
-				"select z.empName 'Employee Name',z.trainName 'Training name',z.maxAchi 'Current version',z.topV 'Newest version' from (select emp.name 'empName',train.name 'trainName',max(train.version) 'maxAchi',(select  max(train2.version) from training train2  where train2.name=train.name) 'topV' from training_record tr inner join training train on tr.training_id=train.id  inner join Employee emp on emp.id=tr.employee_id group by emp.name,train.name) z where  z.maxAchi<z.topV;"); // ProjectNames.ROLE_ADMIN,
-																																																																																																																											// "");
+		createReportIfNotExists("outdatedTrainingRecords", ProjectNames.ROLE_MANAGER,
+				ReportController.outdatedTrainingRecordsQuery); // ProjectNames.ROLE_ADMIN,
+																// "");
 		alreadySetup = true;
 	}
 

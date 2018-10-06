@@ -18,6 +18,9 @@ public class MainController {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
+	@Autowired
+	private DepartmentRepository departmentRepository;
+
 	@RequestMapping
 	public String main(Model model) {
 		if (getCurrentUser().hasRole(ProjectNames.ROLE_ADMIN)) {
@@ -27,6 +30,8 @@ public class MainController {
 		} else {
 			model.addAttribute("userLevel", ProjectNames.ROLE_USER);
 		}
+		model.addAttribute("departments", departmentRepository.findAll());
+		model.addAttribute("employees", employeeRepository.findAll());
 		return "index";
 	}
 

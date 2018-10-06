@@ -10,15 +10,89 @@
   <body>
 	<div th:if="${userLevel}=='ROLE_ADMIN'" class="admin">
 		<h2>Admin</h2>
-		<a th:href="@{'view/test'}">View The test</a>
+		 <p><a th:href="@{'view/test'}">Test</a></p>
+		<p><a th:href="@{'view/test2/1'}">Test2</a></p>
+		<p><a th:href="@{'view/test3/1/test'}">Test3</a></p>
 	</div>
+	
+	
+	
 	<div th:if="${userLevel}=='ROLE_ADMIN' OR ${userLevel}=='ROLE_MANAGER'" class="manager">
 		<h2>Manager</h2>
-		<a th:href="@{'holiday/requested'}">Outstanding holiday requests</a> 
+		<p><a th:href="@{'holiday/requested'}">Outstanding holiday requests</a></p> 
+		<p><a th:href="@{'department/all'}">All departments</a></p>
+		<p><a th:href="@{'department/add'}">Add new department</a></p>
+		<p><a th:href="@{'employee/all'}">All employees</a></p>
+	    <p><a th:href="@{'employee/add'}">Add employee</a></p>
+	    <p><a th:href="@{'holiday/all'}">All holidays</a></p>
+	    <p><a th:href="@{'holiday/add'}">Add holiday</a></p>
+	    <p><a th:href="@{'holiday/requested'}">Requested holiday</a></p>
+		<p><a th:href="@{'report/all'}">All reports</a></p>
+	    <p><a th:href="@{'report/add'}">Add report</a></p>
+	    <p><a th:href="@{'training/all'}">All trainings</a></p>
+	    <p><a th:href="@{'training/add'}">Add training</a></p>
+	    <p><a th:href="@{'trainingrecord/all'}">All trainings records</a></p>
+	    <p><a th:href="@{'trainingrecord/add'}">Add training record</a></p>
+	    <p><a th:href="@{'view/holidaysTakenByWeek'}">Holidays Taken By Week</a></p>
+	    
+	    <div class="expandable">
+	        <div class="title">
+	        	<p>Holidays Taken By Department By Week</p>
+		    </div>
+	        <div class="contents">
+	        	<th:block th:each="department : ${departments}">
+             		<p><a th:href="@{view/holidaysTakenByDepartmentByWeek/{deptName}(deptName=${department.name})}" th:text="${department.name}">Holidays Taken By Department By Week</a></p>
+        		</th:block>			
+		    </div>
+		</div>
+			
+		
+		<p><a th:href="@{'view/holidaysTakenByDay'}">Holidays Taken By Day</a></p>
+		 <div class="expandable">
+	        <div class="title">
+	        	<p>Holidays Taken By Department By Day</p>
+		    </div>
+	        <div class="contents">
+	        	<th:block th:each="department : ${departments}">
+             		<p><a th:href="@{view/holidaysTakenByDepartmentByDay/{deptName}(deptName=${department.name})}" th:text="${department.name}">Holidays Taken By Department By Day</a></p>
+        		</th:block>			
+		    </div>
+		</div>
+		<p><a th:href="@{'view/trainingRecords'}">Training Records</a></p>
+		
+			 <div class="expandable">
+	        <div class="title">
+	        	<p>Training Records By Department</p>
+		    </div>
+	        <div class="contents">
+	        	<th:block th:each="department : ${departments}">
+             		<p><a th:href="@{view/trainingRecordsByDepartment/{deptName}(deptName=${department.name})}" th:text="${department.name}">Training Records By Department</a></p>
+        		</th:block>			
+		    </div>
+		</div>
+	  	<div class="expandable">
+	        <div class="title">
+	        	<p>Training Records By Employee</p>
+		    </div>
+	        <div class="contents">
+	        	<th:block th:each="employee : ${employees}">
+             		<p><a th:href="@{view/trainingRecordsByEmployee/{empId}(empId=${employee.id})}" th:text="${employee.name}">Training Records By Employee</a></p>
+        		</th:block>			
+		    </div>
+		</div>
+			
+	<p><a th:href="@{'view/trainingRecordLatest'}">Training Record Latest</a></p>
+	<p><a th:href="@{'view/outdatedTrainingRecords'}">Outdated Training Records</a></p>
+		
+		
+		
+		
+		
 	</div>
 	<div class="user">
 		<h2>My Views</h2>
-		<a th:href="@{'holiday/my'}">My Holidays</a> 
+		<p><a th:href="@{'holiday/my'}">My Holidays</a></p> 
+		<p><a th:href="@{'holiday/request'}">Request holiday</a></p>
 	</div>
 
     <div id="menu">

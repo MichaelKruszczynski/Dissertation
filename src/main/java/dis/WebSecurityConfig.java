@@ -4,7 +4,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -12,6 +15,7 @@ import javax.mail.internet.AddressException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -42,6 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private DepartmentRepository departmentRepository;
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -152,4 +158,100 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 	}
 
+	// @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
+	// @Scheduled(fixedRate = 60 * 1000)
+	@Scheduled(cron = "0 22 2 * * *") // 2:22 am
+	public void dailyMissingUserTrainingReport() {
+		List<Map<String, Object>> queryForList = null;
+		String query = ReportController.outdatedTrainingRecordsQuery;
+		query = new QueryTokenizer().deTokenize(query);
+		queryForList = jdbcTemplate.queryForList(query);
+		List<Map<String, Object>> managers = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> users = new ArrayList<Map<String, Object>>();
+		// mine the data
+		for (Map<String, Object> map : queryForList) {
+			// [Employee email, Training name, Current version, Newest version]
+			String email = (String) map.get("Employee email");
+			Employee employee = employeeRepository.findByEmail(email);
+			if (employee.hasRole(ProjectNames.ROLE_MANAGER)) {
+				map.put("emp", employee);
+				managers.add(map);
+			} else if (employee.hasRole(ProjectNames.ROLE_USER)) {
+				map.put("emp", employee);
+				users.add(map);
+			}
+		}
+		// send email to managers
+		sendUserMissingTrainingEmails(users);
+		// send email to admins
+		sendManagersMissingTrainingEmails(managers);
+	}
+
+	private void sendManagersMissingTrainingEmails(List<Map<String, Object>> managers) {
+		// mine the departments
+		Set<String> departments = new HashSet<String>();
+		for (Map<String, Object> map : managers) {
+			Employee emp = (Employee) map.get("emp");
+			map.put("dept", emp.getDepartment().getName());
+			departments.add(emp.getDepartment().getName());
+		}
+		// send message for each department
+		for (String departmentName : departments) {
+			Iterable<Employee> admins = employeeRepository.findByDepartmentIdAndRoleName(
+					departmentRepository.findByName(departmentName).getId(), ProjectNames.ROLE_ADMIN);
+			String emailTitle = "Missing training - department: " + departmentName;
+			String emailString = "This is the list of currently held qualifications matched against highest available at the moment, please make sure personel is appropriately trained\n";
+			for (Map<String, Object> map : managers) {
+				// [Employee email, Training name, Current version, Newest version]
+				Employee emp = (Employee) map.get("emp");
+				if (map.get("dept").equals(departmentName)) {
+					emailString += "Manager " + emp.getName() + " - " + emp.getEmployeeNo() + "(" + emp.getEmail()
+							+ "):" + map.get("Training name") + " has version " + map.get("Current version") + ","
+							+ "version " + map.get("Newest version") + " is advised\n";
+				}
+			}
+			for (Employee admin : admins) {
+				try {
+					new Mail(admin.getEmail()).sendMail(emailTitle, emailString);
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
+	private void sendUserMissingTrainingEmails(List<Map<String, Object>> users) {
+		// mine the departments
+		Set<String> departments = new HashSet<String>();
+		for (Map<String, Object> map : users) {
+			Employee emp = (Employee) map.get("emp");
+			map.put("dept", emp.getDepartment().getName());
+			departments.add(emp.getDepartment().getName());
+		}
+		// send message for each department
+		for (String departmentName : departments) {
+			Iterable<Employee> managers = employeeRepository.findByDepartmentIdAndRoleName(
+					departmentRepository.findByName(departmentName).getId(), ProjectNames.ROLE_MANAGER);
+			String emailTitle = "Missing training - department: " + departmentName;
+			String emailString = "This is the list of currently held qualifications matched against highest available at the moment, please make sure personell is appropriately trained\n";
+			for (Map<String, Object> map : users) {
+				// [Employee email, Training name, Current version, Newest version]
+				Employee emp = (Employee) map.get("emp");
+				if (map.get("dept").equals(departmentName)) {
+					emailString += emp.getName() + " - " + emp.getEmployeeNo() + "(" + emp.getEmail() + "):"
+							+ map.get("Training name") + " has version " + map.get("Current version") + "," + "version "
+							+ map.get("Newest version") + " is advised\n";
+				}
+			}
+			for (Employee manager : managers) {
+				try {
+					new Mail(manager.getEmail()).sendMail(emailTitle, emailString);
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
 }

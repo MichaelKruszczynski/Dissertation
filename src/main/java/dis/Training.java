@@ -20,10 +20,10 @@ public class Training {
 	private long id;
 
 	@NotNull
-	@Range(min = 1, message = "Please input training name")
+	@Size(min = 1, message = "Please input training name")
 	private String name;
 	@NotNull
-	@Size(min = 1, message = "Please input training version")
+	@Range(min = 1, message = "Please input training version")
 	private int version;
 	@NotNull
 	@Range(min = 1, message = "Please input training duration in years")
