@@ -14,9 +14,6 @@
 		<p><a th:href="@{'view/test2/1'}">Test2</a></p>
 		<p><a th:href="@{'view/test3/1/test'}">Test3</a></p>
 	</div>
-	
-	
-	
 	<div th:if="${userLevel}=='ROLE_ADMIN' OR ${userLevel}=='ROLE_MANAGER'" class="manager">
 		<h2>Manager</h2>
 		<p><a th:href="@{'holiday/requested'}">Outstanding holiday requests</a></p> 
@@ -83,31 +80,13 @@
 			
 	<p><a th:href="@{'view/trainingRecordLatest'}">Training Record Latest</a></p>
 	<p><a th:href="@{'view/outdatedTrainingRecords'}">Outdated Training Records</a></p>
-		
-		
-		
-		
-		
 	</div>
 	<div class="user">
 		<h2>My Views</h2>
 		<p><a th:href="@{'holiday/my'}">My Holidays</a></p> 
 		<p><a th:href="@{'holiday/request'}">Request holiday</a></p>
 	</div>
-
-    <div id="menu">
-      <div class="option">Holiday Planner</div>
-      <div class="option">Training Matrix</div>
-      <div class="option">Login</div>
-      <div style="clear:both;"></div>
-    </div>
-
-    <div class="logo">
-    
-        </div>
-
   </body>
-
 </html>
     
 

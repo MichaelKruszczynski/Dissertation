@@ -295,15 +295,16 @@ public class HolidayController {
 					+ dateFormat(new Timestamp(System.currentTimeMillis()));
 			new Mail(firstChainHoliday.getEmployee().getEmail()).sendMail("Holiday Declined", userMessage);
 
-			// mail to HR
-			String hrMessage = "Employee's " + firstChainHoliday.getEmployee().getName() + " holiday request on "
-					+ dateFormat(firstChainHoliday.getDay());
-			if (currentChainHoliday != null) {
-				hrMessage += " - " + dateFormat(currentChainHoliday.getDay());
-			}
-			hrMessage += " was declined by " + getCurrentUser().getName() + " on "
-					+ dateFormat(new Timestamp(System.currentTimeMillis()));
-			new Mail(Mail.companyHrEmail).sendMail("Holiday Declined", hrMessage);
+			// // mail to HR
+			// String hrMessage = "Employee's " + firstChainHoliday.getEmployee().getName()
+			// + " holiday request on "
+			// + dateFormat(firstChainHoliday.getDay());
+			// if (currentChainHoliday != null) {
+			// hrMessage += " - " + dateFormat(currentChainHoliday.getDay());
+			// }
+			// hrMessage += " was declined by " + getCurrentUser().getName() + " on "
+			// + dateFormat(new Timestamp(System.currentTimeMillis()));
+			// new Mail(Mail.companyHrEmail).sendMail("Holiday Declined", hrMessage);
 
 		} catch (MessagingException e) {
 			e.printStackTrace();
@@ -432,6 +433,8 @@ public class HolidayController {
 					// hrMessage += " was declined by " + getCurrentUser().getName() + " on "
 					hrMessage += " was cancelled on " + dateFormat(new Timestamp(System.currentTimeMillis()));
 					new Mail(Mail.companyHrEmail).sendMail("Holiday Cancelled", hrMessage);
+					// And to his direct manager
+					new Mail(holiday.getEmployee().getManager().getEmail()).sendMail("Holiday Cancelled", hrMessage);
 
 				} catch (MessagingException e) {
 					e.printStackTrace();
