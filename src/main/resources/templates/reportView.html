@@ -1,22 +1,29 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Test</title>
-  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
-</head>
-<body>
- <table>
- 	<tr>
- 		<th:block th:each="columnName: ${columnNames}">
-    	    <th th:text="${columnName}">Dataset Field</th>
-    	</th:block>
-	</tr>
-	<tr th:each="viewResult : ${viewResults}">
-		<th:block th:each="entry : ${viewResult}">
-                <td th:text="${entry.value}">Dataset Field</td>
-        </th:block>
-	</tr>
-  </table>
-  
-</body>
+	<head>
+	  <title>Test</title>
+	  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+	  <link href="../css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="main">
+			<div class="logo"></div>
+			<div class="content">
+				<h1 th:text="${title}"/>
+				<a class="bacl-btn" href="index.html">&#10149; Back</a>
+				<table>
+					<tr>
+						<th:block th:each="columnName: ${columnNames}">
+							<th th:text="${columnName}">Dataset Field</th>
+						</th:block>
+					</tr>
+					<tr th:each="viewResult : ${viewResults}">
+						<th:block th:each="entry : ${viewResult}">
+							<td th:text="${entry.value}">Dataset Field</td>
+						</th:block>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</body>
 </html>

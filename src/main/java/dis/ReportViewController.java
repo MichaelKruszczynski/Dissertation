@@ -97,7 +97,7 @@ public class ReportViewController {
 			model.addAttribute("viewResults", queryForList);
 			model.addAttribute("columnNames", queryForList.iterator().next().keySet());
 		}
-
+		model.addAttribute("title", name);
 		return "reportView";
 	}
 

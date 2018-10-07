@@ -1,40 +1,41 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Test</title>
-  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
-</head>
-<body>
-<style>
-.error {
-	color: #ff0000;
-	font-style: italic;
-	font-weight: bold;
-}
-</style>	
-<form action="#" th:action="@{/holiday/requested}" th:object="${holiday}" method="post">
- <table>
-	<tr>
-		<th>ID</th>
-		<th>Select</th>
-		<th>Day</th>
-		<th>Full/Half Day</th>
-		<th>Employee Name</th>
-		<th>Activated At</th>
-		<th>Activated By</th>
-	</tr>
-	<tr th:each="holiday : ${holidays}">
-		<td> <a th:href="@{/holiday/{id}/edit(id=${holiday.id})}" th:text="${holiday.id}"/></td>
-		<td><input type="checkbox" th:name="holidayIds" th:value="${holiday.id}" /></td>
-		<td th:text="${holiday.day}"/>
-		<td th:text="${holiday.type}"/>
-		<td th:text="${holiday.employee.name}"/>
-		<td th:text="${holiday.activatedAt}"/>
-		<td th:text="${holiday.activatedBy}"/>
-	</tr>
-  </table>
-  
-<p><input type="submit" name="edit" value="Accept" /> <input type="submit" name="edit" value="Decline" /></p>
-</form>
-</body>
+	<head>
+		<title>Test</title>
+		<meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+		<link href="../css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="main">
+			<div class="logo"></div>
+			<div class="content">
+				<h1 th:text="${title}"/>
+				<a class="bacl-btn" href="index.html">&#10149; Back</a>
+				<form action="#" th:action="@{/holiday/requested}" th:object="${holiday}" method="post">
+					<table>
+						<tr>
+							<th>ID</th>
+							<th>Select</th>
+							<th>Day</th>
+							<th>Full/Half Day</th>
+							<th>Employee Name</th>
+							<th>Activated At</th>
+							<th>Activated By</th>
+						</tr>
+						<tr th:each="holiday : ${holidays}">
+							<td><a th:href="@{/holiday/{id}/edit(id=${holiday.id})}" th:text="${holiday.id}"/></td>
+							<td><input type="checkbox" th:name="holidayIds" th:value="${holiday.id}" /></td>
+							<td th:text="${holiday.day}"/>
+							<td th:text="${holiday.type}"/>
+							<td th:text="${holiday.employee.name}"/>
+							<td th:text="${holiday.activatedAt}"/>
+							<td th:text="${holiday.activatedBy}"/>
+						</tr>
+					</table>
+					  
+					<p><input type="submit" name="edit" value="Accept" /> <input type="submit" name="edit" value="Decline" /></p>
+				</form>
+			</div>
+		</div>
+	</body>
 </html>

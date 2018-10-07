@@ -204,6 +204,7 @@ public class HolidayController {
 		}
 
 		model.addAttribute("holidays", findAll);
+		model.addAttribute("title", "All requested Holidays");
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
 
@@ -220,6 +221,7 @@ public class HolidayController {
 			holidays.add(holidayRepository.findOne(holidayId));
 		}
 		Collections.sort(holidays, new HolidayComparator());
+		model.addAttribute("title", "All requested Holidays");
 
 		boolean chain = false;
 		Holiday firstChainHoliday = null;

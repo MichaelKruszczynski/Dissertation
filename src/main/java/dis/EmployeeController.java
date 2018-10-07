@@ -50,6 +50,7 @@ public class EmployeeController {
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/add")
 	public String createForm(Model model) {
+		model.addAttribute("title", "Add a new Employee");
 		model.addAttribute("employee", new Employee());
 		model.addAttribute("departments", departmentRepository.findAllByOrderByNameAsc());
 		model.addAttribute("accessLevel", roleRepository.findAll());
@@ -65,6 +66,7 @@ public class EmployeeController {
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid Employee employee, Errors errors, Model model) {
 
+		model.addAttribute("title", "Add a new Employee");
 		if (errors.hasErrors()) {
 			model.addAttribute("departments", departmentRepository.findAllByOrderByNameAsc());
 			model.addAttribute("accessLevel", roleRepository.findAll());

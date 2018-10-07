@@ -1,65 +1,51 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Test</title>
-  <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
-</head>
-<body>
-<style>
-.error {
-	color: #ff0000;
-	font-style: italic;
-	font-weight: bold;
-}
-</style>
-	<form action="#" th:action="@{/employee/add}" th:object="${employee}" method="post" id="answerForm">
-        <p>Name: <input type="text" th:field="*{name}" /></p>
-        <span th:errors="*{name}" class="error"></span>
-        
-     
-        <p>Department:
-	        <select th:field="*{department}">
-	       
-				<option th:each="departmentFromLoop : ${departments}" th:value="${departmentFromLoop.id}" th:text="${departmentFromLoop.name}"/>
-			</select>
-		</p>
-		
-		<p>EmployeeNo: <input type="text" th:field="*{EmployeeNo}" /></p>
-		<span th:errors="*{employeeNo}" class="error"></span>
-		
-		<p>EmployeeType:
-	        <select th:field="*{type}">
-				<option th:each="EmployeeTypeFromLoop : ${EmployeeType}" th:value="${EmployeeTypeFromLoop}" th:text="${EmployeeTypeFromLoop}"/>
-			</select>
-		</p>
-		
-		    <p>Access Level:
-	        <select th:field="*{roles}">
-				<option th:each="accessLevelFromLoop : ${accessLevel}" th:value="${accessLevelFromLoop.id}" th:text="${accessLevelFromLoop.name}"/>
-				</select>
-				</p>
-		
-		 <p>Total Annual Holiday Days: <input type="text" th:field="*{totalAnnualHolidayDays}" /></p>
-		 <span th:errors="*{totalAnnualHolidayDays}" class="error"></span>
-		 		 
-		   <p>Email address: <input type="text" th:field="*{email}" /></p>
-        <span th:errors="*{email}" class="error"></span>
-        
-           
-        <p>Manager:
-	        <select th:field="*{manager}">
-	       
-				<option th:each="managerFromLoop : ${managers}" th:value="${managerFromLoop.id}" th:text="${managerFromLoop.name}"/>
-			</select>
-        <span th:errors="*{manager}" class="error"></span>
-		</p>
-        
-          <p>Password: <input type="text" th:field="*{password}" /></p>
-        <span th:errors="*{password}" class="error"></span>
-        
-     
-		
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-    </form>  
-</body>
+	<head>
+		<title>Test</title>
+		<meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+		<link href="../css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="main">
+			<div class="logo"></div>
+			<div class="content">
+				<h1 th:text="${title}"/>
+				<a class="bacl-btn" href="index.html">&#10149; Back</a>
+				<form action="#" th:action="@{/employee/add}" th:object="${employee}" method="post" id="answerForm">
+			        <p><label for="name">Name:</label><input type="text" th:field="*{name}" /></p>
+			        <span th:errors="*{name}" class="error"></span>
+			        <p><label for="department">Department:</label>
+				        <select th:field="*{department}">
+							<option th:each="departmentFromLoop : ${departments}" th:value="${departmentFromLoop.id}" th:text="${departmentFromLoop.name}"/>
+						</select>
+					</p>
+					<p><label for="EmployeeNo">EmployeeNo: </label><input type="text" th:field="*{EmployeeNo}" /></p>
+					<span th:errors="*{employeeNo}" class="error"></span>
+					<p><label for="type">EmployeeType:</label>
+				        <select th:field="*{type}">
+							<option th:each="EmployeeTypeFromLoop : ${EmployeeType}" th:value="${EmployeeTypeFromLoop}" th:text="${EmployeeTypeFromLoop}"/>
+						</select>
+					</p>
+					<p><label>Access Level:</label>
+		    		<select th:field="*{roles}">
+						<option th:each="accessLevelFromLoop : ${accessLevel}" th:value="${accessLevelFromLoop.id}" th:text="${accessLevelFromLoop.name}"/>
+					</select>
+					</p>
+					<p><label>Total Annual Holiday Days: </label><input type="text" th:field="*{totalAnnualHolidayDays}" /></p>
+					<span th:errors="*{totalAnnualHolidayDays}" class="error"></span>
+					<p><label>Email address: </label><input type="text" th:field="*{email}" /></p>
+			        <span th:errors="*{email}" class="error"></span>
+			        <p><label>Manager:</label>
+				        <select th:field="*{manager}">
+							<option th:each="managerFromLoop : ${managers}" th:value="${managerFromLoop.id}" th:text="${managerFromLoop.name}"/>
+						</select>
+			        <span th:errors="*{manager}" class="error"></span>
+					</p>
+			          <p><label>Password: </label><input type="text" th:field="*{password}" /></p>
+			        <span th:errors="*{password}" class="error"></span>
+			        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+			    </form>
+		    </div>
+	    </div>  
+	</body>
 </html>
