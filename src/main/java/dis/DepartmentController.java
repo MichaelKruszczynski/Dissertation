@@ -31,6 +31,7 @@ public class DepartmentController {
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/add")
 	public String createForm(Model model) {
+		model.addAttribute("title", "Add a new Department");
 		model.addAttribute("department", "departmentAdd");
 		model.addAttribute(new Department());
 		return "departmentAdd";
@@ -39,7 +40,7 @@ public class DepartmentController {
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid Department department, Errors errors, Model model) {
-
+		model.addAttribute("title", "Add a new Department");
 		if (errors.hasErrors()) {
 
 			return "departmentAdd";
@@ -53,6 +54,7 @@ public class DepartmentController {
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<Department> findAll = departmentRepository.findAllByOrderByNameAsc();
+		model.addAttribute("title", "All Departments");
 		model.addAttribute("departments", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
@@ -63,6 +65,8 @@ public class DepartmentController {
 	@GetMapping(path = "/{id}")
 	public String readById(@PathVariable("id") long id, Model model) {
 		model.addAttribute("department", departmentRepository.findOne(id));
+		model.addAttribute("title", "Edit Department");
+
 		// this returns JSON or XML with the department
 		return "departmentById";
 
@@ -74,6 +78,7 @@ public class DepartmentController {
 	public String createEdit(@PathVariable("id") long id, Model model) {
 		// with input provided
 		model.addAttribute("department", departmentRepository.findOne(id));
+		model.addAttribute("title", "Edit Department");
 		// this returns JSON or XML with the department
 		return "departmentEdit";
 

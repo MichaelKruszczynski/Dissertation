@@ -29,7 +29,9 @@ public class TrainingController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/add")
+
 	public String createForm(Model model) {
+		model.addAttribute("title", "Add a new Training");
 		model.addAttribute("training", new Training());
 		return "trainingAdd";
 	}
@@ -37,6 +39,7 @@ public class TrainingController {
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid Training training, Errors errors, Model model) {
+		model.addAttribute("title", "Add a new Training");
 		if (errors.hasErrors()) {
 
 			return "trainingAdd";
@@ -50,6 +53,7 @@ public class TrainingController {
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<Training> findAll = trainingRepository.findAllByOrderByName();
+		model.addAttribute("title", "All Trainings");
 		model.addAttribute("trainings", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();

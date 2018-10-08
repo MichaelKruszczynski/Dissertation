@@ -3,22 +3,22 @@
 <head>
   <title>Test</title>
   <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+  	<link href="../css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
 <body>
-
-<style>
-.error {
-	color: #ff0000;
-	font-style: italic;
-	font-weight: bold;
-}
-</style>
-	<form action="#" th:action="@{/department/add}" th:object="${department}" method="post">
-        <p>Name: <input type="text" th:field="*{name}" /></p>
-        <span th:errors="*{name}" class="error"></span>
-        <p>Total Hours Available: <input type="text" th:field="*{totalHoursAvailable}" /></p>
-        <span th:errors="*{totalHoursAvailable}" class="error"></span>
+<div class="main">
+			<div class="logo"></div>
+			<div class="content">
+				<h1 th:text="${title}"/>
+				<a class="bacl-btn" href="index.html">&#10149; Back</a>
+	<form action="#" th:action="@{/department/add}" th:object="${department}" method="post" id="answerForm">
+			        <p><label for="name">Name:</label><input type="text" th:field="*{name}" /></p>
+			        <span th:errors="*{name}" class="error"></span>
+        <p><label for="totalHoursAvailable">totalHoursAvailable: </label><input type="text" th:field="*{totalHoursAvailable}" /></p>
+					<span th:errors="*{totalHoursAvailable}" class="error"></span>
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-    </form>  
-</body>
+   			 </form> 
+    	 </div> 
+   	  </div>  
+	</body>
 </html>

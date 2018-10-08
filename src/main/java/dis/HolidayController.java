@@ -54,6 +54,7 @@ public class HolidayController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/add")
 	public String createForm(Model model) {
+		model.addAttribute("title", "Add a new Holiday");
 		model.addAttribute("holiday", new Holiday());
 		model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 		List<HolidayType> holType = new ArrayList<HolidayType>();
@@ -67,6 +68,7 @@ public class HolidayController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid Holiday holiday, Errors errors, Model model) {
+		model.addAttribute("title", "Add a new Holiday");
 		if (errors.hasErrors()) {
 			model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 			List<HolidayType> holType = new ArrayList<HolidayType>();
@@ -181,6 +183,8 @@ public class HolidayController {
 	public String readAll(Model model) {
 
 		Iterable<Holiday> findAll = holidayRepository.findAllByOrderByEmployeeNameAscDayAsc();
+		model.addAttribute("title", "Edit Holiday");
+		model.addAttribute("title", "All Holidays");
 		model.addAttribute("holidays", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
@@ -396,6 +400,7 @@ public class HolidayController {
 	public String createEdit(@PathVariable("id") long id, Model model) {
 		// with input provided
 		model.addAttribute("holiday", holidayRepository.findOne(id));
+		model.addAttribute("title", "Edit Holiday");
 		// this returns JSON or XML with the department
 		model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 		List<HolidayType> holType = new ArrayList<HolidayType>();

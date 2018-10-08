@@ -87,6 +87,7 @@ public class EmployeeController {
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<Employee> findAll = employeeRepository.findAllByOrderByNameAsc();
+		model.addAttribute("title", "All Employees");
 		model.addAttribute("employees", findAll);
 
 		// the users
@@ -107,6 +108,7 @@ public class EmployeeController {
 	@GetMapping(path = "/{id}/edit")
 	public String createEdit(@PathVariable("id") long id, Model model) {
 		// with input provided
+		model.addAttribute("title", "Edit Employee");
 		model.addAttribute("employee", employeeRepository.findOne(id));
 		model.addAttribute("departments", departmentRepository.findAllByOrderByNameAsc());
 		// this returns JSON or XML with the department
@@ -132,6 +134,7 @@ public class EmployeeController {
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
 	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Employee employee, Errors errors,
 			Model model) {
+		model.addAttribute("title", "Edit Employee");
 		if (errors.hasErrors()) {
 			// List<AccessLevel> accessLevel = new ArrayList<AccessLevel>();
 			// accessLevel.add(AccessLevel.ADMIN);

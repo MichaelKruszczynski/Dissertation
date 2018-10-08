@@ -3,8 +3,14 @@
 <head>
   <title>Test</title>
   <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+  <link href="../css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
 <body>
+	<div class="main">
+			<div class="logo"></div>
+			<div class="content">
+				<h1 th:text="${title}"/>
+				<a class="bacl-btn" href="index.html">&#10149; Back</a>
  <table>
 	<tr>
 		<th>ID</th>
@@ -13,7 +19,6 @@
 		<th>Employee Name</th>
 		<th>Accepted By</th>
 		<th>Accepted At</th>
-		
 	</tr>
 	<tr th:each="holiday : ${holidays}">
 		<td> <a th:href="@{/holiday/{id}/edit(id=${holiday.id})}" th:text="${holiday.id}"/></td>
@@ -24,6 +29,8 @@
 		<td th:text="${holiday.activatedAt}"/>
 	</tr>
   </table>
- 
+			</div>
+		</div>
+
 </body>
 </html>

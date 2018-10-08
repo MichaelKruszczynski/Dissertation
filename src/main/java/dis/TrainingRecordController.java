@@ -45,6 +45,7 @@ public class TrainingRecordController {
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/add")
 	public String createForm(Model model) {
+		model.addAttribute("title", "Add a new Training Record");
 		model.addAttribute("trainingRecord", new TrainingRecord());
 		model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 		model.addAttribute("trainings", trainingRepository.findAllByOrderByNameAsc());
@@ -54,6 +55,7 @@ public class TrainingRecordController {
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid TrainingRecord trainingRecord, Errors errors, Model model) {
+		model.addAttribute("title", "Add a new Training Record");
 		if (errors.hasErrors()) {
 			model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 			model.addAttribute("trainings", trainingRepository.findAllByOrderByNameAsc());
@@ -68,6 +70,7 @@ public class TrainingRecordController {
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<TrainingRecord> findAll = trainingRecordRepository.findAllByOrderByEmployeeNameAsc();
+		model.addAttribute("title", "All Trainings Records");
 		model.addAttribute("trainingRecords", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
@@ -88,6 +91,7 @@ public class TrainingRecordController {
 	@GetMapping(path = "/{id}/edit")
 	public String createEdit(@PathVariable("id") long id, Model model) {
 		// with input provided
+		model.addAttribute("title", "Edit Training Record");
 		model.addAttribute("trainingRecord", trainingRecordRepository.findOne(id));
 		model.addAttribute("trainings", trainingRepository.findAllByOrderByNameAsc());
 		model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());

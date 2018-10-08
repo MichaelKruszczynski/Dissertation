@@ -3,16 +3,18 @@
 <head>
   <title>Test</title>
   <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+  <link href="../css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+  
 </head>
 <body>
- <table>
- <style>
-.error {
-	color: #ff0000;
-	font-style: italic;
-	font-weight: bold;
-}
-</style>
+
+
+<div class="main">
+			<div class="logo"></div>
+			<div class="content">
+				<h1 th:text="${title}"/>
+				<a class="bacl-btn" href="index.html">&#10149; Back</a>
+	 <table>		
 	<tr>
 		<th>ID</th>
 		<th>Report Name</th>
@@ -42,8 +44,8 @@
 				</select>
 				</p>
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" /></p>
-        
-        
-    </form>  
-</body>
+     </form>  
+   </div> 
+   	  </div>  
+	</body>
 </html>

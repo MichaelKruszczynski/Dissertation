@@ -35,7 +35,9 @@ public class ReportController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/add")
+
 	public String createForm(Model model) {
+		model.addAttribute("title", "Add a new Report");
 		model.addAttribute("report", "reportAdd");
 		model.addAttribute(new Report());
 		model.addAttribute("accessLevel", roleRepository.findAll());
@@ -45,7 +47,7 @@ public class ReportController {
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid Report report, Errors errors, Model model) {
-
+		model.addAttribute("title", "Add a new Report");
 		if (errors.hasErrors()) {
 
 			model.addAttribute("accessLevel", roleRepository.findAll());
@@ -60,6 +62,7 @@ public class ReportController {
 	@GetMapping(path = "/all")
 	public String readAll(Model model) {
 		Iterable<Report> findAll = reportRepository.findAll();
+		model.addAttribute("title", "All Reports");
 		model.addAttribute("reports", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
@@ -70,6 +73,7 @@ public class ReportController {
 	@GetMapping(path = "/{id}")
 	public String readById(@PathVariable("id") long id, Model model) {
 		model.addAttribute("report", reportRepository.findOne(id));
+		model.addAttribute("title", "Edit Report");
 		// this returns JSON or XML with the department
 		return "reportById";
 
@@ -82,6 +86,7 @@ public class ReportController {
 		// with input provided
 		model.addAttribute("report", reportRepository.findOne(id));
 		model.addAttribute("accessLevel", roleRepository.findAll());
+		model.addAttribute("title", "Edit Report");
 		// this returns JSON or XML with the department
 		return "reportEdit";
 
