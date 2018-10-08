@@ -99,6 +99,7 @@ public class HolidayController {
 	public String createRequestForm(Model model) {
 
 		model.addAttribute("holiday", new Holiday());
+		model.addAttribute("title", "Request Holiday");
 
 		List<HolidayType> holType = new ArrayList<HolidayType>();
 		holType.add(HolidayType.FULL_DAY);
@@ -381,6 +382,8 @@ public class HolidayController {
 		Employee emp = getCurrentUser();
 		Iterable<Holiday> findAll = holidayRepository.findAllByEmployeeId(emp.getId());
 		model.addAttribute("holidays", findAll);
+		model.addAttribute("title", "My Holidays");
+
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
 

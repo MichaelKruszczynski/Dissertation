@@ -3,8 +3,15 @@
 <head>
   <title>Test</title>
   <meta http-equiv="Content-Type" contet="text/html; charset=UTF-8" />
+          	<link href="../css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+  
 </head>
 <body>
+<div class="main">
+			<div class="logo"></div>
+			<div class="content">
+				<h1 th:text="${title}"/>
+				<a class="bacl-btn" href="index.html">&#10149; Back</a>
  <table>
 	<tr>
 		<th>Day</th>
@@ -25,6 +32,7 @@
 	</tr>
 	
   </table>
-
-</body>
+ </div> 
+   	  </div>  
+	</body>
 </html>
