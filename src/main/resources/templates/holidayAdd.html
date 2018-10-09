@@ -18,7 +18,7 @@
 			<div class="logo"></div>
 			<div class="content">
 				<h1 th:text="${title}"/>
-				<a class="bacl-btn" href="index.html">&#10149; Back</a>
+				<a class="bacl-btn" href="/">&#10149; Back</a>
 		<form action="#" th:action="@{/holiday/add}" th:object="${holiday}" method="post" id="answerForm">
 	 <p><label for="employee">Employee:</label>
 				        <select th:field="*{employee}">
@@ -26,9 +26,9 @@
 						</select>
 					</p>
         <span th:errors="*{employee}" class="error"></span>
-        <p>Day: <input type="text" th:id="datepicker" th:field="*{day}" autocomplete="off" /></p>
+        <p><label>Day:</label><input type="text" th:id="datepicker" th:field="*{day}" autocomplete="off" /></p>
         <span th:errors="*{day}" class="error"></span>
-        <p>HolidayType:
+        <p><label>HolidayType:</label>
 	        <select th:field="*{type}">
 				<option th:each="holidayTypeFromLoop : ${holidayType}" th:value="${holidayTypeFromLoop}" th:text="${holidayTypeFromLoop}"/>
 			</select>

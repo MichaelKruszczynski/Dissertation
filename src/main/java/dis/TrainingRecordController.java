@@ -56,6 +56,7 @@ public class TrainingRecordController {
 	@PostMapping(path = "/add")
 	public String createSubmit(@ModelAttribute @Valid TrainingRecord trainingRecord, Errors errors, Model model) {
 		model.addAttribute("title", "Add a new Training Record");
+
 		if (errors.hasErrors()) {
 			model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 			model.addAttribute("trainings", trainingRepository.findAllByOrderByNameAsc());

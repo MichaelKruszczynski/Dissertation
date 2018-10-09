@@ -138,7 +138,6 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 			fourthReport.setName(name);
 			fourthReport.setQuery(query);
 			fourthReport.setRole(roleRepository.findByName(accesslevel));
-			fourthReport.setColumnNames("Not yet developed");
 			reportRepository.save(fourthReport);
 		}
 	}

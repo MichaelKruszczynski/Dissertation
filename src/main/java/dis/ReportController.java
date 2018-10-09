@@ -113,7 +113,6 @@ public class ReportController {
 		// update the properties with values comming from model
 		dbReport.setName(report.getName());
 		dbReport.setQuery(report.getQuery());
-		dbReport.setColumnNames(report.getColumnNames());
 		dbReport.setRole(report.getRole());
 		// then save(update) to database
 		reportRepository.save(dbReport);

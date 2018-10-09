@@ -20,17 +20,17 @@
 			<div class="logo"></div>
 			<div class="content">
 				<h1 th:text="${title}"/>
-				<a class="bacl-btn" href="index.html">&#10149; Back</a>
+				<a class="bacl-btn" href="/">&#10149; Back</a>
 	<form action="#" th:action="@{/holiday/request}" th:object="${holiday}" method="post">
 	 
-        <p>From: <input type="text" th:id="datepicker" th:field="*{day}" autocomplete="off" /></p>
+        <p><label>From:</label><input type="text" th:id="datepicker" th:field="*{day}" autocomplete="off" /></p>
         <span th:errors="*{day}" class="error"></span>
-          <p>To: <input type="text" th:id="datepicker2" th:field="*{day2}" autocomplete="off" /></p>
+          <p><label>To:</label><input type="text" th:id="datepicker2" th:field="*{day2}" autocomplete="off" /></p>
         <span th:errors="*{day2}" class="error"></span>
         
         
         
-        <p>HolidayType:
+        <p><label>HolidayType:</label>
 	        <select th:field="*{type}">
 				<option th:each="holidayTypeFromLoop : ${holidayType}" th:value="${holidayTypeFromLoop}" th:text="${holidayTypeFromLoop}"/>
 			</select>

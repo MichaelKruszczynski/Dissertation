@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 // This means that this class is a Controller
@@ -32,12 +33,12 @@ public class ReportViewController {
 	private CrudRepository<Employee, Long> employeeRepository;
 
 	@RequestMapping
-	public String main() {
-		return "reportViewEmpty";
+	public ModelAndView main() {
+		return new ModelAndView("redirect:/");
 	}
 
 	@RequestMapping(path = "/{name}/**") // ** means any thing else
-	public String displayView(@PathVariable("name") String name, Model model, HttpServletRequest request) {
+	public ModelAndView displayView(@PathVariable("name") String name, Model model, HttpServletRequest request) {
 
 		String uri = request.getRequestURI();
 		String[] split = uri.split("/");
@@ -61,7 +62,8 @@ public class ReportViewController {
 		} // for loop for extracting parameters
 		Report report = reportRepository.findByName(name);
 		if (report == null) {
-			return "empty";
+			// return "empty";
+			return new ModelAndView("reportView");
 		}
 		String reportRole = report.getRole().getName();
 
@@ -77,7 +79,7 @@ public class ReportViewController {
 			break;
 		}
 		if (!authenticated) {
-			return "accessDenied";
+			return new ModelAndView("accessDenied");
 		}
 		// Object[] uuid = jdbcTemplate.queryForObject(report.getQuery(),
 		// Object[].class);
@@ -92,13 +94,14 @@ public class ReportViewController {
 			queryForList = jdbcTemplate.queryForList(query, parameters.toArray());
 		}
 		if (queryForList.isEmpty()) {
-			return "empty";
+			// return "empty";
+			return new ModelAndView("reportView");
 		} else {
 			model.addAttribute("viewResults", queryForList);
 			model.addAttribute("columnNames", queryForList.iterator().next().keySet());
 		}
 		model.addAttribute("title", name);
-		return "reportView";
+		return new ModelAndView("reportView");
 	}
 
 	private Employee getCurrentUser() {

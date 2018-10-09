@@ -10,15 +10,13 @@
 			<div class="logo"></div>
 			<div class="content">
 				<h1 th:text="${title}"/>
-				<a class="bacl-btn" href="index.html">&#10149; Back</a>
+				<a class="bacl-btn" href="/">&#10149; Back</a>
 				<form action="#" th:action="@{/report/add}" th:object="${report}" method="post" id="answerForm">
 			        <p><label for="name">Name:</label><input type="text" th:field="*{name}" /></p>
         <span th:errors="*{name}" class="error"></span>
 
        <p><label for="query">Query: </label><input type="text" th:field="*{Query}" /></p>
 					<span th:errors="*{query}" class="error"></span>
-        <p><label for="columnNames">ColumnNames: </label><input type="text" th:field="*{ColumnNames}" /></p>
-					<span th:errors="*{columnNames}" class="error"></span>
 					<p><label>Access Level:</label>
 		    		<select th:field="*{role}">
 						<option th:each="accessLevelFromLoop : ${accessLevel}" th:value="${accessLevelFromLoop.id}" th:text="${accessLevelFromLoop.name}"/>

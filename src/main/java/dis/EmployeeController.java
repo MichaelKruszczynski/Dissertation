@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 // This means that this class is a Controller
@@ -64,7 +65,7 @@ public class EmployeeController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/add")
-	public String createSubmit(@ModelAttribute @Valid Employee employee, Errors errors, Model model) {
+	public ModelAndView createSubmit(@ModelAttribute @Valid Employee employee, Errors errors, Model model) {
 
 		model.addAttribute("title", "Add a new Employee");
 		if (errors.hasErrors()) {
@@ -75,24 +76,26 @@ public class EmployeeController {
 			empType.add(EmployeeType.FULL_TIME);
 			empType.add(EmployeeType.PART_TIME);
 			model.addAttribute("EmployeeType", empType);
-			return "employeeAdd";
+			return new ModelAndView("employeeAdd");
 		}
 		employee.setEnabled(true);
 		employee.setPassword(passwordEncoder.encode(employee.getPassword()));
 		employeeRepository.save(employee);
-		return "employeeAddResult";
+		// return "employeeAddResult";
+
+		return new ModelAndView("redirect:/employee/all");
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/all")
-	public String readAll(Model model) {
+	public ModelAndView readAll(Model model) {
 		Iterable<Employee> findAll = employeeRepository.findAllByOrderByNameAsc();
 		model.addAttribute("title", "All Employees");
 		model.addAttribute("employees", findAll);
 
 		// the users
 		// return departmentRepository.findAll();
-		return "employeeAll";
+		return new ModelAndView("employeeAll");
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
@@ -124,15 +127,15 @@ public class EmployeeController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/{id}/edit", params = "edit=Delete")
-	public String createEditPostDelete(@PathVariable("id") long id, Model model) {
+	public ModelAndView createEditPostDelete(@PathVariable("id") long id, Model model) {
 		Employee findOne = employeeRepository.findOne(id);
 		employeeRepository.delete(findOne);
-		return readAll(model);
+		return new ModelAndView("redirect:/employee/all");
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
-	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Employee employee, Errors errors,
+	public ModelAndView editForm(@PathVariable("id") long id, @ModelAttribute @Valid Employee employee, Errors errors,
 			Model model) {
 		model.addAttribute("title", "Edit Employee");
 		if (errors.hasErrors()) {
@@ -146,7 +149,7 @@ public class EmployeeController {
 			empType.add(EmployeeType.FULL_TIME);
 			empType.add(EmployeeType.PART_TIME);
 			model.addAttribute("EmployeeType", empType);
-			return "employeeEdit";
+			return new ModelAndView("employeeEdit");
 		}
 		// doin't create new object here, read old one by id and update its properties
 		Employee dbEmployee = employeeRepository.findOne(id);
@@ -164,7 +167,7 @@ public class EmployeeController {
 		dbEmployee.setRoles(employee.getRoles());
 		// then save(update) to database
 		employeeRepository.save(dbEmployee);
-		return readAll(model); // and choose template to kick in afterwards
+		return new ModelAndView("redirect:/employee/all"); // and choose template to kick in afterwards
 		// and then add another method that also catches the action of deleting and
 		// removes instead
 		// keep in mind that you may be forced to change this one to catch the action
@@ -174,11 +177,11 @@ public class EmployeeController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@RequestMapping(path = "/delete/{id}")
-	public String createEdit(@ModelAttribute Employee employee, Model model) {
+	public ModelAndView createEdit(@ModelAttribute Employee employee, Model model) {
 		Employee findOne = employeeRepository.findOne(employee.getId());
 		employeeRepository.delete(findOne);
 
-		return readAll(model);
+		return new ModelAndView("redirect:/employee/all");
 	}
 
 	private Employee getCurrentUser() {

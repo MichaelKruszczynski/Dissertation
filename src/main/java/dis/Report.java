@@ -27,9 +27,6 @@ public class Report {
 	@NotNull
 	@Size(min = 1, message = "Please input a query ")
 	private String query;
-	@NotNull
-	@Size(min = 1, message = "Please input a column names ")
-	private String columnNames;
 	@ManyToOne
 	@NotNull
 	private Role role;
@@ -56,14 +53,6 @@ public class Report {
 
 	public void setQuery(String query) {
 		this.query = query;
-	}
-
-	public String getColumnNames() {
-		return columnNames;
-	}
-
-	public void setColumnNames(String columnNames) {
-		this.columnNames = columnNames;
 	}
 
 	public Role getRole() {

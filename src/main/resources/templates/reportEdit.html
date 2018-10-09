@@ -13,7 +13,7 @@
 			<div class="logo"></div>
 			<div class="content">
 				<h1 th:text="${title}"/>
-				<a class="bacl-btn" href="index.html">&#10149; Back</a>
+				<a class="bacl-btn" href="/">&#10149; Back</a>
 	 <table>		
 	<tr>
 		<th>ID</th>
@@ -36,8 +36,6 @@
         <span th:errors="*{name}" class="error"></span>
          <p>Query: <input type="text" th:field="*{query}" /></p>
          <span th:errors="*{query}" class="error"></span>
-          <p>Column names: <input type="text" th:field="*{columnNames}" /></p>
-         <span th:errors="*{columnNames}" class="error"></span>
          <p>Access Level:
           <select th:field="*{role}">
 				<option th:each="accessLevelFromLoop : ${accessLevel}" th:value="${accessLevelFromLoop.id}" th:text="${accessLevelFromLoop.name}"/>
