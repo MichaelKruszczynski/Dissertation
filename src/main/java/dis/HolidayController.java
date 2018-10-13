@@ -67,7 +67,7 @@ public class HolidayController {
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(path = "/add")
-	public String createSubmit(@ModelAttribute @Valid Holiday holiday, Errors errors, Model model) {
+	public ModelAndView createSubmit(@ModelAttribute @Valid Holiday holiday, Errors errors, Model model) {
 		model.addAttribute("title", "Add a new Holiday");
 		if (errors.hasErrors()) {
 			model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
@@ -75,24 +75,11 @@ public class HolidayController {
 			holType.add(HolidayType.FULL_DAY);
 			holType.add(HolidayType.HALF_DAY);
 			model.addAttribute("holidayType", holType);
-			return "holidayAdd";
+			return new ModelAndView("holidayAdd");
 		}
 
-		// Employee employee = getCurrentUser();
-		// Collection<Role> roles = getCurrentUser().getRoles();
-		// boolean admin = false;
-		// for (Role role : roles) {
-		// if ("ROLE_ADMIN".equals(role.getName())) {
-		// admin = true;
-		// break;
-		// }
-		// }
-		// if (admin && holiday.getEmployee().getId() != getCurrentUser().getId()) {
-		// holiday.setActivatedBy(employee.getName());
-		// }
-
 		holidayRepository.save(holiday);
-		return "holidayAddResult";
+		return new ModelAndView("redirect:/holiday/all");
 	}
 
 	@GetMapping(path = "/request")
@@ -181,7 +168,7 @@ public class HolidayController {
 	// @PreAuthorize("hasAnyRole('ADMIN','USER')")
 	// @PreAuthorize("hasAnyRole('ADMIN','USER','ROLE_ADMIN','ROLE_USER')")
 	@GetMapping(path = "/all")
-	public String readAll(Model model) {
+	public ModelAndView readAll(Model model) {
 
 		Iterable<Holiday> findAll = holidayRepository.findAllByOrderByEmployeeNameAscDayAsc();
 		model.addAttribute("title", "Edit Holiday");
@@ -190,7 +177,7 @@ public class HolidayController {
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
 
-		return "holidayAll";
+		return new ModelAndView("holidayAll");
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
@@ -415,10 +402,11 @@ public class HolidayController {
 	}
 
 	@PostMapping(path = "/{id}/edit", params = "edit=Delete")
-	public String createEditPostDelete(@PathVariable("id") long id, Model model) {
+	public ModelAndView createEditPostDelete(@PathVariable("id") long id, Model model) {
 		Holiday findOne = holidayRepository.findOne(id);
 		holidayRepository.delete(findOne);
-		return readAll(model);
+		return new ModelAndView("redirect:/holiday/all");
+
 	}
 
 	@RequestMapping(path = "/{id}/cancel")
@@ -473,7 +461,7 @@ public class HolidayController {
 	}
 
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
-	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Holiday holiday, Errors errors,
+	public ModelAndView editForm(@PathVariable("id") long id, @ModelAttribute @Valid Holiday holiday, Errors errors,
 			Model model) {
 		if (errors.hasErrors()) {
 			holiday.setId(id);
@@ -482,7 +470,7 @@ public class HolidayController {
 			holType.add(HolidayType.FULL_DAY);
 			holType.add(HolidayType.HALF_DAY);
 			model.addAttribute("holidayType", holType);
-			return "holidayEdit";
+			return new ModelAndView("holidayEdit");
 		}
 		// doin't create new object here, read old one by id and update its properties
 		Holiday dbHoliday = holidayRepository.findOne(id);
@@ -493,7 +481,8 @@ public class HolidayController {
 		// Employee employee = getCurrentUser();
 		// then save(update) to database
 		holidayRepository.save(dbHoliday);
-		return readAll(model); // and choose template to kick in afterwards
+		return new ModelAndView("redirect:/holiday/all"); // and choose template to kick in afterwards
+		// and choose template to kick in afterwards
 		// and then add another method that also catches the action of deleting and
 		// removes instead
 		// keep in mind that you may be forced to change this one to catch the action

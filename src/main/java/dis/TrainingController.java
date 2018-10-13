@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 // This means that this class is a Controller
@@ -38,26 +39,28 @@ public class TrainingController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/add")
-	public String createSubmit(@ModelAttribute @Valid Training training, Errors errors, Model model) {
+	public ModelAndView createSubmit(@ModelAttribute @Valid Training training, Errors errors, Model model) {
 		model.addAttribute("title", "Add a new Training");
 		if (errors.hasErrors()) {
 
-			return "trainingAdd";
+			return new ModelAndView("trainingAdd");
+
 		}
 
 		trainingRepository.save(training);
-		return "trainingAddResult";
+		return new ModelAndView("redirect:/training/all");
+
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/all")
-	public String readAll(Model model) {
+	public ModelAndView readAll(Model model) {
 		Iterable<Training> findAll = trainingRepository.findAllByOrderByName();
 		model.addAttribute("title", "All Trainings");
 		model.addAttribute("trainings", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
-		return "trainingAll";
+		return new ModelAndView("trainingAll");
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
@@ -82,20 +85,20 @@ public class TrainingController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/{id}/edit", params = "edit=Delete")
-	public String createEditPostDelete(@PathVariable("id") long id, Model model) {
+	public ModelAndView createEditPostDelete(@PathVariable("id") long id, Model model) {
 		Training findOne = trainingRepository.findOne(id);
 		trainingRepository.delete(findOne);
-		return readAll(model);
+		return new ModelAndView("redirect:/training/all");
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
-	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Training training, Errors errors,
+	public ModelAndView editForm(@PathVariable("id") long id, @ModelAttribute @Valid Training training, Errors errors,
 			Model model) {
 
 		if (errors.hasErrors()) {
 
-			return "trainingEdit";
+			return new ModelAndView("trainingEdit");
 		}
 		// doin't create new object here, read old one by id and update its properties
 		Training dbTraining = trainingRepository.findOne(id);
@@ -105,7 +108,8 @@ public class TrainingController {
 		dbTraining.setVersion(training.getVersion());
 		// then save(update) to database
 		trainingRepository.save(dbTraining);
-		return readAll(model); // and choose template to kick in afterwards
+		return new ModelAndView("redirect:/training/all"); // and choose template to kick in afterwards
+		// and choose template to kick in afterwards
 		// and then add another method that also catches the action of deleting and
 		// removes instead
 		// keep in mind that you may be forced to change this one to catch the action
@@ -115,10 +119,10 @@ public class TrainingController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@RequestMapping(path = "/delete/{id}")
-	public String createEdit(@ModelAttribute Training training, Model model) {
+	public ModelAndView createEdit(@ModelAttribute Training training, Model model) {
 		Training findOne = trainingRepository.findOne(training.getId());
 		trainingRepository.delete(findOne);
 
-		return readAll(model);
+		return new ModelAndView("redirect:/training/all");
 	}
 }

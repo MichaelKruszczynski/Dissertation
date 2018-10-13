@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 // This means that this class is a Controller
@@ -46,27 +47,27 @@ public class ReportController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/add")
-	public String createSubmit(@ModelAttribute @Valid Report report, Errors errors, Model model) {
+	public ModelAndView createSubmit(@ModelAttribute @Valid Report report, Errors errors, Model model) {
 		model.addAttribute("title", "Add a new Report");
 		if (errors.hasErrors()) {
 
 			model.addAttribute("accessLevel", roleRepository.findAll());
-			return "reportAdd";
+			return new ModelAndView("reportAdd");
 		}
 
 		reportRepository.save(report);
-		return "reportAddResult";
+		return new ModelAndView("redirect:/report/all");
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/all")
-	public String readAll(Model model) {
+	public ModelAndView readAll(Model model) {
 		Iterable<Report> findAll = reportRepository.findAll();
 		model.addAttribute("title", "All Reports");
 		model.addAttribute("reports", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
-		return "reportAll";
+		return new ModelAndView("reportAll");
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
@@ -94,19 +95,20 @@ public class ReportController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/{id}/edit", params = "edit=Delete")
-	public String createEditPostDelete(@PathVariable("id") long id, Model model) {
+	public ModelAndView createEditPostDelete(@PathVariable("id") long id, Model model) {
 		Report findOne = reportRepository.findOne(id);
 		reportRepository.delete(findOne);
-		return readAll(model);
+		return new ModelAndView("redirect:/report/all");
+
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
-	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Report report, Errors errors,
+	public ModelAndView editForm(@PathVariable("id") long id, @ModelAttribute @Valid Report report, Errors errors,
 			Model model) {
 		if (errors.hasErrors()) {
 			model.addAttribute("accessLevel", roleRepository.findAll());
-			return "reportEdit";
+			return new ModelAndView("reportEdit");
 		}
 		// doin't create new object here, read old one by id and update its properties
 		Report dbReport = reportRepository.findOne(id);
@@ -116,7 +118,8 @@ public class ReportController {
 		dbReport.setRole(report.getRole());
 		// then save(update) to database
 		reportRepository.save(dbReport);
-		return readAll(model); // and choose template to kick in afterwards
+		return new ModelAndView("redirect:/report/all"); // and choose template to kick in afterwards
+		// and choose template to kick in afterwards
 		// and then add another method that also catches the action of deleting and
 		// removes instead
 		// keep in mind that you may be forced to change this one to catch the action
@@ -126,10 +129,10 @@ public class ReportController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@RequestMapping(path = "/delete/{id}")
-	public String createEdit(@ModelAttribute Report report, Model model) {
+	public ModelAndView createEdit(@ModelAttribute Report report, Model model) {
 		Report findOne = reportRepository.findOne(report.getId());
 		reportRepository.delete(findOne);
 
-		return readAll(model);
+		return new ModelAndView("redirect:/report/all");
 	}
 }

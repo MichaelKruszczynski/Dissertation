@@ -39,12 +39,12 @@
 	</tr> 
   </table>
   	<form action="#" th:action="@{/trainingrecord/{id}/edit(id=${trainingRecord.id})}" th:object="${trainingRecord}" method="post">
-      <p>Employee name:
+		  <p><label for="employee">Employee Name:</label>
 	        <select th:field="*{employee}">
 				<option th:each="employeeFromLoop : ${employees}" th:value="${employeeFromLoop.id}" th:text="${employeeFromLoop.name}"/>
 			</select>
 		</p>
-                <p>Training:
+          <p><label for="training">Training Name:</label>
 	        <select th:field="*{training}">
 				<option th:each="trainingFromLoop : ${trainings}" th:value="${trainingFromLoop.id}" th:text="${trainingFromLoop.Name}"/>
 			</select>

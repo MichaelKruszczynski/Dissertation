@@ -139,9 +139,6 @@ public class EmployeeController {
 			Model model) {
 		model.addAttribute("title", "Edit Employee");
 		if (errors.hasErrors()) {
-			// List<AccessLevel> accessLevel = new ArrayList<AccessLevel>();
-			// accessLevel.add(AccessLevel.ADMIN);
-			// accessLevel.add(AccessLevel.USER);
 			model.addAttribute("accessLevel", roleRepository.findAll());
 			model.addAttribute("departments", departmentRepository.findAllByOrderByNameAsc());
 			model.addAttribute("managers", employeeRepository.findAllManagers());

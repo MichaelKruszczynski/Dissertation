@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 // This means that this class is a Controller
@@ -39,26 +40,26 @@ public class DepartmentController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/add")
-	public String createSubmit(@ModelAttribute @Valid Department department, Errors errors, Model model) {
+	public ModelAndView createSubmit(@ModelAttribute @Valid Department department, Errors errors, Model model) {
 		model.addAttribute("title", "Add a new Department");
 		if (errors.hasErrors()) {
 
-			return "departmentAdd";
+			return new ModelAndView("departmentAdd");
 		}
 
 		departmentRepository.save(department);
-		return "departmentAddResult";
+		return new ModelAndView("redirect:/department/all");
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/all")
-	public String readAll(Model model) {
+	public ModelAndView readAll(Model model) {
 		Iterable<Department> findAll = departmentRepository.findAllByOrderByNameAsc();
 		model.addAttribute("title", "All Departments");
 		model.addAttribute("departments", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
-		return "departmentAll";
+		return new ModelAndView("departmentAll");
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
@@ -86,19 +87,19 @@ public class DepartmentController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/{id}/edit", params = "edit=Delete")
-	public String createEditPostDelete(@PathVariable("id") long id, Model model) {
+	public ModelAndView createEditPostDelete(@PathVariable("id") long id, Model model) {
 		Department findOne = departmentRepository.findOne(id);
 		departmentRepository.delete(findOne);
-		return readAll(model);
+		return new ModelAndView("redirect:/department/all");
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
-	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid Department department, Errors errors,
-			Model model) {
+	public ModelAndView editForm(@PathVariable("id") long id, @ModelAttribute @Valid Department department,
+			Errors errors, Model model) {
 		if (errors.hasErrors()) {
 
-			return "departmentEdit";
+			return new ModelAndView("departmentEdit");
 		}
 		// doin't create new object here, read old one by id and update its properties
 		Department dbDepartment = departmentRepository.findOne(id);
@@ -107,7 +108,7 @@ public class DepartmentController {
 		dbDepartment.setName(department.getName());
 		// then save(update) to database
 		departmentRepository.save(dbDepartment);
-		return readAll(model); // and choose template to kick in afterwards
+		return new ModelAndView("redirect:/department/all"); // and choose template to kick in afterwards
 		// and then add another method that also catches the action of deleting and
 		// removes instead
 		// keep in mind that you may be forced to change this one to catch the action
@@ -117,10 +118,10 @@ public class DepartmentController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@RequestMapping(path = "/delete/{id}")
-	public String createEdit(@ModelAttribute Department department, Model model) {
+	public ModelAndView createEdit(@ModelAttribute Department department, Model model) {
 		Department findOne = departmentRepository.findOne(department.getId());
 		departmentRepository.delete(findOne);
 
-		return readAll(model);
+		return new ModelAndView("redirect:/depatment/all");
 	}
 }

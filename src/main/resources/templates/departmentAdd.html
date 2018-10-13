@@ -14,7 +14,7 @@
 	<form action="#" th:action="@{/department/add}" th:object="${department}" method="post" id="answerForm">
 			        <p><label for="name">Name:</label><input type="text" th:field="*{name}" /></p>
 			        <span th:errors="*{name}" class="error"></span>
-        <p><label for="totalHoursAvailable">totalHoursAvailable: </label><input type="text" th:field="*{totalHoursAvailable}" /></p>
+        <p><label for="totalHoursAvailable">Total Hours Available: </label><input type="text" th:field="*{totalHoursAvailable}" /></p>
 					<span th:errors="*{totalHoursAvailable}" class="error"></span>
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
    			 </form> 

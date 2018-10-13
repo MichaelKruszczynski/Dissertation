@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 // This means that this class is a Controller
@@ -54,28 +55,29 @@ public class TrainingRecordController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/add")
-	public String createSubmit(@ModelAttribute @Valid TrainingRecord trainingRecord, Errors errors, Model model) {
+	public ModelAndView createSubmit(@ModelAttribute @Valid TrainingRecord trainingRecord, Errors errors, Model model) {
 		model.addAttribute("title", "Add a new Training Record");
 
 		if (errors.hasErrors()) {
 			model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 			model.addAttribute("trainings", trainingRepository.findAllByOrderByNameAsc());
-			return "trainingRecordAdd";
+			return new ModelAndView("trainingRecordAdd");
 		}
 
 		trainingRecordRepository.save(trainingRecord);
-		return "trainingRecordAddResult";
+		return new ModelAndView("redirect:/trainingrecord/all");
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@GetMapping(path = "/all")
-	public String readAll(Model model) {
+	public ModelAndView readAll(Model model) {
 		Iterable<TrainingRecord> findAll = trainingRecordRepository.findAllByOrderByEmployeeNameAsc();
 		model.addAttribute("title", "All Trainings Records");
 		model.addAttribute("trainingRecords", findAll);
 		// this returns JSON or XML with the users
 		// return departmentRepository.findAll();
-		return "trainingRecordAll";
+		return new ModelAndView("trainingRecordAll");
+
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
@@ -103,22 +105,22 @@ public class TrainingRecordController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/{id}/edit", params = "edit=Delete")
-	public String createEditPostDelete(@PathVariable("id") long id, Model model) {
+	public ModelAndView createEditPostDelete(@PathVariable("id") long id, Model model) {
 		TrainingRecord findOne = trainingRecordRepository.findOne(id);
 		trainingRecordRepository.delete(findOne);
-		return readAll(model);
+		return new ModelAndView("redirect:/trainingrecord/all");
 	}
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@PostMapping(path = "/{id}/edit", params = "edit=Save")
-	public String editForm(@PathVariable("id") long id, @ModelAttribute @Valid TrainingRecord trainingRecord,
+	public ModelAndView editForm(@PathVariable("id") long id, @ModelAttribute @Valid TrainingRecord trainingRecord,
 			Errors errors, Model model) {
 
 		if (errors.hasErrors()) {
 			trainingRecord.setId(id);
 			model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
 			model.addAttribute("trainings", trainingRepository.findAllByOrderByNameAsc());
-			return "trainingRecordEdit";
+			return new ModelAndView("trainingRecordEdit");
 		}
 		// doin't create new object here, read old one by id and update its properties
 		TrainingRecord dbTrainingRecord = trainingRecordRepository.findOne(id);
@@ -128,7 +130,7 @@ public class TrainingRecordController {
 		dbTrainingRecord.setEmployee(trainingRecord.getEmployee());
 		// then save(update) to database
 		trainingRecordRepository.save(dbTrainingRecord);
-		return readAll(model); // and choose template to kick in afterwards
+		return new ModelAndView("redirect:/trainingrecord/all"); // and choose template to kick in afterwards
 		// and then add another method that also catches the action of deleting and
 		// removes instead
 		// keep in mind that you may be forced to change this one to catch the action
@@ -138,11 +140,11 @@ public class TrainingRecordController {
 
 	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@RequestMapping(path = "/delete/{id}")
-	public String createEdit(@ModelAttribute TrainingRecord trainingRecord, Model model) {
+	public ModelAndView createEdit(@ModelAttribute TrainingRecord trainingRecord, Model model) {
 		TrainingRecord findOne = trainingRecordRepository.findOne(trainingRecord.getId());
 		trainingRecordRepository.delete(findOne);
 
-		return readAll(model);
+		return new ModelAndView("redirect:/trainingrecord/all");
 	}
 
 	@InitBinder

@@ -41,34 +41,34 @@
 	</tr> 
   </table>
   	<form action="#" th:action="@{/employee/{id}/edit(id=${employee.id})}" th:object="${employee}" method="post">
-        <p>Name: <input type="text" th:field="*{Name}" /></p>
+            <p><label for="name">Name:</label><input type="text" th:field="*{name}" /></p>
         <span th:errors="*{name}" class="error"></span>
         
-                <p>Department:
+  <p><label for="department">Department:</label>
 	        <select th:field="*{department}">
 				<option th:each="departmentFromLoop : ${departments}" th:value="${departmentFromLoop.id}" th:text="${departmentFromLoop.name}"/>
 			</select>
 		</p>
 		
-		<p>EmployeeNo: <input type="text" th:field="*{EmployeeNo}" /></p>
+		<p><label for="EmployeeNo">EmployeeNo: </label><input type="text" th:field="*{EmployeeNo}" /></p>
 		<span th:errors="*{employeeNo}" class="error"></span>
 		
-		<p>EmployeeType:
+	<p><label for="type">EmployeeType:</label>
 	        <select th:field="*{type}">
 				<option th:each="EmployeeTypeFromLoop : ${EmployeeType}" th:value="${EmployeeTypeFromLoop}" th:text="${EmployeeTypeFromLoop}"/>
 			</select>
 		</p>
-		  <p>Access Level:
+		  <p><label>Access Level:</label>
           <select th:field="*{roles}">
 				<option th:each="accessLevelFromLoop : ${accessLevel}" th:value="${accessLevelFromLoop.id}" th:text="${accessLevelFromLoop.name}"/>
 				</select>
 				</p>
-		<p>Total Annual Holiday Days: <input type="text" th:field="*{totalAnnualHolidayDays}" /></p>
+				<p><label>Total Annual Holiday Days: </label><input type="text" th:field="*{totalAnnualHolidayDays}" /></p>
 		<span th:errors="*{totalAnnualHolidayDays}" class="error"></span>
-		<p>Email Address: <input type="text" th:field="*{email}" /></p>
+		<p><label>Email address: </label><input type="text" th:field="*{email}" /></p>
 		<span th:errors="*{email}" class="error"></span>
 		
-        <p>Manager:
+			        <p><label>Manager:</label>
 	        <select th:field="*{manager}">
 	       
 				<option th:each="managerFromLoop : ${managers}" th:value="${managerFromLoop.id}" th:text="${managerFromLoop.name}"/>
@@ -76,7 +76,7 @@
         <span th:errors="*{manager}" class="error"></span>
 		</p>
 		
-          <p>Password: <input type="text" th:field="*{password}" /></p>
+	     <p><label>Password: </label><input type="text" th:field="*{password}" /></p>
          <span th:errors="*{password}" class="error"></span>
         
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" 

@@ -26,9 +26,9 @@
 	</tr> 
   </table>
   	<form action="#" th:action="@{/department/{id}/edit(id=${department.id})}" th:object="${department}" method="post">
-        <p>Name: <input type="text" th:field="*{name}" /></p>
+      <p><label for="name">Name:</label><input type="text" th:field="*{name}" /></p>
         <span th:errors="*{name}" class="error"></span>
-         <p>Total Hours Available: <input type="text" th:field="*{totalHoursAvailable}" /></p>
+          <p><label for="totalHoursAvailable">Total Hours Available:</label><input type="text" th:field="*{totalHoursAvailable}" /></p>
          <span th:errors="*{totalHoursAvailable}" class="error"></span>
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete" /></p>
         
