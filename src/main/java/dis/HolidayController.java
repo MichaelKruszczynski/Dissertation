@@ -98,7 +98,7 @@ public class HolidayController {
 	}
 
 	@PostMapping(path = "/request")
-	public String createRequestSubmit(@ModelAttribute @Valid Holiday holiday, Errors errors, Model model) {
+	public ModelAndView createRequestSubmit(@ModelAttribute @Valid Holiday holiday, Errors errors, Model model) {
 		System.out.println(holiday.getDay2());
 		if (errors.getErrorCount() > 1) {
 			model.addAttribute("employees", employeeRepository.findAllByOrderByNameAsc());
@@ -106,7 +106,7 @@ public class HolidayController {
 			holType.add(HolidayType.FULL_DAY);
 			holType.add(HolidayType.HALF_DAY);
 			model.addAttribute("holidayType", holType);
-			return "holidayRequest";
+			return new ModelAndView("holidayRequest");
 		}
 		long daysBetween = 0;
 		if (holiday.getDay2() != null) {
@@ -147,7 +147,7 @@ public class HolidayController {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-		return "holidayAllResult";
+		return new ModelAndView("redirect:/holiday/my");
 	}
 
 	private String dateFormat(Date day) {
@@ -444,6 +444,7 @@ public class HolidayController {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('" + ProjectNames.ROLE_ADMIN + "','" + ProjectNames.ROLE_MANAGER + "', )")
 	@RequestMapping(path = "/{id}/cancelRequest")
 	public ModelAndView createCancelRequest(@PathVariable("id") long id, Model model) {
 		Holiday holiday = holidayRepository.findOne(id);

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Employee Management Systems</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+ 	<link href="../css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+  	<script src="/js/jquery-3.3.1.min.js"></script>
+  
+  </head>
+  <body>
+	  <div class="main">
+		<div class="logo"></div>
+			<div class="content">
+				<h1>Login with Username and Password</h1>
+		        <div th:if="${param.error}">
+		            Invalid username and password.
+		        </div>
+		        <div th:if="${param.logout}">
+		            You have been logged out.
+		        </div>
+		        <form th:action="@{/login}" method="post">
+		            <p>
+			            <label for="username">User:</label>
+			            <input type="text" name="username"/>
+		            </p>
+		            <p>
+			            <label for="password">Password:</label>
+			            <input type="password" name="password"/>
+		            </p>
+		            <p>
+		            	<input type="submit" value="Login"/>
+		            </p>
+				</form>
+			</div>
+		</div>
+		<footer>
+			<p>Created by: <a href="mailto:michaelkruszczynski@yahoo.co.uk">Michael Kruszczynski</a></p>
+			<p>2017-2018</p>
+		</footer>
+  </body>
+</html>

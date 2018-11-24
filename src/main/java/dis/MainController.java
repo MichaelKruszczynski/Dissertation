@@ -35,6 +35,11 @@ public class MainController {
 		return "index";
 	}
 
+	@RequestMapping(path = "/login")
+	public String login() {
+		return "login";
+	}
+
 	private Employee getCurrentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();

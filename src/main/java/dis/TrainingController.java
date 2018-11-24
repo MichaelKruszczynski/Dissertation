@@ -77,6 +77,7 @@ public class TrainingController {
 	@GetMapping(path = "/{id}/edit")
 	public String createEdit(@PathVariable("id") long id, Model model) {
 		// with input provided
+		model.addAttribute("title", "Edit Training");
 		model.addAttribute("training", trainingRepository.findOne(id));
 		// this returns JSON or XML with the department
 		return "trainingEdit";

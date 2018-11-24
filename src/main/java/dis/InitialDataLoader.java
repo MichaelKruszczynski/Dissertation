@@ -96,7 +96,7 @@ public class InitialDataLoader implements ApplicationListener<ApplicationReadyEv
 			employeeRepository.save(employee);
 			// userRepository.saveOrUpdate(user);
 		}
-		createReportIfNotExists("test", ProjectNames.ROLE_ADMIN, "select * from Employee emp");
+		createReportIfNotExists("Test", ProjectNames.ROLE_ADMIN, "select * from Employee emp");
 
 		createReportIfNotExists("test2", ProjectNames.ROLE_ADMIN, "select emp.name from Employee emp where emp.id=?");
 

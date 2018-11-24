@@ -1,0 +1,111 @@
+"2018-11-24 16:37:36 - Starting Application on LAPTOP-MC62841R with PID 15892 (C:\Users\micha\git\Dissertation\target\classes started by micha in C:\Users\micha\git\Dissertation)
+""2018-11-24 16:37:36 - No active profile set, falling back to default profiles: default
+""2018-11-24 16:37:36 - Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ccae291: startup date [Sat Nov 24 16:37:36 GMT 2018]; root of context hierarchy
+""2018-11-24 16:37:38 - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+""2018-11-24 16:37:39 - Tomcat initialized with port(s): 80 (http)
+""2018-11-24 16:37:39 - Starting service [Tomcat]
+""2018-11-24 16:37:39 - Starting Servlet Engine: Apache Tomcat/8.5.23
+""2018-11-24 16:37:39 - Initializing Spring embedded WebApplicationContext
+""2018-11-24 16:37:39 - Root WebApplicationContext: initialization completed in 3260 ms
+""2018-11-24 16:37:40 - Mapping filter: 'characterEncodingFilter' to: [/*]
+""2018-11-24 16:37:40 - Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+""2018-11-24 16:37:40 - Mapping filter: 'httpPutFormContentFilter' to: [/*]
+""2018-11-24 16:37:40 - Mapping filter: 'requestContextFilter' to: [/*]
+""2018-11-24 16:37:40 - Mapping filter: 'springSecurityFilterChain' to: [/*]
+""2018-11-24 16:37:40 - Mapping servlet: 'dispatcherServlet' to [/]
+""2018-11-24 16:37:41 - Building JPA container EntityManagerFactory for persistence unit 'default'
+""2018-11-24 16:37:41 - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+""2018-11-24 16:37:41 - HHH000412: Hibernate Core {5.0.12.Final}
+""2018-11-24 16:37:41 - HHH000206: hibernate.properties not found
+""2018-11-24 16:37:41 - HHH000021: Bytecode provider name : javassist
+""2018-11-24 16:37:41 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+""2018-11-24 16:37:41 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+""2018-11-24 16:37:42 - HHH000228: Running hbm2ddl schema update
+""2018-11-24 16:37:43 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2018-11-24 16:37:43 - HHH000397: Using ASTQueryTranslatorFactory
+""2018-11-24 16:37:45 - Creating filter chain: org.springframework.security.web.util.matcher.AnyRequestMatcher@1, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5b654620, org.springframework.security.web.context.SecurityContextPersistenceFilter@6930cdd3, org.springframework.security.web.header.HeaderWriterFilter@33f7727f, org.springframework.security.web.csrf.CsrfFilter@42007260, org.springframework.security.web.authentication.logout.LogoutFilter@4da99ffb, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2a6944d7, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@586b4888, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@f61dd67, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5e781641, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1e3b6a76, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@21d77859, org.springframework.security.web.session.SessionManagementFilter@1d52ec06, org.springframework.security.web.access.ExceptionTranslationFilter@57d89e21, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@56beaecb]
+""2018-11-24 16:37:45 - Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ccae291: startup date [Sat Nov 24 16:37:36 GMT 2018]; root of context hierarchy
+""2018-11-24 16:37:45 - Mapped "{[/department]}" onto public java.lang.String dis.DepartmentController.main()
+""2018-11-24 16:37:45 - Mapped "{[/department/add],methods=[GET]}" onto public java.lang.String dis.DepartmentController.createForm(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/department/add],methods=[POST]}" onto public org.springframework.web.servlet.ModelAndView dis.DepartmentController.createSubmit(dis.Department,org.springframework.validation.Errors,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/department/all],methods=[GET]}" onto public org.springframework.web.servlet.ModelAndView dis.DepartmentController.readAll(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/department/{id}/edit],methods=[GET]}" onto public java.lang.String dis.DepartmentController.createEdit(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/department/delete/{id}]}" onto public org.springframework.web.servlet.ModelAndView dis.DepartmentController.createEdit(dis.Department,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/department/{id}/edit],methods=[POST],params=[edit=Save]}" onto public org.springframework.web.servlet.ModelAndView dis.DepartmentController.editForm(long,dis.Department,org.springframework.validation.Errors,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/department/{id}],methods=[GET]}" onto public java.lang.String dis.DepartmentController.readById(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/department/{id}/edit],methods=[POST],params=[edit=Delete]}" onto public org.springframework.web.servlet.ModelAndView dis.DepartmentController.createEditPostDelete(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/employee]}" onto public java.lang.String dis.EmployeeController.main()
+""2018-11-24 16:37:45 - Mapped "{[/employee/add],methods=[GET]}" onto public java.lang.String dis.EmployeeController.createForm(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/employee/add],methods=[POST]}" onto public org.springframework.web.servlet.ModelAndView dis.EmployeeController.createSubmit(dis.Employee,org.springframework.validation.Errors,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/employee/all],methods=[GET]}" onto public org.springframework.web.servlet.ModelAndView dis.EmployeeController.readAll(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/employee/delete/{id}]}" onto public org.springframework.web.servlet.ModelAndView dis.EmployeeController.createEdit(dis.Employee,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/employee/{id}/edit],methods=[GET]}" onto public java.lang.String dis.EmployeeController.createEdit(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/employee/{id}/edit],methods=[POST],params=[edit=Save]}" onto public org.springframework.web.servlet.ModelAndView dis.EmployeeController.editForm(long,dis.Employee,org.springframework.validation.Errors,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/employee/{id}],methods=[GET]}" onto public java.lang.String dis.EmployeeController.readById(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/employee/{id}/edit],methods=[POST],params=[edit=Delete]}" onto public org.springframework.web.servlet.ModelAndView dis.EmployeeController.createEditPostDelete(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday]}" onto public java.lang.String dis.HolidayController.main()
+""2018-11-24 16:37:45 - Mapped "{[/holiday/add],methods=[GET]}" onto public java.lang.String dis.HolidayController.createForm(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/add],methods=[POST]}" onto public org.springframework.web.servlet.ModelAndView dis.HolidayController.createSubmit(dis.Holiday,org.springframework.validation.Errors,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/all],methods=[GET]}" onto public org.springframework.web.servlet.ModelAndView dis.HolidayController.readAll(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/{id}/edit],methods=[GET]}" onto public java.lang.String dis.HolidayController.createEdit(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/{id}/edit],methods=[POST],params=[edit=Save]}" onto public org.springframework.web.servlet.ModelAndView dis.HolidayController.editForm(long,dis.Holiday,org.springframework.validation.Errors,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/{id}],methods=[GET]}" onto public java.lang.String dis.HolidayController.readById(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/requested],methods=[GET]}" onto public java.lang.String dis.HolidayController.readRequested(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/requested],methods=[POST],params=[edit=Accept]}" onto public org.springframework.web.servlet.ModelAndView dis.HolidayController.acceptRequested(java.lang.Long[],org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/request],methods=[GET]}" onto public java.lang.String dis.HolidayController.createRequestForm(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/{id}/cancelRequest]}" onto public org.springframework.web.servlet.ModelAndView dis.HolidayController.createCancelRequest(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/request],methods=[POST]}" onto public org.springframework.web.servlet.ModelAndView dis.HolidayController.createRequestSubmit(dis.Holiday,org.springframework.validation.Errors,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/{id}/edit],methods=[POST],params=[edit=Delete]}" onto public org.springframework.web.servlet.ModelAndView dis.HolidayController.createEditPostDelete(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/my],methods=[GET]}" onto public java.lang.String dis.HolidayController.readMy(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/{id}/cancel]}" onto public org.springframework.web.servlet.ModelAndView dis.HolidayController.createCancel(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/holiday/requested],methods=[POST],params=[edit=Decline]}" onto public org.springframework.web.servlet.ModelAndView dis.HolidayController.declineRequested(java.lang.Long[],org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/]}" onto public java.lang.String dis.MainController.main(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/report]}" onto public java.lang.String dis.ReportController.main()
+""2018-11-24 16:37:45 - Mapped "{[/report/add],methods=[GET]}" onto public java.lang.String dis.ReportController.createForm(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/report/add],methods=[POST]}" onto public org.springframework.web.servlet.ModelAndView dis.ReportController.createSubmit(dis.Report,org.springframework.validation.Errors,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/report/all],methods=[GET]}" onto public org.springframework.web.servlet.ModelAndView dis.ReportController.readAll(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/report/{id}/edit],methods=[GET]}" onto public java.lang.String dis.ReportController.createEdit(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/report/delete/{id}]}" onto public org.springframework.web.servlet.ModelAndView dis.ReportController.createEdit(dis.Report,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/report/{id}/edit],methods=[POST],params=[edit=Save]}" onto public org.springframework.web.servlet.ModelAndView dis.ReportController.editForm(long,dis.Report,org.springframework.validation.Errors,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/report/{id}],methods=[GET]}" onto public java.lang.String dis.ReportController.readById(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/report/{id}/edit],methods=[POST],params=[edit=Delete]}" onto public org.springframework.web.servlet.ModelAndView dis.ReportController.createEditPostDelete(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/view]}" onto public org.springframework.web.servlet.ModelAndView dis.ReportViewController.main()
+""2018-11-24 16:37:45 - Mapped "{[/view/{name}/**]}" onto public org.springframework.web.servlet.ModelAndView dis.ReportViewController.displayView(java.lang.String,org.springframework.ui.Model,javax.servlet.http.HttpServletRequest)
+""2018-11-24 16:37:45 - Mapped "{[/training]}" onto public java.lang.String dis.TrainingController.main()
+""2018-11-24 16:37:45 - Mapped "{[/training/add],methods=[GET]}" onto public java.lang.String dis.TrainingController.createForm(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/training/add],methods=[POST]}" onto public org.springframework.web.servlet.ModelAndView dis.TrainingController.createSubmit(dis.Training,org.springframework.validation.Errors,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/training/all],methods=[GET]}" onto public org.springframework.web.servlet.ModelAndView dis.TrainingController.readAll(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/training/{id}/edit],methods=[GET]}" onto public java.lang.String dis.TrainingController.createEdit(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/training/delete/{id}]}" onto public org.springframework.web.servlet.ModelAndView dis.TrainingController.createEdit(dis.Training,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/training/{id}/edit],methods=[POST],params=[edit=Save]}" onto public org.springframework.web.servlet.ModelAndView dis.TrainingController.editForm(long,dis.Training,org.springframework.validation.Errors,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/training/{id}],methods=[GET]}" onto public java.lang.String dis.TrainingController.readById(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/training/{id}/edit],methods=[POST],params=[edit=Delete]}" onto public org.springframework.web.servlet.ModelAndView dis.TrainingController.createEditPostDelete(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/trainingrecord]}" onto public java.lang.String dis.TrainingRecordController.main()
+""2018-11-24 16:37:45 - Mapped "{[/trainingrecord/add],methods=[GET]}" onto public java.lang.String dis.TrainingRecordController.createForm(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/trainingrecord/add],methods=[POST]}" onto public org.springframework.web.servlet.ModelAndView dis.TrainingRecordController.createSubmit(dis.TrainingRecord,org.springframework.validation.Errors,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/trainingrecord/all],methods=[GET]}" onto public org.springframework.web.servlet.ModelAndView dis.TrainingRecordController.readAll(org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/trainingrecord/delete/{id}]}" onto public org.springframework.web.servlet.ModelAndView dis.TrainingRecordController.createEdit(dis.TrainingRecord,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/trainingrecord/{id}/edit],methods=[GET]}" onto public java.lang.String dis.TrainingRecordController.createEdit(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/trainingrecord/{id}/edit],methods=[POST],params=[edit=Save]}" onto public org.springframework.web.servlet.ModelAndView dis.TrainingRecordController.editForm(long,dis.TrainingRecord,org.springframework.validation.Errors,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/trainingrecord/{id}],methods=[GET]}" onto public java.lang.String dis.TrainingRecordController.readById(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/trainingrecord/{id}/edit],methods=[POST],params=[edit=Delete]}" onto public org.springframework.web.servlet.ModelAndView dis.TrainingRecordController.createEditPostDelete(long,org.springframework.ui.Model)
+""2018-11-24 16:37:45 - Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+""2018-11-24 16:37:45 - Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+""2018-11-24 16:37:45 - Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+""2018-11-24 16:37:45 - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+""2018-11-24 16:37:45 - Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+""2018-11-24 16:37:46 - Adding welcome page: class path resource [static/index.html]
+""2018-11-24 16:37:46 - LiveReload server is running on port 35729
+""2018-11-24 16:37:46 - Registering beans for JMX exposure on startup
+""2018-11-24 16:37:46 - No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+""2018-11-24 16:37:46 - Tomcat started on port(s): 80 (http)
+""2018-11-24 16:37:46 - Started Application in 10.735 seconds (JVM running for 11.285)
+""2018-11-24 16:37:50 - Initializing Spring FrameworkServlet 'dispatcherServlet'
+""2018-11-24 16:37:50 - FrameworkServlet 'dispatcherServlet': initialization started
+""2018-11-24 16:37:50 - FrameworkServlet 'dispatcherServlet': initialization completed in 28 ms
+""2018-11-24 16:38:39 - Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7ccae291: startup date [Sat Nov 24 16:37:36 GMT 2018]; root of context hierarchy
+""2018-11-24 16:38:39 - Unregistering JMX-exposed beans on shutdown
+""2018-11-24 16:38:39 - Closing JPA EntityManagerFactory for persistence unit 'default'
+"

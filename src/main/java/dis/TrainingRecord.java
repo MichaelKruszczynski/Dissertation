@@ -2,6 +2,7 @@ package dis;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -33,6 +35,10 @@ public class TrainingRecord {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull(message = "Please provide a date.")
 	private Date day;
+	@Column(length = 500000)
+	@Size(min = 1, message = "Please input a signature")
+	@NotNull(message = "Please provide a signature.")
+	private String signatureString;
 
 	public long getId() {
 		return id;
@@ -64,5 +70,13 @@ public class TrainingRecord {
 
 	public void setDay(Date day) {
 		this.day = day;
+	}
+
+	public String getSignatureString() {
+		return signatureString;
+	}
+
+	public void setSignatureString(String signatureString) {
+		this.signatureString = signatureString;
 	}
 }

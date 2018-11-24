@@ -8,6 +8,7 @@
  <link rel="stylesheet" href="/css/jquery-ui.css"/>
     <script src="/js/jquery-3.3.1.min.js"></script>
     <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/signature.js"></script>
   <script>
   $( function() {
     $( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd", firstDay: 1 });
@@ -49,8 +50,13 @@
 				<option th:each="trainingFromLoop : ${trainings}" th:value="${trainingFromLoop.id}" th:text="${trainingFromLoop.Name}"/>
 			</select>
 		</p>
-		<p>Day: <input type="text" th:id="datepicker" th:field="*{day}" autocomplete="off" /></p>
+        <p><label>Day:</label><input type="text" th:id="datepicker" th:field="*{day}" autocomplete="off" /></p>
 			<span th:errors="*{day}" class="error"></span>
+		 <p><label>Signature:</label><div id="sketch">
+		  <canvas id="paint"></canvas>
+		  <input type="hidden" th:id="signatureString" th:field="*{signatureString}" />
+		</div>
+		</p>
         <p><input type="submit" name="edit" value="Save" /> <input type="submit" name="edit" value="Delete"   
    /></p>    
     </form>  

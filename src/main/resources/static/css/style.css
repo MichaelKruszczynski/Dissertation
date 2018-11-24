@@ -10,6 +10,8 @@ a {
 	text-decoration:none;
 }
 
+#paint {border: 1px solid black; background : #FFFFFF; display: block;}
+
 a.back-btn {
 	font-size: 14pt;
 	color: #fff;

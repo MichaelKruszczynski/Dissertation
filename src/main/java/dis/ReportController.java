@@ -85,6 +85,7 @@ public class ReportController {
 	@GetMapping(path = "/{id}/edit")
 	public String createEdit(@PathVariable("id") long id, Model model) {
 		// with input provided
+		model.addAttribute("title", "Edit Report");
 		model.addAttribute("report", reportRepository.findOne(id));
 		model.addAttribute("accessLevel", roleRepository.findAll());
 		model.addAttribute("title", "Edit Report");
